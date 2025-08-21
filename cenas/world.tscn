@@ -1,0 +1,57 @@
+[gd_scene load_steps=11 format=3 uid="uid://5vykp6s753qa"]
+
+[ext_resource type="Texture2D" uid="uid://dnfqomub5ekqo" path="res://assets/textures/ground/Concrete_Blocks_012_basecolor.jpg" id="1_mjon1"]
+[ext_resource type="Script" uid="uid://coo6ub38mt8au" path="res://scripts/player.gd" id="2_11jkn"]
+[ext_resource type="Texture2D" uid="uid://qlv3ee1lqeeh" path="res://assets/textures/sky/NightSkyHDRI008_2K-TONEMAPPED.jpg" id="3_mjon1"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yb5ho"]
+albedo_texture = ExtResource("1_mjon1")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_65ku2"]
+material = SubResource("StandardMaterial3D_yb5ho")
+size = Vector2(20, 20)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_xedlg"]
+data = PackedVector3Array(10, 0, 10, -10, 0, 10, 10, 0, -10, -10, 0, 10, -10, 0, -10, 10, 0, -10)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mjon1"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_yb5ho"]
+panorama = ExtResource("3_mjon1")
+
+[sub_resource type="Sky" id="Sky_8mpgf"]
+sky_material = SubResource("PanoramaSkyMaterial_yb5ho")
+
+[sub_resource type="Environment" id="Environment_xnx65"]
+background_mode = 2
+sky = SubResource("Sky_8mpgf")
+
+[node name="world" type="Node3D"]
+
+[node name="ground" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_65ku2")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="ground"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ground/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_xedlg")
+
+[node name="player" type="CharacterBody3D" parent="."]
+script = ExtResource("2_11jkn")
+
+[node name="collision" type="CollisionShape3D" parent="player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_mjon1")
+
+[node name="head" type="Node3D" parent="player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="vertical" type="Node3D" parent="player/head"]
+
+[node name="camera" type="Camera3D" parent="player/head/vertical"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_xnx65")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.00125666, 0.999999, 0, -0.999999, 0.00125666, 0, 10.4405, 0)
