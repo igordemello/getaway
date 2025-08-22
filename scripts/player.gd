@@ -9,6 +9,7 @@ extends CharacterBody3D
 @export var camera_limite_down := -80.0
 @export var camera_limite_up := 60
 
+@onready var player: CharacterBody3D = $"."
 var cam_ver := 0.0
 
 func _ready() -> void:
@@ -24,6 +25,13 @@ func _input(event: InputEvent) -> void:
 		
 	if Input.is_action_just_pressed("ui_cancel"):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+func _process(delta: float) -> void:
+	print(player.position.y)
+	if player.position.y <= -20:
+		player.position.y = 0
+		player.position.x = 0
+		player.position.z = 0
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
