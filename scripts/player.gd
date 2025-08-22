@@ -27,7 +27,6 @@ func _input(event: InputEvent) -> void:
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 func _process(delta: float) -> void:
-	print(player.position.y)
 	if player.position.y <= -20:
 		player.position.y = 0
 		player.position.x = 0
