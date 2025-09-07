@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -21,7 +22,10 @@ public class PlayerMovement : MonoBehaviour
     public float crouchYScale;
     private float startYScale;
 
-
+    [Header("Camera")]
+    public Transform cameraPos;
+    private float cameraStartY;
+    public float crouchCameraY = 0.5f;
 
     [Header("Keybinds")]
     public KeyCode jumpKey = KeyCode.Space;
@@ -32,6 +36,9 @@ public class PlayerMovement : MonoBehaviour
     public float playerHeight;
     public LayerMask whatIsGround;
     bool grounded;
+
+    [Header("UI")]
+    public TextMeshProUGUI textSpeed;
 
     public Transform orientation;
 
@@ -60,10 +67,17 @@ public class PlayerMovement : MonoBehaviour
         ResetJump();
 
         startYScale = transform.localScale.y;
+
+        cameraStartY = cameraPos.localPosition.y;
+
+        textSpeed.text = moveSpeed.ToString();
     }
 
     private void Update()
     {
+        // ui text speed
+        textSpeed.text = moveSpeed.ToString();
+
         // ground check
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
 
@@ -108,23 +122,22 @@ public class PlayerMovement : MonoBehaviour
         {
             transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
             rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
+
+            cameraPos.localPosition = new Vector3(cameraPos.localPosition.x, crouchCameraY, cameraPos.localPosition.z);
         }
 
         // stop crounch
         if (Input.GetKeyUp(crouchKey))
         {
             transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
+            rb.AddForce(Vector3.up * 5f, ForceMode.Impulse);
+
+            cameraPos.localPosition = new Vector3(cameraPos.localPosition.x, cameraStartY, cameraPos.localPosition.z);
         }
     }
 
     private void StateHandler()
     {
-        // Mode - crouching
-        if (Input.GetKey(crouchKey))
-        {
-            state = MovementState.crouching;
-            moveSpeed = crouchSpeed;
-        }
 
         // Mode - Sprinting
         if (grounded && Input.GetKey(sprintKey))
@@ -144,6 +157,13 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             state = MovementState.air;
+        }
+
+        // Mode - crouching
+        if (Input.GetKey(crouchKey))
+        {
+            state = MovementState.crouching;
+            moveSpeed = crouchSpeed;
         }
     }
 
