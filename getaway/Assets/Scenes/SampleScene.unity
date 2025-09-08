@@ -2024,6 +2024,7 @@ GameObject:
   - component: {fileID: 2119326513}
   - component: {fileID: 2119326514}
   - component: {fileID: 2119326515}
+  - component: {fileID: 2119326516}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2100,7 +2101,7 @@ MonoBehaviour:
   crouchCameraY: -3
   jumpKey: 32
   sprintKey: 304
-  crouchKey: 306
+  crouchKey: 99
   playerHeight: 2
   whatIsGround:
     serializedVersion: 2
@@ -2109,6 +2110,26 @@ MonoBehaviour:
   textSpeed: {fileID: 1984312716}
   orientation: {fileID: 1070219148}
   state: 0
+--- !u!114 &2119326516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2119326512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 859169f969d8b244a80ee9f550fedd9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Sliding
+  orientation: {fileID: 1070219148}
+  playerObj: {fileID: 1403427285}
+  cameraPos: {fileID: 1948691741}
+  crouchCameraY: -1.2
+  maxSlideTime: 0.75
+  slideForce: 200
+  slideYScale: 0.5
+  slideKey: 306
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
