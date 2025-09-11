@@ -2378,12 +2378,16 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   wallRunForce: 200
+  wallJumpUpForce: 7
+  wallJumpSideForce: 12
   wallClimbSpeed: 3
   maxWallRunTime: 1.5
+  jumpKey: 32
   upwardsRunKey: 304
   downwardsRunKey: 306
   wallCheckDistance: 0.7
   minJumpHeight: 2
+  exitWallTime: 0.2
   orientation: {fileID: 1070219148}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
