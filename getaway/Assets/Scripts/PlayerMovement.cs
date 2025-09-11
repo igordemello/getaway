@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     public float sprintSpeed;
     public float slideSpeed;
     public float wallrunSpeed;
+    public float climbSpeed;
 
     private float desiredMoveSpeed;
     private float lastDesiredMoveSpeed;
@@ -41,7 +42,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("Ground Check")]
     public float playerHeight;
     public LayerMask whatIsGround;
-    bool grounded;
+    public LayerMask whatIsWall;
+    public bool grounded;
 
     [Header("Slope Handling")]
     public float maxSlopeAngle;
@@ -51,8 +53,9 @@ public class PlayerMovement : MonoBehaviour
     [Header("UI")]
     public TextMeshProUGUI textSpeed;
 
-    [Header("Others")]
+    [Header("References")]
     public Transform orientation;
+    public Climbing climbingScript;
 
     float horizontalInput;
     float verticalInput;
@@ -68,6 +71,7 @@ public class PlayerMovement : MonoBehaviour
         walking,
         sprinting,
         wallrunning,
+        climbing,
         crouching,
         sliding,
         air
@@ -75,6 +79,7 @@ public class PlayerMovement : MonoBehaviour
 
     public bool sliding;
     public bool wallrunning;
+    public bool climbing;
 
     private void Start()
     {
@@ -96,7 +101,7 @@ public class PlayerMovement : MonoBehaviour
         textSpeed.text = moveSpeed.ToString();
 
         // ground check
-        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, whatIsGround);
+        grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, (whatIsGround | whatIsWall));
 
         MyInput();
         SpeedControl();
@@ -155,15 +160,22 @@ public class PlayerMovement : MonoBehaviour
 
     private void StateHandler()
     {
+        // Mode - Climbing
+        if (climbing)
+        {
+            state = MovementState.climbing;
+            desiredMoveSpeed = climbSpeed;
+        }
+
         // Mode - WallRunning
-        if (wallrunning)
+        else if (wallrunning)
         {
             state = MovementState.wallrunning;
             desiredMoveSpeed = wallrunSpeed;
         }
 
         //Mode - Sliding
-        if (sliding)
+        else if (sliding)
         {
             state = MovementState.sliding;
 
@@ -237,6 +249,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovePlayer()
     {
+        if (climbingScript.exitingWall) return;
+
         // calculate movement direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
