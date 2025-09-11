@@ -225,10 +225,12 @@ public class PlayerMovement : MonoBehaviour
         float difference = Mathf.Abs(desiredMoveSpeed - moveSpeed);
         float startValue = moveSpeed;
 
+        float lerpSpeed = 5f; // aumentar isso para diminuir o tempo entre a velocidade normal e a velocidade de corrida
+
         while (time < difference)
         {
             moveSpeed = Mathf.Lerp(startValue, desiredMoveSpeed, time / difference);
-            time += Time.deltaTime;
+            time += Time.deltaTime * lerpSpeed;
             yield return null;
         }
     }
@@ -261,7 +263,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // turn gravity off while on slope
-        rb.useGravity = !OnSlope();
+        if(!wallrunning) rb.useGravity = !OnSlope();
     }
 
     private void SpeedControl()
