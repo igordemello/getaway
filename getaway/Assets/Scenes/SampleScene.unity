@@ -481,7 +481,7 @@ Transform:
   m_GameObject: {fileID: 330162591}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.646, z: -0.088}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -605,6 +605,7 @@ MonoBehaviour:
   sensX: 400
   sensY: 400
   orientation: {fileID: 1070219148}
+  camHolder: {fileID: 562439713}
 --- !u!1 &377231325
 GameObject:
   m_ObjectHideFlags: 0
@@ -1048,7 +1049,7 @@ Transform:
   m_GameObject: {fileID: 562439712}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1.646, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1068,6 +1069,117 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MoveCamera
   cameraPosition: {fileID: 1948691741}
+--- !u!1 &793054932
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 793054933}
+  - component: {fileID: 793054936}
+  - component: {fileID: 793054935}
+  - component: {fileID: 793054934}
+  m_Layer: 10
+  m_Name: Wall (10)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &793054933
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 793054932}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.71306765, z: -0, w: 0.7010953}
+  m_LocalPosition: {x: -30.61, y: 23.21, z: -9.44}
+  m_LocalScale: {x: 14.730113, y: 49.009888, z: 0.5653531}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2118131963}
+  m_LocalEulerAnglesHint: {x: 0, y: 90.97, z: 0}
+--- !u!65 &793054934
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 793054932}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &793054935
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 793054932}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 21ca8723c11d2d34abf1e9e595b0942a, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &793054936
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 793054932}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1146,7 +1258,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.159979, z: -0, w: 0.9871204}
   m_LocalPosition: {x: 0.01, y: 1.79, z: -19.69}
-  m_LocalScale: {x: 37.94056, y: 6.967174, z: 0.5653531}
+  m_LocalScale: {x: 64.41928, y: 6.967174, z: 0.5653531}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2118131963}
@@ -1364,7 +1476,7 @@ Transform:
   m_GameObject: {fileID: 1070219147}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.99, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1614,7 +1726,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.159979, z: -0, w: 0.9871204}
   m_LocalPosition: {x: 14.03, y: 1.79, z: -20.96}
-  m_LocalScale: {x: 33.810097, y: 6.967174, z: 0.5653531}
+  m_LocalScale: {x: 59.933083, y: 6.967174, z: 0.5653531}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2118131963}
@@ -1943,7 +2055,7 @@ Transform:
   m_GameObject: {fileID: 1948691740}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.99, z: 0}
+  m_LocalPosition: {x: 0, y: 0.501, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2228,6 +2340,7 @@ Transform:
   - {fileID: 410424171}
   - {fileID: 1563348704}
   - {fileID: 961793653}
+  - {fileID: 793054933}
   - {fileID: 1658071659}
   - {fileID: 2078828509}
   - {fileID: 990245588}
@@ -2325,7 +2438,7 @@ MonoBehaviour:
   crouchSpeed: 3.5
   crouchYScale: 0.5
   cameraPos: {fileID: 1948691741}
-  crouchCameraY: -3
+  crouchCameraY: 0
   jumpKey: 32
   sprintKey: 304
   crouchKey: 99
@@ -2354,7 +2467,7 @@ MonoBehaviour:
   orientation: {fileID: 1070219148}
   playerObj: {fileID: 1403427285}
   cameraPos: {fileID: 1948691741}
-  crouchCameraY: -1.2
+  crouchCameraY: 0
   maxSlideTime: 2
   slideForce: 300
   slideYScale: 0.5
@@ -2381,14 +2494,17 @@ MonoBehaviour:
   wallJumpUpForce: 7
   wallJumpSideForce: 12
   wallClimbSpeed: 3
-  maxWallRunTime: 1.5
+  maxWallRunTime: 3
   jumpKey: 32
   upwardsRunKey: 304
   downwardsRunKey: 306
   wallCheckDistance: 0.7
   minJumpHeight: 2
   exitWallTime: 0.2
+  useGravity: 1
+  gravityCounterForce: 10
   orientation: {fileID: 1070219148}
+  cam: {fileID: 330162596}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

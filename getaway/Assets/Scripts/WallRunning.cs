@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 
-public class WallRunning : MonoBehaviour
+public class WallRunningAdvanced : MonoBehaviour
 {
     [Header("Wallrunning")]
     public LayerMask whatIsWall;
@@ -93,39 +92,29 @@ public class WallRunning : MonoBehaviour
 
             // wallrun timer
             if (wallRunTimer > 0)
-            {
                 wallRunTimer -= Time.deltaTime;
-            }
-            if(wallRunTimer <= 0 && pm.wallrunning)
+
+            if (wallRunTimer <= 0 && pm.wallrunning)
             {
                 exitingWall = true;
                 exitWallTimer = exitWallTime;
             }
 
             // wall jump
-            if (Input.GetKeyDown(jumpKey))
-            {
-                WallJump();
-            }
+            if (Input.GetKeyDown(jumpKey)) WallJump();
         }
 
         // State 2 - Exiting
         else if (exitingWall)
         {
             if (pm.wallrunning)
-            {
                 StopWallRun();
-            }
 
             if (exitWallTimer > 0)
-            {
                 exitWallTimer -= Time.deltaTime;
-            }
 
             if (exitWallTimer <= 0)
-            {
                 exitingWall = false;
-            }
         }
 
         // State 3 - None
@@ -144,16 +133,10 @@ public class WallRunning : MonoBehaviour
 
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
 
-        // apply cam effects 
-        cam.DoFov(90f);
-        if (wallLeft)
-        {
-            cam.DoTilt(-5f);
-        }
-        if (wallRight)
-        {
-            cam.DoTilt(5f);
-        }
+        // apply camera effects
+        cam.DoFov(70f);
+        if (wallLeft) cam.DoTilt(-5f);
+        if (wallRight) cam.DoTilt(5f);
     }
 
     private void WallRunningMovement()
@@ -182,9 +165,7 @@ public class WallRunning : MonoBehaviour
 
         // weaken gravity
         if (useGravity)
-        {
             rb.AddForce(transform.up * gravityCounterForce, ForceMode.Force);
-        }
     }
 
     private void StopWallRun()
@@ -192,7 +173,7 @@ public class WallRunning : MonoBehaviour
         pm.wallrunning = false;
 
         // reset camera effects
-        cam.DoFov(80f);
+        cam.DoFov(60f);
         cam.DoTilt(0f);
     }
 
@@ -207,7 +188,7 @@ public class WallRunning : MonoBehaviour
         Vector3 forceToApply = transform.up * wallJumpUpForce + wallNormal * wallJumpSideForce;
 
         // reset y velocity and add force
-        rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f,rb.linearVelocity.z);
-        rb.AddForce(forceToApply,ForceMode.Impulse);
+        rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+        rb.AddForce(forceToApply, ForceMode.Impulse);
     }
 }
