@@ -13,6 +13,9 @@ public class PlayerMovement : MonoBehaviour
     public float wallrunSpeed;
     public float climbSpeed;
 
+    public float dashSpeed;
+    public float maxYSpeed;
+
     private float desiredMoveSpeed;
     private float lastDesiredMoveSpeed;
 
@@ -73,6 +76,7 @@ public class PlayerMovement : MonoBehaviour
         wallrunning,
         climbing,
         crouching,
+        dashing,
         sliding,
         air
     }
@@ -80,6 +84,7 @@ public class PlayerMovement : MonoBehaviour
     public bool sliding;
     public bool wallrunning;
     public bool climbing;
+    public bool dashing;
 
     private void Start()
     {
@@ -108,7 +113,7 @@ public class PlayerMovement : MonoBehaviour
         StateHandler();
 
         // handle drag
-        if (grounded)
+        if (state != MovementState.dashing && state != MovementState.air && grounded)
         {
             rb.linearDamping = groundDrag;
 
@@ -160,8 +165,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void StateHandler()
     {
+        //Mode - Dashing
+        if (dashing)
+        {
+            state = MovementState.dashing;
+            desiredMoveSpeed = dashSpeed;
+        }
+
         // Mode - Climbing
-        if (climbing)
+        else if (climbing)
         {
             state = MovementState.climbing;
             desiredMoveSpeed = climbSpeed;
@@ -301,6 +313,11 @@ public class PlayerMovement : MonoBehaviour
                 Vector3 limitedVel = flatVel.normalized * moveSpeed;
                 rb.linearVelocity = new Vector3(limitedVel.x, rb.linearVelocity.y, limitedVel.z);
             }
+        }
+
+        if (maxYSpeed != 0 && rb.linearVelocity.y > maxYSpeed)
+        {
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, maxYSpeed, rb.linearVelocity.z);
         }
 
         

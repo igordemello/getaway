@@ -40,8 +40,8 @@ public class PlayerCam : MonoBehaviour
         GetComponent<Camera>().DOFieldOfView(endValue, 0.25f);
     }
 
-    public void DoTilt(float zTilt)
+    public void DoTilt(float xTilt, float yTilt, float zTilt)
     {
-        transform.DOLocalRotate(new Vector3(0, 0, zTilt), 0.25f);
+        transform.DOLocalRotate(new Vector3(xTilt, yTilt, zTilt), 0.25f);
     }
 }
