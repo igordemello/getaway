@@ -78,13 +78,20 @@ public class PlayerMovement : MonoBehaviour
         crouching,
         dashing,
         sliding,
-        air
+        air,
+        unlimited,
+        freeze
     }
 
     public bool sliding;
     public bool wallrunning;
     public bool climbing;
     public bool dashing;
+
+    public bool freeze;
+    public bool unlimited;
+
+    public bool restricted;
 
     private void Start()
     {
@@ -163,10 +170,26 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    bool keepMomentum;
     private void StateHandler()
     {
+        if (freeze)
+        {
+            state = MovementState.freeze;
+            rb.linearVelocity = Vector3.zero;
+            desiredMoveSpeed = 0f;
+        }
+
+        // Mode - Unlimited
+        else if (unlimited)
+        {
+            state = MovementState.unlimited;
+            desiredMoveSpeed = 999f;
+            return;
+        }
+
         //Mode - Dashing
-        if (dashing)
+        else if (dashing)
         {
             state = MovementState.dashing;
             desiredMoveSpeed = dashSpeed;
@@ -194,6 +217,7 @@ public class PlayerMovement : MonoBehaviour
             if (OnSlope() && rb.linearVelocity.y < 0.1f)
             {
                 desiredMoveSpeed = slideSpeed;
+                keepMomentum = true;
             }
             else
             {
@@ -261,6 +285,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovePlayer()
     {
+        if (restricted) return; // se der merda inverte a ordem com o de baixo
+
         if (climbingScript.exitingWall) return;
 
         // calculate movement direction

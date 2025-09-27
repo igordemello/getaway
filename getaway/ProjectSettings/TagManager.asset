@@ -16,8 +16,8 @@ TagManager:
   - 
   - 
   - whatIsGround
-  - 
-  - 
+  - whatIsPlayer
+  - whatIsLedge
   - 
   - whatIsWall
   - 
