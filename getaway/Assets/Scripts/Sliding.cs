@@ -21,12 +21,30 @@ public class Sliding : MonoBehaviour
     public float slideYScale;
     private float startYScale;
 
-    [Header("Input")]
-    public KeyCode slideKey = KeyCode.LeftControl;
-    private float horizontalInput;
-    private float verticalInput;
+    public float slideCooldown = 1.0f;
+    private float slideCooldownTimer;
 
-    
+    float horizontalInput;
+    float verticalInput;
+
+    private PlayerControls controls;
+    private Vector2 moveInput;
+    private bool slideInput;
+
+    private void Awake()
+    {
+        controls = new PlayerControls();
+
+        controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
+        controls.Player.Move.canceled += ctx => moveInput = Vector2.zero;
+
+        controls.Player.Slide.performed += ctx => slideInput = true;
+        controls.Player.Slide.canceled += ctx => slideInput = false;
+    }
+
+    private void OnEnable() => controls.Enable();
+    private void OnDisable() => controls.Disable();
+
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -39,14 +57,19 @@ public class Sliding : MonoBehaviour
 
     private void Update()
     {
-        horizontalInput = Input.GetAxisRaw("Horizontal");
-        verticalInput = Input.GetAxisRaw("Vertical");
+        horizontalInput = moveInput.x;
+        verticalInput = moveInput.y;
 
-        if (Input.GetKeyDown(slideKey) && (horizontalInput != 0 || verticalInput != 0))
+        if (slideCooldownTimer > 0)
+        {
+            slideCooldownTimer -= Time.deltaTime;
+        }
+
+        if (slideInput && (horizontalInput != 0 || verticalInput != 0) && !pm.sliding && slideCooldownTimer <= 0f)
         {
             StartSlide();
         }
-        if (Input.GetKeyUp(slideKey) && pm.sliding)
+        else if (!slideInput && pm.sliding)
         {
             StopSlide();
         }
@@ -104,5 +127,7 @@ public class Sliding : MonoBehaviour
         rb.AddForce(Vector3.up * 5f, ForceMode.Impulse);
 
         cameraPos.localPosition = new Vector3(cameraPos.localPosition.x, cameraStartY, cameraPos.localPosition.z);
+
+        slideCooldownTimer = slideCooldown;
     }
 }

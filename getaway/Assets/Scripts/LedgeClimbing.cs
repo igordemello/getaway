@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -18,7 +19,6 @@ public class LedgeGrabbing : MonoBehaviour
     public bool holding;
 
     [Header("Ledge Jumping")]
-    public KeyCode jumpKey = KeyCode.Space;
     public float ledgeJumpForwardForce = 6f;
     public float ledgeJumpUpwardForce = 4f;
 
@@ -46,16 +46,34 @@ public class LedgeGrabbing : MonoBehaviour
     [Header("Debug")]
     public bool debugGizmos = false;
 
+    private PlayerControls controls;
+    private Vector2 moveInput;
+    private bool jumpInput;
+
     private void Update()
     {
         DetectLedge();
         HandleStates();
     }
 
+    private void Awake()
+    {
+        controls = new PlayerControls();
+
+        controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
+        controls.Player.Move.canceled += ctx => moveInput = Vector2.zero;
+
+        controls.Player.Jump.performed += ctx => jumpInput = true;
+        controls.Player.Jump.canceled += ctx => jumpInput = false;
+    }
+
+    private void OnEnable() => controls.Enable();
+    private void OnDisable() => controls.Disable();
+
     private void HandleStates()
     {
-        float horizontalInput = Input.GetAxisRaw("Horizontal");
-        float verticalInput = Input.GetAxisRaw("Vertical");
+        float horizontalInput = moveInput.x;
+        float verticalInput = moveInput.y;
         bool anyInputKeyPressed = horizontalInput != 0 || verticalInput != 0;
 
         if (holding)
@@ -67,7 +85,7 @@ public class LedgeGrabbing : MonoBehaviour
             if (timeOnLedge > minTimeOnLedge && anyInputKeyPressed)
                 ExitLedgeHold();
 
-            if (Input.GetKeyDown(jumpKey))
+            if (jumpInput)
                 LedgeJump();
         }
         else if (exitingLedge)

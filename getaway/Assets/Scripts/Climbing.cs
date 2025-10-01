@@ -20,7 +20,6 @@ public class Climbing : MonoBehaviour
     public float climbJumpUpForce;
     public float climbJumpBackForce;
 
-    public KeyCode jumpKey = KeyCode.Space;
     public int climbJumps;
     private int climbJumpsLeft;
 
@@ -42,6 +41,24 @@ public class Climbing : MonoBehaviour
     public bool exitingWall;
     public float exitWallTime;
     private float exitWallTimer;
+
+    private PlayerControls controls;
+    private Vector2 moveInput;
+    private bool jumpInput;
+
+    private void Awake()
+    {
+        controls = new PlayerControls();
+
+        controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
+        controls.Player.Move.canceled += ctx => moveInput = Vector2.zero;
+
+        controls.Player.Jump.performed += ctx => jumpInput = true;
+        controls.Player.Jump.canceled += ctx => jumpInput = false;
+    }
+
+    private void OnEnable() => controls.Enable();
+    private void OnDisable() => controls.Disable();
 
     private void Start()
     {
@@ -66,7 +83,7 @@ public class Climbing : MonoBehaviour
             }
         }
 
-        else if (wallFront && Input.GetKey(KeyCode.W) && wallLookAngle < maxWallLookAngle && !exitingWall)
+        else if (wallFront && moveInput.y > 0 && wallLookAngle < maxWallLookAngle && !exitingWall)
         {
             if (!climbing && climbTimer > 0)
             {
@@ -102,7 +119,7 @@ public class Climbing : MonoBehaviour
             }
         }
 
-        if (wallFront && Input.GetKeyDown(jumpKey) && climbJumpsLeft > 0)
+        if (wallFront && jumpInput && climbJumpsLeft > 0)
         {
             ClimbJump();
         }

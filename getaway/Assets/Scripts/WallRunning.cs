@@ -15,9 +15,11 @@ public class WallRunningAdvanced : MonoBehaviour
     private float wallRunTimer;
 
     [Header("Input")]
-    public KeyCode jumpKey = KeyCode.Space;
-    public KeyCode upwardsRunKey = KeyCode.LeftShift;
-    public KeyCode downwardsRunKey = KeyCode.LeftControl;
+    private PlayerControls controls;
+    private Vector2 moveInput;
+    private bool jumpInput;
+    private bool upwardsRunInput;
+    private bool downwardsRunInput;
     private bool upwardsRunning;
     private bool downwardsRunning;
     private float horizontalInput;
@@ -46,6 +48,28 @@ public class WallRunningAdvanced : MonoBehaviour
     private PlayerMovement pm;
     private LedgeGrabbing lg;
     private Rigidbody rb;
+
+
+    private void Awake()
+    {
+        controls = new PlayerControls();
+
+        controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
+        controls.Player.Move.canceled += ctx => moveInput = Vector2.zero;
+
+        controls.Player.Jump.performed += ctx => jumpInput = true;
+        controls.Player.Jump.canceled += ctx => jumpInput = false;
+
+        controls.Player.WallRunUP.performed += ctx => upwardsRunInput = true;
+        controls.Player.WallRunUP.canceled += ctx => upwardsRunInput = false;
+
+        controls.Player.WallRunDOWN.performed += ctx => downwardsRunInput = true;
+        controls.Player.WallRunDOWN.canceled += ctx => downwardsRunInput = false;
+
+    }
+
+    private void OnEnable() => controls.Enable();
+    private void OnDisable() => controls.Disable();
 
     private void Start()
     {
@@ -80,11 +104,11 @@ public class WallRunningAdvanced : MonoBehaviour
     private void StateMachine()
     {
         // Getting Inputs
-        horizontalInput = Input.GetAxisRaw("Horizontal");
-        verticalInput = Input.GetAxisRaw("Vertical");
+        horizontalInput = moveInput.x;
+        verticalInput = moveInput.y;
 
-        upwardsRunning = Input.GetKey(upwardsRunKey);
-        downwardsRunning = Input.GetKey(downwardsRunKey);
+        upwardsRunning = upwardsRunInput;
+        downwardsRunning = downwardsRunInput;
 
         // State 1 - Wallrunning
         if ((wallLeft || wallRight) && verticalInput > 0 && AboveGround() && !exitingWall)
@@ -103,7 +127,7 @@ public class WallRunningAdvanced : MonoBehaviour
             }
 
             // wall jump
-            if (Input.GetKeyDown(jumpKey)) WallJump();
+            if (jumpInput) WallJump();
         }
 
         // State 2 - Exiting

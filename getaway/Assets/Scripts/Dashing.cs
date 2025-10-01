@@ -30,8 +30,23 @@ public class Dashing : MonoBehaviour
     public float dashCd;
     private float dashCdTimer;
 
-    [Header("Input")]
-    public KeyCode dashKey = KeyCode.E;
+    private PlayerControls controls;
+    private Vector2 moveInput;
+    private bool dashInput;
+
+    private void Awake()
+    {
+        controls = new PlayerControls();
+
+        controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
+        controls.Player.Move.canceled += ctx => moveInput = Vector2.zero;
+
+        controls.Player.Dash.performed += ctx => dashInput = true;
+        controls.Player.Dash.canceled += ctx => dashInput = false;
+    }
+
+    private void OnEnable() => controls.Enable();
+    private void OnDisable() => controls.Disable();
 
     private void Start()
     {
@@ -41,7 +56,7 @@ public class Dashing : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(dashKey))
+        if (dashInput)
             Dash();
 
         if (dashCdTimer > 0)
@@ -101,8 +116,8 @@ public class Dashing : MonoBehaviour
 
     private Vector3 GetDirection(Transform forwardT)
     {
-        float horizontalInput = Input.GetAxisRaw("Horizontal"); // A (-1) / D (+1)
-        float verticalInput = Input.GetAxisRaw("Vertical"); // S (-1) / W (+1)
+        float horizontalInput = moveInput.x;
+        float verticalInput = moveInput.y;
 
         Vector3 direction = new Vector3();
 
@@ -118,8 +133,6 @@ public class Dashing : MonoBehaviour
         float yTilt = 0f;
         float zTilt = 0f;
 
-        //Debug.Log(horizontalInput);
-        //Debug.Log(verticalInput);
         
         if (verticalInput < 0)
             xTilt = -10f;

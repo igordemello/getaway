@@ -37,11 +37,6 @@ public class PlayerMovement : MonoBehaviour
     private float cameraStartY;
     public float crouchCameraY = 0.5f;
 
-    [Header("Keybinds")]
-    public KeyCode jumpKey = KeyCode.Space;
-    public KeyCode sprintKey = KeyCode.LeftShift;
-    public KeyCode crouchKey = KeyCode.LeftControl;
-
     [Header("Ground Check")]
     public float playerHeight;
     public LayerMask whatIsGround;
@@ -59,6 +54,12 @@ public class PlayerMovement : MonoBehaviour
     [Header("References")]
     public Transform orientation;
     public Climbing climbingScript;
+
+    private PlayerControls controls;
+    private Vector2 moveInput;
+    private bool jumpInput;
+    private bool sprintInput;
+    private bool crouchInput;
 
     float horizontalInput;
     float verticalInput;
@@ -87,11 +88,29 @@ public class PlayerMovement : MonoBehaviour
     public bool wallrunning;
     public bool climbing;
     public bool dashing;
-
     public bool freeze;
     public bool unlimited;
-
     public bool restricted;
+
+    private void Awake()
+    {
+        controls = new PlayerControls();
+
+        controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
+        controls.Player.Move.canceled += ctx => moveInput = Vector2.zero;
+
+        controls.Player.Jump.performed += ctx => jumpInput = true;
+        controls.Player.Jump.canceled += ctx => jumpInput = false;
+
+        controls.Player.Sprint.performed += ctx => sprintInput = true;
+        controls.Player.Sprint.canceled += ctx => sprintInput = false;
+
+        controls.Player.Crouch.performed += ctx => crouchInput = true;
+        controls.Player.Crouch.canceled += ctx => crouchInput = false;
+    }
+
+    private void OnEnable() => controls.Enable();
+    private void OnDisable() => controls.Disable();
 
     private void Start()
     {
@@ -138,11 +157,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void MyInput()
     {   if (restricted) return;
-        horizontalInput = Input.GetAxisRaw("Horizontal");
-        verticalInput = Input.GetAxisRaw("Vertical");
+
+        horizontalInput = moveInput.x;
+        verticalInput = moveInput.y;
 
         // when to jump
-        if(Input.GetKey(jumpKey) && readyToJump && grounded)
+        if (jumpInput && readyToJump && grounded)
         {
             readyToJump = false;
 
@@ -152,16 +172,15 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // start crounch
-        if (Input.GetKeyDown(crouchKey))
+        if (crouchInput)
         {
             transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
             rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
 
             cameraPos.localPosition = new Vector3(cameraPos.localPosition.x, crouchCameraY, cameraPos.localPosition.z);
         }
-
         // stop crounch
-        if (Input.GetKeyUp(crouchKey))
+        else if (!crouchInput && state == MovementState.crouching)
         {
             transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
             rb.AddForce(Vector3.up * 5f, ForceMode.Impulse);
@@ -226,7 +245,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Mode - Sprinting
-        else if (grounded && Input.GetKey(sprintKey))
+        else if (grounded && sprintInput)
         {
             state = MovementState.sprinting;
             desiredMoveSpeed = sprintSpeed;
@@ -246,7 +265,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Mode - crouching
-        if (Input.GetKey(crouchKey))
+        if (crouchInput)
         {
             state = MovementState.crouching;
             desiredMoveSpeed = crouchSpeed;

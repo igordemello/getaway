@@ -1,5 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.InputSystem;
 
 public class PlayerCam : MonoBehaviour
 {
@@ -12,6 +13,21 @@ public class PlayerCam : MonoBehaviour
     float xRotation;
     float yRotation;
 
+    private PlayerControls controls;
+    private Vector2 lookInput;
+
+
+    private void Awake()
+    {
+        controls = new PlayerControls();
+
+        controls.Player.Look.performed += ctx => lookInput = ctx.ReadValue<Vector2>();
+        controls.Player.Look.canceled += ctx => lookInput = Vector2.zero;
+    }
+
+    private void OnEnable() => controls.Enable();
+    private void OnDisable() => controls.Disable();
+
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -22,8 +38,8 @@ public class PlayerCam : MonoBehaviour
     private void Update()
     {
         // get mouse input
-        float mouseX = Input.GetAxisRaw("Mouse X") * Time.fixedDeltaTime * sensX;
-        float mouseY = Input.GetAxisRaw("Mouse Y") * Time.fixedDeltaTime * sensY;
+        float mouseX = lookInput.x * Time.fixedDeltaTime * sensX;
+        float mouseY = lookInput.y * Time.fixedDeltaTime * sensY;
 
         yRotation += mouseX;
 
