@@ -54,6 +54,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("References")]
     public Transform orientation;
     public Climbing climbingScript;
+    public PlayerCam cam;
 
     private PlayerControls controls;
     private Vector2 moveInput;
@@ -186,6 +187,15 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(Vector3.up * 5f, ForceMode.Impulse);
 
             cameraPos.localPosition = new Vector3(cameraPos.localPosition.x, cameraStartY, cameraPos.localPosition.z);
+        }
+
+        if(sprintInput)
+        {
+            cam.DoFov(70f);
+        }
+        else if (!sprintInput && state == MovementState.sprinting)
+        {
+            cam.DoFov(60f);
         }
     }
 
