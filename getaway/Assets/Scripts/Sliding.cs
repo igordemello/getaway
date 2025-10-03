@@ -65,7 +65,7 @@ public class Sliding : MonoBehaviour
             slideCooldownTimer -= Time.deltaTime;
         }
 
-        if (slideInput && (horizontalInput != 0 || verticalInput != 0) && !pm.sliding && slideCooldownTimer <= 0f)
+        if (slideInput && verticalInput > 0 && !pm.sliding && slideCooldownTimer <= 0f)
         {
             StartSlide();
         }
@@ -97,10 +97,10 @@ public class Sliding : MonoBehaviour
 
     private void SlidingMovement()
     {
-        Vector3 inputDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+        Vector3 inputDirection = orientation.forward;
 
         // sliding normal
-        if(!pm.OnSlope() || rb.linearVelocity.y > -0.1f)
+        if (!pm.OnSlope() || rb.linearVelocity.y > -0.1f)
         {
             rb.AddForce(inputDirection.normalized * slideForce, ForceMode.Force);
 
