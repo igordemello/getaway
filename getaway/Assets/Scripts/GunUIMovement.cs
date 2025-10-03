@@ -39,7 +39,7 @@ public class GunUIMovement : MonoBehaviour
 
         if (speed > 0.1f)
         {
-            if (pm.state == PlayerMovement.MovementState.walking)
+            if (pm.state == PlayerMovement.MovementState.walking || pm.state == PlayerMovement.MovementState.air)
             {
                 amplitudeX = walkAmplitudeX;
                 amplitudeY = walkAmplitudeY;

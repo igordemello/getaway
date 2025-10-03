@@ -191,7 +191,7 @@ public class PlayerMovement : MonoBehaviour
 
         if(sprintInput)
         {
-            cam.DoFov(70f);
+            cam.DoFov(80f);
         }
         else if (!sprintInput && state == MovementState.sprinting)
         {

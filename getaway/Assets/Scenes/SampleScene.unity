@@ -2205,6 +2205,7 @@ MonoBehaviour:
   recoilRecovery: 15
   fpsCam: {fileID: 330162595}
   uiRecoil: {fileID: 146723021}
+  flash: {fileID: 0}
 --- !u!1 &1563348703
 GameObject:
   m_ObjectHideFlags: 0
