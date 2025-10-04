@@ -17,7 +17,6 @@ public class Gun : MonoBehaviour
     [Header("References")]
     public Camera fpsCam;
     public GunUIRecoil uiRecoil;
-    public ParticleSystem muzzle;
     public GameObject impact;
 
     private PlayerControls controls;
@@ -68,7 +67,6 @@ public class Gun : MonoBehaviour
 
     void Shoot()
     {
-        muzzle.Play();
         RaycastHit hit;
         if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
         {
