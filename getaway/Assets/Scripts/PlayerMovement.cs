@@ -92,6 +92,7 @@ public class PlayerMovement : MonoBehaviour
     public bool freeze;
     public bool unlimited;
     public bool restricted;
+    public bool activeGrapple;
 
     private void Awake()
     {
@@ -147,6 +148,13 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
+            rb.linearDamping = 0;
+        }
+        if (grounded && !activeGrapple)
+        {
+            rb.linearDamping = groundDrag;
+        }
+        else {
             rb.linearDamping = 0;
         }
     }
@@ -313,7 +321,9 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void MovePlayer()
-    {
+
+    {   if (activeGrapple) return;
+
         if (restricted) return; // se der merda inverte a ordem com o de baixo
 
         if (climbingScript.exitingWall) return;
@@ -348,7 +358,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void SpeedControl()
-    {
+    {   if (activeGrapple) return; 
         // limiting speed on slope
         if (OnSlope() && !exitingSlope)
         {
@@ -408,5 +418,41 @@ public class PlayerMovement : MonoBehaviour
     public Vector3 GetSlopeMoveDirection(Vector3 direction)
     {
         return Vector3.ProjectOnPlane(direction, slopeHit.normal).normalized;
+    }
+    public Vector3 CalculatedJumpVelocity(Vector3 startpoint , Vector3 endpoint,float trajectoryHeight) {
+        float gravity = Physics.gravity.y;
+        float displacementY = endpoint.y - startpoint.y;
+        Vector3 displacementXZ = new Vector3(endpoint.x - startpoint.x, 0, endpoint.z - startpoint.z);
+
+        Vector3 velocityY = Vector3.up * Mathf.Sqrt(-2 * gravity * trajectoryHeight);
+        Vector3 velocityXZ = displacementXZ / (Mathf.Sqrt(-2 * trajectoryHeight / gravity) + Mathf.Sqrt(2 * (displacementY - trajectoryHeight) / gravity));
+
+        return velocityXZ + velocityY;
+
+    }
+    private bool enableMovementOnNextTouch;
+    public void JumpToPosition(Vector3 targetPosition , float trajectoryHeight) {
+        velocityToSet = CalculatedJumpVelocity(transform.position, targetPosition, trajectoryHeight);
+        activeGrapple = true;
+        Invoke(nameof(SetVelocity),0.1f);
+        Invoke(nameof(ResetRestrictions), Vector3.Distance(rb.position,targetPosition)/10);
+    }
+    private Vector3 velocityToSet;
+
+    private void SetVelocity() {
+        enableMovementOnNextTouch = true;
+        rb.linearVelocity = velocityToSet;
+    }
+    public void ResetRestrictions() { 
+        activeGrapple = false;
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.layer == 6 && enableMovementOnNextTouch)
+        {
+            enableMovementOnNextTouch = false;
+            ResetRestrictions();
+            GetComponent<Grappling>().StopGrapple();
+        }
     }
 }
