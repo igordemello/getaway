@@ -368,16 +368,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 146723017}
-  m_LocalRotation: {x: 0, y: 0, z: 0.08993732, w: 0.9959474}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 10.9, y: 7.091737, z: 7.091737}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1478816964}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 10.32}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 795, y: -452}
+  m_AnchoredPosition: {x: 813, y: -498}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &146723019
@@ -400,7 +400,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 823dfe3bd678b9c419da5695cd3aa72a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0e5d8c2580b6c0d4f8a97a8727b07beb, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -431,8 +431,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   gunSprite: {fileID: 146723018}
-  recoilDistance: 1500
-  recoilScale: 2
+  recoilDistance: 3000
+  recoilScale: 1.2
   recoilSpeed: 6
 --- !u!114 &146723022
 MonoBehaviour:

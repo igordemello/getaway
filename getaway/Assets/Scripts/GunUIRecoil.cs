@@ -5,9 +5,9 @@ public class GunUIRecoil : MonoBehaviour
     public RectTransform gunSprite;
 
     [Header("Recoil Config")]
-    public float recoilDistance = 1500;
-    public float recoilScale = 2f;
-    public float recoilSpeed = 6f;
+    public float recoilDistance;
+    public float recoilScale;
+    public float recoilSpeed;
 
     private Vector3 originalLocalPos;
     private Vector3 originalScale;
@@ -30,13 +30,11 @@ public class GunUIRecoil : MonoBehaviour
 
     public void DoRecoil()
     {
-        Vector3 recoilDir = -gunSprite.up * recoilDistance;
-        recoilDir.x = recoilDir.x * 8;
-        targetLocalPos = originalLocalPos + recoilDir;
+        Vector3 recoilDir = new Vector3(1, -1, 0).normalized * recoilDistance;
 
+        targetLocalPos = originalLocalPos + recoilDir;
         targetScale = originalScale * recoilScale;
 
-        
         CancelInvoke(nameof(ResetRecoil));
         Invoke(nameof(ResetRecoil), 0.1f);
     }
