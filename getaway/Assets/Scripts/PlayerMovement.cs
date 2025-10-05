@@ -9,7 +9,6 @@ public class PlayerMovement : MonoBehaviour
     private float moveSpeed;
     public float walkSpeed;
     public float sprintSpeed;
-    public float slideSpeed;
     public float wallrunSpeed;
     public float climbSpeed;
 
@@ -79,13 +78,11 @@ public class PlayerMovement : MonoBehaviour
         climbing,
         crouching,
         dashing,
-        sliding,
         air,
         unlimited,
         freeze
     }
 
-    public bool sliding;
     public bool wallrunning;
     public bool climbing;
     public bool dashing;
@@ -246,21 +243,6 @@ public class PlayerMovement : MonoBehaviour
             desiredMoveSpeed = wallrunSpeed;
         }
 
-        //Mode - Sliding
-        else if (sliding)
-        {
-            state = MovementState.sliding;
-
-            if (OnSlope() && rb.linearVelocity.y < 0.1f)
-            {
-                desiredMoveSpeed = slideSpeed;
-                keepMomentum = true;
-            }
-            else
-            {
-                desiredMoveSpeed = sprintSpeed;
-            }
-        }
 
         // Mode - Sprinting
         else if (grounded && sprintInput)

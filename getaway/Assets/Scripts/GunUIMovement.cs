@@ -53,15 +53,15 @@ public class GunUIMovement : MonoBehaviour
             }
         }
 
-        if (pm.state == PlayerMovement.MovementState.sliding)
-        {
-            Quaternion slideRot = originalLocalRot * Quaternion.Euler(0, 0, -15f);
-            gunSprite.localRotation = Quaternion.Lerp(gunSprite.localRotation, slideRot, Time.deltaTime * 10f);
-        }
-        else
-        {
-            gunSprite.localRotation = Quaternion.Lerp(gunSprite.localRotation, originalLocalRot, Time.deltaTime * 10f);
-        }
+        //if (pm.state == PlayerMovement.MovementState.sliding)
+        //{
+        //    Quaternion slideRot = originalLocalRot * Quaternion.Euler(0, 0, -15f);
+        //    gunSprite.localRotation = Quaternion.Lerp(gunSprite.localRotation, slideRot, Time.deltaTime * 10f);
+        //}
+        //else
+        //{
+        //    gunSprite.localRotation = Quaternion.Lerp(gunSprite.localRotation, originalLocalRot, Time.deltaTime * 10f);
+        //}
 
         if (frequency > 0f)
         {
