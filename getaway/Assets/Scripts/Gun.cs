@@ -30,6 +30,7 @@ public class Gun : MonoBehaviour
     public TextMeshProUGUI debugAmmo;
     public CamRecoil camRecoil;
     public GunRecoil gunRecoil;
+    public ParticleSystem muzzle;
 
     private PlayerControls controls;
     private bool fireInput;
@@ -137,6 +138,7 @@ public class Gun : MonoBehaviour
             Destroy(impactGO,1f);
         }
 
+        muzzle.Play();
         camRecoil?.Fire();
         gunRecoil?.Fire();
     }
