@@ -745,8 +745,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 267985507eb32174398b9499264ebc73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GunSway
-  smooth: 4
+  smooth: 6
   swayMultiplier: 2
+  maxSway: 20
 --- !u!114 &313424420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1730,7 +1731,6 @@ GameObject:
   m_Component:
   - component: {fileID: 698325294}
   - component: {fileID: 698325297}
-  - component: {fileID: 698325296}
   - component: {fileID: 698325295}
   m_Layer: 0
   m_Name: FPSgunCam
@@ -1799,14 +1799,6 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!81 &698325296
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 698325293}
-  m_Enabled: 1
 --- !u!20 &698325297
 Camera:
   m_ObjectHideFlags: 0
