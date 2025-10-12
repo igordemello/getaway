@@ -779,13 +779,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GunBob
   playerMovement: {fileID: 2119326515}
   weaponHolder: {fileID: 313424418}
-  walkBobAmount: 0.015
-  sprintBobAmount: 0.03
+  walkBobAmount: 0.09
+  sprintBobAmount: 0.12
   crouchBobAmount: 0.01
-  walkBobSpeed: 8
-  sprintBobSpeed: 13
+  walkBobSpeed: 10
+  sprintBobSpeed: 15
   crouchBobSpeed: 5
-  smoothReturn: 6
+  smoothReturn: 4
 --- !u!1 &330162591
 GameObject:
   m_ObjectHideFlags: 0
