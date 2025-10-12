@@ -710,8 +710,9 @@ GameObject:
   - component: {fileID: 313424418}
   - component: {fileID: 313424419}
   - component: {fileID: 313424420}
+  - component: {fileID: 313424421}
   m_Layer: 0
-  m_Name: GunSwayAndRecoil
+  m_Name: GunMovement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -764,6 +765,27 @@ MonoBehaviour:
   positionalRecoilSpeed: 8
   positionalReturnSpeed: 18
   RecoilKickBack: {x: 0.015, y: 0, z: -2}
+--- !u!114 &313424421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 313424417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d433490b0fd79e4596d14ac3a71c642, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GunBob
+  playerMovement: {fileID: 2119326515}
+  weaponHolder: {fileID: 313424418}
+  walkBobAmount: 0.015
+  sprintBobAmount: 0.03
+  crouchBobAmount: 0.01
+  walkBobSpeed: 8
+  sprintBobSpeed: 13
+  crouchBobSpeed: 5
+  smoothReturn: 6
 --- !u!1 &330162591
 GameObject:
   m_ObjectHideFlags: 0
@@ -4468,6 +4490,7 @@ MonoBehaviour:
   orientation: {fileID: 1070219148}
   climbingScript: {fileID: 2119326518}
   cam: {fileID: 330162596}
+  rb: {fileID: 0}
   state: 0
   wallrunning: 0
   climbing: 0
