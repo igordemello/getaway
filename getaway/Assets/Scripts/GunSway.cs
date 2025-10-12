@@ -1,46 +1,33 @@
 using UnityEngine;
-
-public class GunSway : MonoBehaviour
-{
+public class GunSway : MonoBehaviour {
     [Header("Sway Settings")]
-    [SerializeField] private float smooth = 8f; // suavização
-    [SerializeField] private float rotationAmount = 4f; // quanto rotacionar por direção
+    [SerializeField] private float smooth; 
+    [SerializeField] private float swayMultiplier; 
+    public float maxSway = 10f;
+    private PlayerControls controls; 
+    private Vector2 lookInput; 
+    
+    private void Awake() 
+    { 
+        controls = new PlayerControls(); 
+        controls.Player.Look.performed += ctx => lookInput = ctx.ReadValue<Vector2>(); 
+        controls.Player.Look.canceled += ctx => lookInput = Vector2.zero; 
+    } 
+    private void OnEnable() => controls.Enable(); 
+    private void OnDisable() => controls.Disable(); 
+    private void Update() 
+    { 
+        float mouseX = lookInput.x * swayMultiplier;         
+        float mouseY = lookInput.y * swayMultiplier;
 
-    private PlayerControls controls;
-    private Vector2 lookInput;
+        
+        mouseX = Mathf.Clamp(mouseX, -maxSway, maxSway);
+        mouseY = Mathf.Clamp(mouseY, -maxSway, maxSway);
 
-    private Quaternion targetRotation;
-
-    private void Awake()
-    {
-        controls = new PlayerControls();
-
-        controls.Player.Look.performed += ctx => lookInput = ctx.ReadValue<Vector2>();
-        controls.Player.Look.canceled += ctx => lookInput = Vector2.zero;
-    }
-
-    private void OnEnable() => controls.Enable();
-    private void OnDisable() => controls.Disable();
-
-    private void FixedUpdate()
-    {
-        // Determina a rotação alvo com base na direção do movimento
-        float rotX = 0f;
-        float rotY = 0f;
-
-        if (lookInput.x < 0) rotY -= rotationAmount;  // esquerda
-        if (lookInput.x > 0) rotY += rotationAmount;  // direita
-
-        if (lookInput.y > 0) rotX -= rotationAmount;  // cima
-        if (lookInput.y < 0) rotX += rotationAmount;  // baixo
-
-        targetRotation = Quaternion.Euler(rotX, rotY, 0);
-
-        // Suaviza a transição para o novo ângulo
-        transform.localRotation = Quaternion.Slerp(
-            transform.localRotation,
-            targetRotation,
-            smooth * Time.fixedDeltaTime
-        );
-    }
+        lookInput = Vector2.ClampMagnitude(lookInput, 1f);
+        Quaternion rotationX = Quaternion.AngleAxis(-mouseY, Vector3.right); 
+        Quaternion rotationY = Quaternion.AngleAxis(mouseX, Vector3.up); 
+        Quaternion targetRotation = rotationX * rotationY; 
+        transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, smooth * Time.deltaTime); 
+    } 
 }
