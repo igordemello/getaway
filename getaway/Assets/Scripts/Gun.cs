@@ -18,11 +18,18 @@ public class Gun : MonoBehaviour
     public int maxAmmo = 10;
     private int currentAmmo;
 
+    [Header("Recoil Settings")]
+    public float recoilRotationSpeed = 60f;
+    public float recoilReturnSpeed = 10f;
+    public Vector3 recoilAmount = new Vector3(8f, 8f, 8f);
+
     [Header("References")]
     public Camera fpsCam;
     public GameObject impact;
     public Animator animator;
     public TextMeshProUGUI debugAmmo;
+    public CamRecoil camRecoil;
+    public GunRecoil gunRecoil;
 
     private PlayerControls controls;
     private bool fireInput;
@@ -42,6 +49,10 @@ public class Gun : MonoBehaviour
     private void Start()
     {
         currentAmmo = maxAmmo;
+        if (camRecoil != null)
+        {
+            camRecoil.SetRecoilSettings(recoilRotationSpeed, recoilReturnSpeed, recoilAmount);
+        }
     }
 
     void Update()
@@ -94,7 +105,7 @@ public class Gun : MonoBehaviour
 
         animator.SetTrigger("Shoot");
 
-        yield return new WaitForSeconds(0.8f);
+        yield return new WaitForSeconds(0.7f);
 
         nextTimeToFire = Time.time;
     }
@@ -125,5 +136,8 @@ public class Gun : MonoBehaviour
             GameObject impactGO = Instantiate(impact, hit.point, Quaternion.LookRotation(hit.normal));
             Destroy(impactGO,1f);
         }
+
+        camRecoil?.Fire();
+        gunRecoil?.Fire();
     }
 }

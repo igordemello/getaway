@@ -712,6 +712,7 @@ GameObject:
   - component: {fileID: 330162594}
   - component: {fileID: 330162593}
   - component: {fileID: 330162596}
+  - component: {fileID: 330162597}
   m_Layer: 0
   m_Name: PlayerCam
   m_TagString: Untagged
@@ -855,6 +856,18 @@ MonoBehaviour:
   sensY: 10
   orientation: {fileID: 1070219148}
   camHolder: {fileID: 562439713}
+--- !u!114 &330162597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330162591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ad4fe882ec5a894fb318223b15bd898, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1 &377231325
 GameObject:
   m_ObjectHideFlags: 0
@@ -1423,7 +1436,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0baa5ac24a4c20e45a14be0cf2ad819e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.89000005
+      value: -0.89
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0baa5ac24a4c20e45a14be0cf2ad819e, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1968,6 +1981,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &866567978
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 866567979}
+  m_Layer: 0
+  m_Name: point_rotation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &866567979
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 866567978}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.55217373, y: -0.5281, z: 0.99014}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1549897357}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &895030849
 GameObject:
@@ -2956,6 +3000,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1549897357}
   - component: {fileID: 1549897358}
+  - component: {fileID: 1549897359}
   m_Layer: 0
   m_Name: pseudo-gun
   m_TagString: Untagged
@@ -2976,6 +3021,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 866567979}
   - {fileID: 473361386}
   m_Father: {fileID: 330162592}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2995,11 +3041,36 @@ MonoBehaviour:
   damage: 10
   range: 100
   fireRate: 1
-  maxAmmo: 10
+  maxAmmo: 100
+  recoilRotationSpeed: 60
+  recoilReturnSpeed: 10
+  recoilAmount: {x: 6, y: 6, z: 6}
   fpsCam: {fileID: 330162595}
   impact: {fileID: 1337198075554910, guid: 6375f9f5933e3704284eb4772a692fe2, type: 3}
   animator: {fileID: 473361388}
   debugAmmo: {fileID: 60105647}
+  camRecoil: {fileID: 330162597}
+  gunRecoil: {fileID: 1549897359}
+--- !u!114 &1549897359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1549897356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7239c5a4c83ab27489ee92ad8aae0274, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GunRecoil
+  recoilPosition: {fileID: 1549897357}
+  rotationPoint: {fileID: 866567979}
+  positionalRecoilSpeed: 8
+  rotationalRecoilSpeed: 8
+  positionalReturnSpeed: 18
+  rotationalReturnSpeed: 38
+  RecoilRotation: {x: 10, y: 5, z: 7}
+  RecoilKickBack: {x: 0.015, y: 0, z: -0.2}
 --- !u!1 &1563348703
 GameObject:
   m_ObjectHideFlags: 0
