@@ -159,7 +159,8 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.linearDamping = groundDrag;
         }
-        else {
+        else
+        {
             rb.linearDamping = 0;
         }
     }
@@ -170,7 +171,8 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void MyInput()
-    {   if (restricted) return;
+    {
+        if (restricted) return;
 
         horizontalInput = moveInput.x;
         verticalInput = moveInput.y;
@@ -202,7 +204,7 @@ public class PlayerMovement : MonoBehaviour
             cameraPos.localPosition = new Vector3(cameraPos.localPosition.x, cameraStartY, cameraPos.localPosition.z);
         }
 
-        if(sprintInput)
+        if (sprintInput)
         {
             cam.DoFov(80f);
         }
@@ -288,7 +290,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // check if desiredMoveSpeed has changed drastically
-        if(Mathf.Abs(desiredMoveSpeed - lastDesiredMoveSpeed) > 4f && moveSpeed != 0)
+        if (Mathf.Abs(desiredMoveSpeed - lastDesiredMoveSpeed) > 4f && moveSpeed != 0)
         {
             StopAllCoroutines();
 
@@ -306,7 +308,7 @@ public class PlayerMovement : MonoBehaviour
         {
             moveSpeed = desiredMoveSpeed;
         }
-        
+
 
         if (state == MovementState.sliding)
         {
@@ -343,7 +345,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovePlayer()
 
-    {   if (activeGrapple) return;
+    {
+        if (activeGrapple) return;
 
         if (restricted) return; // se der merda inverte a ordem com o de baixo
 
@@ -357,7 +360,7 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.AddForce(GetSlopeMoveDirection(moveDirection) * moveSpeed * 20f, ForceMode.Force);
 
-            if(rb.linearVelocity.y > 0)
+            if (rb.linearVelocity.y > 0)
             {
                 rb.AddForce(Vector3.down * 80f, ForceMode.Force);
             }
@@ -371,15 +374,21 @@ public class PlayerMovement : MonoBehaviour
         // in air
         else if (!grounded)
         {
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
+            Vector3 airMove = moveDirection.normalized * moveSpeed * airMultiplier;
+
+            if (rb.linearVelocity.magnitude < moveSpeed * 1.3f)
+                rb.AddForce(airMove, ForceMode.Acceleration);
+            else
+                rb.AddForce(airMove * 0.5f, ForceMode.Acceleration);
         }
 
         // turn gravity off while on slope
-        if(!wallrunning) rb.useGravity = !OnSlope();
+        if (!wallrunning) rb.useGravity = !OnSlope();
     }
 
     private void SpeedControl()
-    {   if (activeGrapple) return; 
+    {
+        if (activeGrapple) return;
         // limiting speed on slope
         if (OnSlope() && !exitingSlope)
         {
@@ -406,7 +415,7 @@ public class PlayerMovement : MonoBehaviour
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, maxYSpeed, rb.linearVelocity.z);
         }
 
-        
+
     }
 
     private void Jump()
@@ -418,6 +427,7 @@ public class PlayerMovement : MonoBehaviour
 
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
     }
+
 
     private void ResetJump()
     {
@@ -440,7 +450,8 @@ public class PlayerMovement : MonoBehaviour
     {
         return Vector3.ProjectOnPlane(direction, slopeHit.normal).normalized;
     }
-    public Vector3 CalculatedJumpVelocity(Vector3 startpoint , Vector3 endpoint,float trajectoryHeight) {
+    public Vector3 CalculatedJumpVelocity(Vector3 startpoint, Vector3 endpoint, float trajectoryHeight)
+    {
         float gravity = Physics.gravity.y;
         float displacementY = endpoint.y - startpoint.y;
         Vector3 displacementXZ = new Vector3(endpoint.x - startpoint.x, 0, endpoint.z - startpoint.z);
@@ -452,19 +463,22 @@ public class PlayerMovement : MonoBehaviour
 
     }
     private bool enableMovementOnNextTouch;
-    public void JumpToPosition(Vector3 targetPosition , float trajectoryHeight) {
+    public void JumpToPosition(Vector3 targetPosition, float trajectoryHeight)
+    {
         velocityToSet = CalculatedJumpVelocity(transform.position, targetPosition, trajectoryHeight);
         activeGrapple = true;
-        Invoke(nameof(SetVelocity),0.1f);
-        Invoke(nameof(ResetRestrictions), Vector3.Distance(rb.position,targetPosition)/10);
+        Invoke(nameof(SetVelocity), 0.1f);
+        Invoke(nameof(ResetRestrictions), Vector3.Distance(rb.position, targetPosition) / 10);
     }
     private Vector3 velocityToSet;
 
-    private void SetVelocity() {
+    private void SetVelocity()
+    {
         enableMovementOnNextTouch = true;
         rb.linearVelocity = velocityToSet;
     }
-    public void ResetRestrictions() { 
+    public void ResetRestrictions()
+    {
         activeGrapple = false;
     }
     private void OnCollisionEnter(Collision collision)
