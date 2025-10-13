@@ -64,7 +64,7 @@ public class Gun : MonoBehaviour
         switch (fireMode)
         {
             case FireMode.SemiAuto:
-                if (fireInput)
+                if (fireInput && Time.time >= nextTimeToFire)
                 {
                     Shoot();
                     fireInput = false;
@@ -139,8 +139,8 @@ public class Gun : MonoBehaviour
         }
 
         muzzle.Play();
-        camRecoil?.Fire();
-        gunRecoil?.Fire();
+        camRecoil.Fire();
+        gunRecoil.Fire();
     }
 
 }
