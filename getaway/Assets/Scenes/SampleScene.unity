@@ -4121,7 +4121,7 @@ MonoBehaviour:
   fireMode: 1
   damage: 10
   range: 100
-  fireRate: 1
+  fireRate: 0.5
   maxAmmo: 100
   recoilRotationSpeed: 60
   recoilReturnSpeed: 10
