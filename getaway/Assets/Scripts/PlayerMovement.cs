@@ -167,7 +167,6 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         MovePlayer();
-        Debug.Log(state);
     }
 
     private void MyInput()

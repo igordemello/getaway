@@ -15,6 +15,13 @@ public class PlayerCam : MonoBehaviour
 
     private PlayerControls controls;
     private Vector2 lookInput;
+    private Vector2 moveInput;
+
+    private float lastMoveX;
+
+    public float rotateCamByInputX = 5f;
+
+    private float currentTilt;
 
 
     private void Awake()
@@ -23,6 +30,9 @@ public class PlayerCam : MonoBehaviour
 
         controls.Player.Look.performed += ctx => lookInput = ctx.ReadValue<Vector2>();
         controls.Player.Look.canceled += ctx => lookInput = Vector2.zero;
+
+        controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
+        controls.Player.Move.canceled += ctx => moveInput = Vector2.zero;
     }
 
     private void OnEnable() => controls.Enable();
@@ -49,6 +59,14 @@ public class PlayerCam : MonoBehaviour
         // rotate cam and orientation
         camHolder.rotation = Quaternion.Euler(xRotation, yRotation, 0);
         orientation.rotation = Quaternion.Euler(0, yRotation, 0);
+
+        Debug.Log(moveInput.x);
+        
+        float targetTilt = moveInput.x * -rotateCamByInputX;
+        currentTilt = Mathf.Lerp(currentTilt, targetTilt, Time.deltaTime * 5f);
+
+        camHolder.rotation = Quaternion.Euler(xRotation, yRotation, currentTilt);
+        lastMoveX = moveInput.x;
     }
 
     public void DoFov(float endValue)
