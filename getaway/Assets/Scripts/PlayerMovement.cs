@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     public float sprintSpeed;
     public float wallrunSpeed;
     public float climbSpeed;
+    public float swingingSpeed;
 
     public float dashSpeed;
     public float maxYSpeed;
@@ -89,6 +90,7 @@ public class PlayerMovement : MonoBehaviour
         unlimited,
         freeze,
         sliding,
+        swinging
     }
 
     public bool wallrunning;
@@ -98,6 +100,7 @@ public class PlayerMovement : MonoBehaviour
     public bool unlimited;
     public bool restricted;
     public bool activeGrapple;
+    public bool swinging;
 
     private void Awake()
     {
@@ -250,7 +253,10 @@ public class PlayerMovement : MonoBehaviour
             state = MovementState.wallrunning;
             desiredMoveSpeed = wallrunSpeed;
         }
-
+        else if (swinging) {
+            state = MovementState.swinging;
+            moveSpeed = swingingSpeed;
+        }
 
         // Mode - Sprinting
         else if (grounded && sprintInput)
@@ -344,6 +350,8 @@ public class PlayerMovement : MonoBehaviour
     private void MovePlayer()
 
     {   if (activeGrapple) return;
+
+        if (swinging) return;
 
         if (restricted) return; // se der merda inverte a ordem com o de baixo
 

@@ -190,6 +190,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Swinging"",
+                    ""type"": ""Button"",
+                    ""id"": ""addb36da-3c87-4739-ae6d-ca72ff0014f8"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -357,6 +366,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Grappling"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""527f5a86-823d-46ec-bafc-1a16a53951fc"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": ""Hold"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Swinging"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -376,6 +396,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_WallRunDOWN = m_Player.FindAction("WallRunDOWN", throwIfNotFound: true);
         m_Player_Fire = m_Player.FindAction("Fire", throwIfNotFound: true);
         m_Player_Grappling = m_Player.FindAction("Grappling", throwIfNotFound: true);
+        m_Player_Swinging = m_Player.FindAction("Swinging", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -467,6 +488,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_WallRunDOWN;
     private readonly InputAction m_Player_Fire;
     private readonly InputAction m_Player_Grappling;
+    private readonly InputAction m_Player_Swinging;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -522,6 +544,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Grappling".
         /// </summary>
         public InputAction @Grappling => m_Wrapper.m_Player_Grappling;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Swinging".
+        /// </summary>
+        public InputAction @Swinging => m_Wrapper.m_Player_Swinging;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -581,6 +607,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Grappling.started += instance.OnGrappling;
             @Grappling.performed += instance.OnGrappling;
             @Grappling.canceled += instance.OnGrappling;
+            @Swinging.started += instance.OnSwinging;
+            @Swinging.performed += instance.OnSwinging;
+            @Swinging.canceled += instance.OnSwinging;
         }
 
         /// <summary>
@@ -625,6 +654,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Grappling.started -= instance.OnGrappling;
             @Grappling.performed -= instance.OnGrappling;
             @Grappling.canceled -= instance.OnGrappling;
+            @Swinging.started -= instance.OnSwinging;
+            @Swinging.performed -= instance.OnSwinging;
+            @Swinging.canceled -= instance.OnSwinging;
         }
 
         /// <summary>
@@ -742,5 +774,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnGrappling(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Swinging" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSwinging(InputAction.CallbackContext context);
     }
 }

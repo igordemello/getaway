@@ -948,6 +948,7 @@ MonoBehaviour:
   sensY: 10
   orientation: {fileID: 1070219148}
   camHolder: {fileID: 562439713}
+  rotateCamByInputX: 5
 --- !u!114 &330162597
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3830,6 +3831,117 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1662619776}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1774113950
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1774113954}
+  - component: {fileID: 1774113953}
+  - component: {fileID: 1774113952}
+  - component: {fileID: 1774113951}
+  m_Layer: 0
+  m_Name: Sphere
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!135 &1774113951
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1774113950}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!23 &1774113952
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1774113950}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 594ea882c5a793440b60ff72d896021e, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1774113953
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1774113950}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1774113954
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1774113950}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.31686, y: 0.84, z: 3.67}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1849740627
 GameObject:
   m_ObjectHideFlags: 0
@@ -4403,6 +4515,7 @@ GameObject:
   - component: {fileID: 2119326519}
   - component: {fileID: 2119326520}
   - component: {fileID: 2119326521}
+  - component: {fileID: 2119326522}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -4471,6 +4584,7 @@ MonoBehaviour:
   sprintSpeed: 12
   wallrunSpeed: 8.5
   climbSpeed: 3
+  swingingSpeed: 0
   dashSpeed: 35
   maxYSpeed: 0
   groundDrag: 5
@@ -4506,6 +4620,7 @@ MonoBehaviour:
   unlimited: 0
   restricted: 0
   activeGrapple: 0
+  swinging: 0
 --- !u!114 &2119326517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4646,6 +4761,33 @@ MonoBehaviour:
   grappleDelayTime: 0.25
   overshootYAxis: 2
   grapplingCd: 1
+--- !u!114 &2119326522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2119326512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 614391bdb937f3047952cfd53d86a1db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Swinging
+  lr: {fileID: 963809380}
+  gunTip: {fileID: 1489350205}
+  cam: {fileID: 330162592}
+  player: {fileID: 2119326513}
+  whatIsGrappleable:
+    serializedVersion: 2
+    m_Bits: 32768
+  pm: {fileID: 2119326515}
+  orientation: {fileID: 1070219148}
+  rb: {fileID: 2119326514}
+  horizontalThrustForce: 1000
+  forwardThrustForce: 2000
+  extendCableSpeed: 1000000
+  predictionSphereCastRadius: 3
+  predictionPoint: {fileID: 1774113954}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -4660,3 +4802,4 @@ SceneRoots:
   - {fileID: 1478816964}
   - {fileID: 392551590}
   - {fileID: 1895542471}
+  - {fileID: 1774113954}
