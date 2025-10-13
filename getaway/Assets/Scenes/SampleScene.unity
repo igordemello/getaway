@@ -4982,7 +4982,7 @@ MonoBehaviour:
   maxWallLookAngle: 30
   minWallNormalAgleChange: 5
   exitingWall: 0
-  exitWallTime: 0.2
+  exitWallTime: 0.1
 --- !u!114 &2119326519
 MonoBehaviour:
   m_ObjectHideFlags: 0

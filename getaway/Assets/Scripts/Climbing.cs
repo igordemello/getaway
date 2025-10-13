@@ -122,6 +122,7 @@ public class Climbing : MonoBehaviour
         if (wallFront && jumpInput && climbJumpsLeft > 0)
         {
             ClimbJump();
+            jumpInput = false;
         }
     }
 
