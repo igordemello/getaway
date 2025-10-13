@@ -60,7 +60,6 @@ public class PlayerCam : MonoBehaviour
         camHolder.rotation = Quaternion.Euler(xRotation, yRotation, 0);
         orientation.rotation = Quaternion.Euler(0, yRotation, 0);
 
-        Debug.Log(moveInput.x);
         
         float targetTilt = moveInput.x * -rotateCamByInputX;
         currentTilt = Mathf.Lerp(currentTilt, targetTilt, Time.deltaTime * 5f);
