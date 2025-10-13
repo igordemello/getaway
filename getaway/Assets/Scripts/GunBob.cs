@@ -11,10 +11,13 @@ public class GunBob : MonoBehaviour
     public float walkBobAmount = 0.015f;
     public float sprintBobAmount = 0.03f;
     public float crouchBobAmount = 0.01f;
+    public float slidingBobAmount = 0.03f;
 
     public float walkBobSpeed = 8f;
     public float sprintBobSpeed = 13f;
     public float crouchBobSpeed = 5f;
+    public float slidingBobSpeed = 13f;
+
 
     [Header("Return")]
     public float smoothReturn = 6f;
@@ -58,6 +61,11 @@ public class GunBob : MonoBehaviour
             case PlayerMovement.MovementState.sprinting:
                 bobSpeed = sprintBobSpeed;
                 bobAmount = sprintBobAmount;
+                break;
+
+            case PlayerMovement.MovementState.sliding:
+                bobSpeed = slidingBobSpeed;
+                bobAmount = slidingBobAmount;
                 break;
 
             case PlayerMovement.MovementState.crouching:

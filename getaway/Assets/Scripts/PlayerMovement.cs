@@ -70,6 +70,13 @@ public class PlayerMovement : MonoBehaviour
 
     public MovementState state;
 
+    private float speedTransitionRate = 5f;
+
+    [Header("Speed Transition Rates")]
+    public float speedTransitionRateSprintToSlide = 2f;
+    public float speedTransitionRateWalkToSprint = 6f;
+    public float speedTransitionRateDefault = 5f;
+
     public enum MovementState
     {
         walking,
@@ -80,7 +87,8 @@ public class PlayerMovement : MonoBehaviour
         dashing,
         air,
         unlimited,
-        freeze
+        freeze,
+        sliding,
     }
 
     public bool wallrunning;
@@ -159,6 +167,7 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         MovePlayer();
+        Debug.Log(state);
     }
 
     private void MyInput()
@@ -186,7 +195,7 @@ public class PlayerMovement : MonoBehaviour
             cameraPos.localPosition = new Vector3(cameraPos.localPosition.x, crouchCameraY, cameraPos.localPosition.z);
         }
         // stop crounch
-        else if (!crouchInput && state == MovementState.crouching)
+        else if (!crouchInput && (state == MovementState.crouching || state == MovementState.sliding))
         {
             transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
             rb.AddForce(Vector3.up * 5f, ForceMode.Impulse);
@@ -267,22 +276,52 @@ public class PlayerMovement : MonoBehaviour
         // Mode - crouching
         if (crouchInput)
         {
-            state = MovementState.crouching;
-            desiredMoveSpeed = crouchSpeed;
+            if (state == MovementState.sprinting && !(lastDesiredMoveSpeed > desiredMoveSpeed))
+            {
+                state = MovementState.sliding;
+                desiredMoveSpeed = crouchSpeed;
+            }
+            else
+            {
+                state = MovementState.crouching;
+                desiredMoveSpeed = crouchSpeed;
+            }
         }
 
         // check if desiredMoveSpeed has changed drastically
         if(Mathf.Abs(desiredMoveSpeed - lastDesiredMoveSpeed) > 4f && moveSpeed != 0)
         {
             StopAllCoroutines();
+
+            // Controla o tempo de transição de acordo com o estado atual e o próximo
+            if (state == MovementState.sliding && lastDesiredMoveSpeed > desiredMoveSpeed)
+                speedTransitionRate = speedTransitionRateSprintToSlide; // quanto menor mais dura o slide
+            else if (state == MovementState.sprinting && lastDesiredMoveSpeed < desiredMoveSpeed)
+                speedTransitionRate = speedTransitionRateWalkToSprint; // acelera mais rápido ao começar a correr
+            else
+                speedTransitionRate = speedTransitionRateDefault; // padrão
+
             StartCoroutine(SmoothlyLerpMoveSpeed());
         }
         else
         {
             moveSpeed = desiredMoveSpeed;
         }
+        
 
-            lastDesiredMoveSpeed = desiredMoveSpeed;
+        if (state == MovementState.sliding)
+        {
+            Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+
+            if (flatVel.magnitude <= crouchSpeed + 0.1f)
+            {
+                state = MovementState.crouching;
+                desiredMoveSpeed = crouchSpeed;
+            }
+        }
+
+
+        lastDesiredMoveSpeed = desiredMoveSpeed;
     }
 
     private IEnumerator SmoothlyLerpMoveSpeed()
@@ -292,12 +331,13 @@ public class PlayerMovement : MonoBehaviour
         float difference = Mathf.Abs(desiredMoveSpeed - moveSpeed);
         float startValue = moveSpeed;
 
-        float lerpSpeed = 5f; // aumentar isso para diminuir o tempo entre a velocidade normal e a velocidade de corrida
+        //float lerpSpeed = 5f; // aumentar isso para diminuir o tempo entre a velocidade normal e a velocidade de corrida
 
         while (time < difference)
         {
             moveSpeed = Mathf.Lerp(startValue, desiredMoveSpeed, time / difference);
-            time += Time.deltaTime * lerpSpeed;
+            //time += Time.deltaTime * lerpSpeed;
+            time += Time.deltaTime * speedTransitionRate;
             yield return null;
         }
     }

@@ -1,12 +1,20 @@
 using UnityEngine;
+using static PlayerMovement;
 public class GunSway : MonoBehaviour {
     [Header("Sway Settings")]
     [SerializeField] private float smooth; 
     [SerializeField] private float swayMultiplier; 
     public float maxSway = 10f;
     private PlayerControls controls; 
-    private Vector2 lookInput; 
-    
+    private Vector2 lookInput;
+
+    [Header("References")]
+    public PlayerMovement pm;
+
+    [Header("Weapon Slide Rotation X")]
+    public float rotationOffsetSlide = 32f;
+
+
     private void Awake() 
     { 
         controls = new PlayerControls(); 
@@ -25,7 +33,14 @@ public class GunSway : MonoBehaviour {
         mouseY = Mathf.Clamp(mouseY, -maxSway, maxSway);
 
         lookInput = Vector2.ClampMagnitude(lookInput, 1f);
-        Quaternion rotationX = Quaternion.AngleAxis(-mouseY, Vector3.right); 
+        Quaternion rotationX = Quaternion.AngleAxis(-mouseY, Vector3.right);
+
+
+        if (pm.state == MovementState.sliding)
+        {
+            rotationX *= Quaternion.Euler(-rotationOffsetSlide, 0f, 0f);
+        }
+
         Quaternion rotationY = Quaternion.AngleAxis(mouseX, Vector3.up); 
         Quaternion targetRotation = rotationX * rotationY; 
         transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, smooth * Time.deltaTime); 

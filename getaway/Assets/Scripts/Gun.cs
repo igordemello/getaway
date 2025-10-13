@@ -1,9 +1,10 @@
 using DG.Tweening.Core.Easing;
+using System.Collections;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using System.Collections;
-using TMPro;
+using static PlayerMovement;
 
 public class Gun : MonoBehaviour
 {
@@ -119,7 +120,6 @@ public class Gun : MonoBehaviour
             return;
         }
 
-
         currentAmmo--;
 
         RaycastHit hit;
@@ -142,4 +142,5 @@ public class Gun : MonoBehaviour
         camRecoil?.Fire();
         gunRecoil?.Fire();
     }
+
 }

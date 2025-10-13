@@ -749,6 +749,8 @@ MonoBehaviour:
   smooth: 6
   swayMultiplier: 2
   maxSway: 20
+  pm: {fileID: 2119326515}
+  rotationOffsetSlide: 32
 --- !u!114 &313424420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -782,9 +784,11 @@ MonoBehaviour:
   walkBobAmount: 0.09
   sprintBobAmount: 0.12
   crouchBobAmount: 0.01
+  slidingBobAmount: 0.01
   walkBobSpeed: 10
   sprintBobSpeed: 15
   crouchBobSpeed: 5
+  slidingBobSpeed: 5
   smoothReturn: 4
 --- !u!1 &330162591
 GameObject:
@@ -4492,6 +4496,9 @@ MonoBehaviour:
   cam: {fileID: 330162596}
   rb: {fileID: 0}
   state: 0
+  speedTransitionRateSprintToSlide: 2
+  speedTransitionRateWalkToSprint: 6
+  speedTransitionRateDefault: 5
   wallrunning: 0
   climbing: 0
   dashing: 0
