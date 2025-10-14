@@ -73,8 +73,7 @@ public class Grappling : MonoBehaviour
 
        GetComponent<Swinging>().StopSwing();
         grappling = true;
-
-        pm.freeze = true;
+        //pm.freeze = true;
 
         RaycastHit hit;
         if (Physics.Raycast(cam.position, cam.forward, out hit, maxGrappleDistance, whatIsGrappleable))
