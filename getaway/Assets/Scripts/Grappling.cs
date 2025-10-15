@@ -61,36 +61,37 @@ public class Grappling : MonoBehaviour
 
     private void LateUpdate()
     {
-         if (grappling)
-            lr.enabled = true;
- 
-            lr.SetPosition(0, gunTip.position);
+        if (!grappling)
+            return; 
+
+        lr.SetPosition(0, gunTip.position);
+        lr.SetPosition(1, grapplePoint);
     }
 
     private void StartGrapple()
     {
         if (grapplingCdTimer > 0) return;
 
-       GetComponent<Swinging>().StopSwing();
+        GetComponent<Swinging>().StopSwing();
         grappling = true;
         //pm.freeze = true;
-
         RaycastHit hit;
         if (Physics.Raycast(cam.position, cam.forward, out hit, maxGrappleDistance, whatIsGrappleable))
         {
             grapplePoint = hit.point;
+            lr.enabled = true; 
+            lr.SetPosition(0, gunTip.position);
+            lr.SetPosition(1, grapplePoint);
 
             Invoke(nameof(ExecuteGrapple), grappleDelayTime);
         }
         else
         {
-            grapplePoint = cam.position + cam.forward * maxGrappleDistance;
-
-            Invoke(nameof(StopGrapple), grappleDelayTime);
+            
+            grappling = false;
+            lr.enabled = false;
+            return;
         }
-
-        lr.enabled = true;
-        lr.SetPosition(1, grapplePoint);
     }
 
     private void ExecuteGrapple()
