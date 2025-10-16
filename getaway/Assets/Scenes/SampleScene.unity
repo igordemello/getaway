@@ -5113,6 +5113,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 32768
   pm: {fileID: 2119326515}
+  maxSwingTime: 1
   orientation: {fileID: 1070219148}
   rb: {fileID: 2119326514}
   horizontalThrustForce: 1000

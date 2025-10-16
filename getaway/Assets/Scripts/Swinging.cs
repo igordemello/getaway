@@ -16,6 +16,11 @@ public class Swinging : MonoBehaviour
     private Vector3 swingPoint;
     private SpringJoint joint;
 
+    [Header("Swing Time Limit")]
+    [Tooltip("Tempo máximo (em segundos) que o jogador pode segurar a corda.")]
+    public float maxSwingTime = 3f;
+    private Coroutine swingTimerCoroutine;
+
     [Header("OdmGear")]
     public Transform orientation;
     public Rigidbody rb;
@@ -54,7 +59,7 @@ public class Swinging : MonoBehaviour
     private void Update()
     {
         // Entrada de Swing
-        if (swingingInput && joint == null)
+        if (swingingInput && joint == null && predictionHit.point != Vector3.zero)
             StartSwing();
         else if (!swingingInput && joint != null)
             StopSwing();
@@ -132,6 +137,9 @@ public class Swinging : MonoBehaviour
 
         lr.positionCount = 2;
         currentGrapplePosition = gunTip.position;
+
+        if (swingTimerCoroutine != null) StopCoroutine(swingTimerCoroutine);
+        swingTimerCoroutine = StartCoroutine(SwingTimeLimit());
     }
 
     public void StopSwing()
@@ -139,6 +147,19 @@ public class Swinging : MonoBehaviour
         pm.swinging = false;
         lr.positionCount = 0;
         if (joint != null) Destroy(joint);
+        if (swingTimerCoroutine != null)
+        {
+            StopCoroutine(swingTimerCoroutine);
+            swingTimerCoroutine = null;
+        }
+    }
+
+    private IEnumerator SwingTimeLimit()
+    {
+        yield return new WaitForSeconds(maxSwingTime);
+        swingTimerCoroutine = null;
+        swingingInput = false;
+        StopSwing();
     }
 
     private void OdmGearMovement()
@@ -151,7 +172,7 @@ public class Swinging : MonoBehaviour
 
     private void DrawRope()
     {
-        if (!joint) return;
+        if (!joint || lr.positionCount < 2) return;
 
         currentGrapplePosition = Vector3.Lerp(currentGrapplePosition, swingPoint, Time.deltaTime * 8f);
 
