@@ -43,10 +43,31 @@ public class Gun : MonoBehaviour
 
         controls.Player.Fire.performed += ctx => fireInput = true;
         controls.Player.Fire.canceled += ctx => fireInput = false;
+
+        if (animator != null)
+            animator.keepAnimatorStateOnDisable = true;
     }
 
-    private void OnEnable() => controls.Enable();
-    private void OnDisable() => controls.Disable();
+    private int lastStateHash;
+
+    private void OnDisable()
+    {
+        controls.Disable();
+        if (animator != null)
+            lastStateHash = animator.GetCurrentAnimatorStateInfo(0).shortNameHash;
+    }
+
+    private void OnEnable()
+    {
+        controls.Enable();
+        if (animator != null)
+        {
+            animator.keepAnimatorStateOnDisable = true;
+            //animator.Play(lastStateHash, 0, 0f); // reinicia a animação atual do começo
+            animator.Play("Idle", 0, 0f);
+            animator.Update(0); // aplica imediatamente
+        }
+    }
 
     private void Start()
     {
