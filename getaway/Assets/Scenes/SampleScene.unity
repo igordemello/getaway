@@ -5118,7 +5118,7 @@ MonoBehaviour:
   rb: {fileID: 2119326514}
   horizontalThrustForce: 1000
   forwardThrustForce: 2000
-  extendCableSpeed: 1000
+  extendCableSpeed: 1e+15
   predictionSphereCastRadius: 1
   predictionPoint: {fileID: 1938174276}
 --- !u!1660057539 &9223372036854775807

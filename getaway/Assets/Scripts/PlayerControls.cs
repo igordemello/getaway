@@ -188,7 +188,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""id"": ""63d2268c-d15f-4d4e-abb7-c29879cd1129"",
                     ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": ""Press"",
+                    ""interactions"": ""Press(pressPoint=0.2)"",
                     ""initialStateCheck"": false
                 },
                 {
@@ -197,7 +197,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""id"": ""addb36da-3c87-4739-ae6d-ca72ff0014f8"",
                     ""expectedControlType"": """",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Hold"",
                     ""initialStateCheck"": false
                 },
                 {
@@ -379,8 +379,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""527f5a86-823d-46ec-bafc-1a16a53951fc"",
-                    ""path"": ""<Keyboard>/f"",
-                    ""interactions"": ""Hold"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": ""Hold(duration=1,pressPoint=4)"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Swinging"",
