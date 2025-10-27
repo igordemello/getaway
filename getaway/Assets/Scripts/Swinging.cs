@@ -128,7 +128,7 @@ public class Swinging : MonoBehaviour
 
         float distanceFromPoint = Vector3.Distance(player.position, swingPoint);
 
-        joint.maxDistance = distanceFromPoint * 0.8f;
+        joint.maxDistance = distanceFromPoint * 0.5f;
         joint.minDistance = distanceFromPoint * 0.25f;
 
         joint.spring = 4.5f;
