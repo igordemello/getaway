@@ -3217,7 +3217,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1070219148}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Orientation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4477,14 +4477,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aa197fc91afb6b409e1d0b77e07bbd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBehavior
-  direction: {fileID: 0}
   Agent: {fileID: 1895542474}
-  player: {fileID: 2119326513}
-  recognitionRange: 0
+  enemy: {fileID: 1895542471}
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 2048
+  recognitionRange: 25
   soundRange: 0
-  searching: 0
-  patrol: 0
-  aggro: 0
+  recognitionCd: 3
+  OffAggroCd: 2
+  OffPatrolCd: 2
+  currState: 0
 --- !u!195 &1895542474
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -4627,7 +4630,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1948691741}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: CameraPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4956,7 +4959,7 @@ GameObject:
   - component: {fileID: 2119326520}
   - component: {fileID: 2119326521}
   - component: {fileID: 2119326522}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
