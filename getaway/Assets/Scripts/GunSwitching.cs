@@ -7,6 +7,9 @@ public class GunSwitching : MonoBehaviour
     private PlayerControls controls;
     private float scrollInput;
 
+    private float switchCooldown = 0.4f;
+    private bool canSwitch = true;
+
     private void Awake()
     {
         controls = new PlayerControls();
@@ -25,7 +28,7 @@ public class GunSwitching : MonoBehaviour
 
     void Update()
     {
-        
+        if (!canSwitch) return;
 
         int previousSelectedWeapon = selectedWeapon;
 
@@ -58,7 +61,15 @@ public class GunSwitching : MonoBehaviour
         if (previousSelectedWeapon != selectedWeapon)
         {
             SelectWeapon();
+            StartCoroutine(SwitchCooldown());
         }
+    }
+
+    private System.Collections.IEnumerator SwitchCooldown()
+    {
+        canSwitch = false;
+        yield return new WaitForSeconds(switchCooldown);
+        canSwitch = true;
     }
 
     void SelectWeapon()
