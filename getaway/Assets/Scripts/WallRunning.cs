@@ -161,8 +161,8 @@ public class WallRunningAdvanced : MonoBehaviour
 
         // apply camera effects
         cam.DoFov(70f);
-        if (wallLeft) cam.DoTilt(0f,0f,-5f);
-        if (wallRight) cam.DoTilt(0f,0f,5f);
+        if (wallLeft) cam.moveInput.x = 1;
+        if (wallRight) cam.moveInput.x = -1;
     }
 
     private void WallRunningMovement()
@@ -200,7 +200,7 @@ public class WallRunningAdvanced : MonoBehaviour
 
         // reset camera effects
         cam.DoFov(60f);
-        cam.DoTilt(0f,0f,0f);
+        cam.moveInput.x = 0;
     }
 
     private void WallJump()
