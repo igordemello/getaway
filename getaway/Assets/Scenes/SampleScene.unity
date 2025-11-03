@@ -910,7 +910,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.2
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -946,6 +946,7 @@ MonoBehaviour:
   sensY: 10
   orientation: {fileID: 1070219148}
   camHolder: {fileID: 562439713}
+  moveInput: {x: 0, y: 0}
   rotateCamByInputX: 5
 --- !u!114 &330162597
 MonoBehaviour:
@@ -4487,6 +4488,9 @@ MonoBehaviour:
   recognitionCd: 3
   OffAggroCd: 2
   OffPatrolCd: 2
+  searchRadius: 10
+  searchPoints: 6
+  waitAtPoint: 1
   currState: 0
 --- !u!195 &1895542474
 NavMeshAgent:
@@ -5028,7 +5032,7 @@ MonoBehaviour:
   wallrunSpeed: 8.5
   climbSpeed: 3
   swingingSpeed: 0
-  dashSpeed: 35
+  dashSpeed: 25
   maxYSpeed: 0
   groundDrag: 5
   jumpForce: 12
@@ -5140,15 +5144,15 @@ MonoBehaviour:
   playerCam: {fileID: 330162592}
   dashForce: 20
   dashUpwardForce: 0
-  maxDashYSpeed: 15
-  dashDuration: 0.75
+  maxDashYSpeed: 0
+  dashDuration: 0.25
   cam: {fileID: 330162596}
-  dashFov: 70
-  useCameraForward: 1
+  dashFov: 85
+  useCameraForward: 0
   allowAllDirections: 1
-  disableGravity: 1
+  disableGravity: 0
   resetVel: 1
-  dashCd: 1
+  dashCd: 1.5
 --- !u!114 &2119326520
 MonoBehaviour:
   m_ObjectHideFlags: 0

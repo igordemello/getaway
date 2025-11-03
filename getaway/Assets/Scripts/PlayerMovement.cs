@@ -350,8 +350,9 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void MovePlayer()
-
     {
+        if (dashing) return;
+
         if (activeGrapple) return;
 
         if (swinging) return;
@@ -396,6 +397,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void SpeedControl()
     {
+        if (dashing) return;
+
         if (activeGrapple) return;
         // limiting speed on slope
         if (OnSlope() && !exitingSlope)
