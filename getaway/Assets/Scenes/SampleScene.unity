@@ -5032,7 +5032,7 @@ MonoBehaviour:
   wallrunSpeed: 8.5
   climbSpeed: 3
   swingingSpeed: 0
-  dashSpeed: 25
+  dashSpeed: 20
   maxYSpeed: 0
   groundDrag: 5
   jumpForce: 12
@@ -5142,7 +5142,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Dashing
   orientation: {fileID: 1070219148}
   playerCam: {fileID: 330162592}
-  dashForce: 20
+  dashForce: 60
   dashUpwardForce: 0
   maxDashYSpeed: 0
   dashDuration: 0.25
