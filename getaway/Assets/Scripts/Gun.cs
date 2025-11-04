@@ -38,8 +38,6 @@ public class Gun : MonoBehaviour
     private bool fireInput;
     private float nextTimeToFire = 0f;
 
-    private Queue<GameObject> impactPool = new Queue<GameObject>();
-    private int impactPoolSize = 50;
 
     private void Awake()
     {
@@ -79,13 +77,6 @@ public class Gun : MonoBehaviour
         if (camRecoil != null)
         {
             camRecoil.SetRecoilSettings(recoilRotationSpeed, recoilReturnSpeed, recoilAmount);
-        }
-
-        for (int i = 0; i < impactPoolSize; i++)
-        {
-            GameObject obj = Instantiate(impact);
-            obj.SetActive(false);
-            impactPool.Enqueue(obj);
         }
     }
 
@@ -166,14 +157,8 @@ public class Gun : MonoBehaviour
                 target.TakeDamage(damage);
             }
 
-            GameObject impactGO = GetImpactFromPool();
-            if (impactGO != null)
-            {
-                impactGO.transform.position = hit.point;
-                impactGO.transform.rotation = Quaternion.LookRotation(hit.normal);
-                impactGO.SetActive(true);
-                StartCoroutine(ReturnImpactToPool(impactGO, 1f));
-            }
+            GameObject impactGO = Instantiate(impact, hit.point, Quaternion.LookRotation(hit.normal));
+            Destroy(impactGO,1f);
         }
 
         muzzle.Play();
@@ -181,26 +166,5 @@ public class Gun : MonoBehaviour
         gunRecoil.Fire();
     }
 
-    GameObject GetImpactFromPool()
-    {
-        if (impactPool.Count > 0)
-        {
-            GameObject obj = impactPool.Dequeue();
-            return obj;
-        }
-        else
-        {
-            GameObject obj = Instantiate(impact);
-            obj.SetActive(false);
-            return obj;
-        }
-    }
-
-    IEnumerator ReturnImpactToPool(GameObject obj, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        obj.SetActive(false);
-        impactPool.Enqueue(obj);
-    }
 
 }
