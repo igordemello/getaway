@@ -22,9 +22,9 @@ public class EnemyBehavior : MonoBehaviour
     public float recognitionCd = 0.15f;
 
     [Header("Hearing Settings")]
-    public float hearingRange = 18f; // alcance base de audição
-    public float hearingSensitivity = 0.3f; // quanto mais baixo, mais fácil ele ouve
-    public float directAggroThreshold = 0.8f; // som muito alto deixa o inimigo em aggro direto
+    public float hearingRange = 18f; 
+    public float hearingSensitivity = 0.3f; 
+    public float directAggroThreshold = 0.8f; 
 
     [Header("Search / Timers")]
     public float offAggroCd = 1f;
@@ -57,14 +57,11 @@ public class EnemyBehavior : MonoBehaviour
 
     void Update()
     {
-        Recognition(); // visão
-        Hear();        // audição
+        Recognition(); 
+        Hear();        
         StateHandler();
     }
 
-    // ---------------------------------------------
-    // VISÃO DO INIMIGO
-    // ---------------------------------------------
     void Recognition()
     {
         canSeePlayer = false;
@@ -74,7 +71,6 @@ public class EnemyBehavior : MonoBehaviour
 
         if (hits.Length == 0)
         {
-            // fallback por tag
             Collider[] all = Physics.OverlapSphere(enemy.position, recognitionRange);
             foreach (var c in all)
             {
@@ -137,10 +133,6 @@ public class EnemyBehavior : MonoBehaviour
             recognitionTimer = 0f;
         }
     }
-
-    // ---------------------------------------------
-    // AUDIÇÃO DO INIMIGO
-    // ---------------------------------------------
     void Hear()
     {
         Collider[] sounds = Physics.OverlapSphere(enemy.position, hearingRange);
@@ -172,17 +164,11 @@ public class EnemyBehavior : MonoBehaviour
                         if (!isSearching)
                             StartCoroutine(SearchNearby(LastPlayerPosition));
                     }
-
-                    // só reage a um som por frame
                     break;
                 }
             }
         }
     }
-
-    // ---------------------------------------------
-    // CONTROLE DE ESTADOS
-    // ---------------------------------------------
     void StateHandler()
     {
         float targetSpeed = patrolVelocity;
@@ -232,9 +218,6 @@ public class EnemyBehavior : MonoBehaviour
             Agent.speed = Mathf.Lerp(Agent.speed, targetSpeed, Time.deltaTime * speedSmooth);
     }
 
-    // ---------------------------------------------
-    // LÓGICA DE PROCURA (SEARCH)
-    // ---------------------------------------------
     IEnumerator SearchNearby(Vector3 center)
     {
         isSearching = true;
@@ -282,18 +265,13 @@ public class EnemyBehavior : MonoBehaviour
         return points;
     }
 
-    // ---------------------------------------------
-    // DEBUG VISUAL
-    // ---------------------------------------------
     void OnDrawGizmos()
     {
         if (enemy == null) enemy = transform;
 
-        // Raio de visão
         Gizmos.color = canSeePlayer ? Color.green : Color.yellow;
         Gizmos.DrawWireSphere(enemy.position, recognitionRange);
 
-        // Cone de visão
         Vector3 eyePos = enemy.position + Vector3.up * eyeHeight;
         Vector3 leftBoundary = Quaternion.Euler(0, -visionAngle * 0.5f, 0) * enemy.forward;
         Vector3 rightBoundary = Quaternion.Euler(0, visionAngle * 0.5f, 0) * enemy.forward;
@@ -302,7 +280,6 @@ public class EnemyBehavior : MonoBehaviour
         Gizmos.DrawRay(eyePos, leftBoundary * recognitionRange);
         Gizmos.DrawRay(eyePos, rightBoundary * recognitionRange);
 
-        // Raio de audição
         Gizmos.color = new Color(1f, 0.5f, 0f, 0.3f);
         Gizmos.DrawWireSphere(enemy.position, hearingRange);
     }

@@ -6,7 +6,7 @@ public class SoundSource : MonoBehaviour
     public float soundCd = 1f;
     private float soundTimer = 0f;
     public bool isActive = false;
-    public float activeDuration = 0.2f; // tempo que o som permanece ativo
+    public float activeDuration = 0.2f;
 
     void Update()
     {
