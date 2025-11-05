@@ -4490,13 +4490,17 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2048
   recognitionRange: 25
-  soundRange: 0
+  visionAngle: 60
   recognitionCd: 3
-  OffAggroCd: 2
-  OffPatrolCd: 2
+  offAggroCd: 1
+  offSearchingCd: 3
   searchRadius: 10
   searchPoints: 6
   waitAtPoint: 1
+  aggroVelocity: 7
+  patrolVelocity: 5
+  searchingVelocity: 3
+  speedSmooth: 3
   currState: 0
 --- !u!195 &1895542474
 NavMeshAgent:
@@ -4969,6 +4973,7 @@ GameObject:
   - component: {fileID: 2119326520}
   - component: {fileID: 2119326521}
   - component: {fileID: 2119326522}
+  - component: {fileID: 2119326523}
   m_Layer: 11
   m_Name: Player
   m_TagString: Untagged
@@ -5242,6 +5247,18 @@ MonoBehaviour:
   extendCableSpeed: 1e+15
   predictionSphereCastRadius: 1
   predictionPoint: {fileID: 1938174276}
+--- !u!114 &2119326523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2119326512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25d23dbec6aba6f48a0bcd4f346d9d61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoundSource
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
