@@ -8,24 +8,29 @@ public class EnemyBehavior : MonoBehaviour
 {
     [Header("Components")]
     public NavMeshAgent Agent;
-    public Transform enemy; // pivot/transform do inimigo (pode ser o próprio transform)
+    public Transform enemy;
 
     [Header("Layers")]
     public LayerMask whatIsPlayer;
-    public LayerMask visionBlockMask; // camadas que bloqueiam visão (ex: Default, Environment)
+    public LayerMask visionBlockMask;
 
-    [Header("Vision")]
+    [Header("Vision Settings")]
     public float recognitionRange = 15f;
     [Range(10, 180)] public float visionAngle = 90f;
-    public float eyeHeight = 1.6f; // origem do raycast (olhos)
-    public float playerEyeOffset = 1f; // ponto aproximado no jogador
-    public float recognitionCd = 0.15f; // tempo para confirmar visão (pode ser 0 para instantâneo)
+    public float eyeHeight = 1.6f;
+    public float playerEyeOffset = 1f;
+    public float recognitionCd = 0.15f;
+
+    [Header("Hearing Settings")]
+    public float hearingRange = 18f; // alcance base de audição
+    public float hearingSensitivity = 0.3f; // quanto mais baixo, mais fácil ele ouve
+    public float directAggroThreshold = 0.8f; // som muito alto deixa o inimigo em aggro direto
 
     [Header("Search / Timers")]
     public float offAggroCd = 1f;
     public float offSearchingCd = 3f;
 
-    [Header("Movement speeds")]
+    [Header("Movement Speeds")]
     public float aggroVelocity = 7f;
     public float patrolVelocity = 4f;
     public float searchingVelocity = 3f;
@@ -36,51 +41,51 @@ public class EnemyBehavior : MonoBehaviour
     private bool canSeePlayer = false;
     private float recognitionTimer = 0f;
     private float offAggroTimer = 0f;
+    private bool isSearching = false;
 
     public enum EnemyState { patrol, searching, aggro }
     public EnemyState currState = EnemyState.patrol;
-
-    private bool isSearching = false;
 
     void Start()
     {
         if (enemy == null) enemy = transform;
         if (Agent == null) Agent = GetComponent<NavMeshAgent>();
+
         Agent.updateRotation = true;
         currState = EnemyState.patrol;
     }
 
     void Update()
     {
-        Recognition();
+        Recognition(); // visão
+        Hear();        // audição
         StateHandler();
     }
 
+    // ---------------------------------------------
+    // VISÃO DO INIMIGO
+    // ---------------------------------------------
     void Recognition()
     {
-        // reset
         canSeePlayer = false;
         seenPlayer = null;
 
-        // 1) detecta colliders de jogador no raio
         Collider[] hits = Physics.OverlapSphere(enemy.position, recognitionRange, whatIsPlayer);
 
         if (hits.Length == 0)
         {
-            // fallback por tag (ajuda se layer estiver errada)
+            // fallback por tag
             Collider[] all = Physics.OverlapSphere(enemy.position, recognitionRange);
             foreach (var c in all)
             {
                 if (c != null && c.CompareTag("Player"))
                 {
                     hits = new Collider[] { c };
-                    Debug.Log("[Enemy] Fallback: encontrou Player por tag.");
                     break;
                 }
             }
         }
 
-        // 2) para cada candidato, checa ângulo e linha de visão
         foreach (var h in hits)
         {
             if (h == null) continue;
@@ -88,22 +93,17 @@ public class EnemyBehavior : MonoBehaviour
             Vector3 dirToTarget = (h.transform.position - enemy.position);
             float distance = dirToTarget.magnitude;
             Vector3 dirNorm = dirToTarget.normalized;
-
             float angle = Vector3.Angle(enemy.forward, dirNorm);
-            Debug.DrawRay(enemy.position + Vector3.up * eyeHeight, dirNorm * Mathf.Min(distance, recognitionRange), Color.cyan);
 
             if (angle <= visionAngle * 0.5f)
             {
-                // Raycast do "olho" até o ponto aproximado do jogador
                 Vector3 eyePos = enemy.position + Vector3.up * eyeHeight;
                 Vector3 targetPos = h.transform.position + Vector3.up * playerEyeOffset;
                 Vector3 rayDir = (targetPos - eyePos).normalized;
                 float rayDist = Vector3.Distance(eyePos, targetPos);
 
-                // Raycast com mask de bloqueio — se não atingir nada ou primeiro hit for o jogador, visão ok
                 if (Physics.Raycast(eyePos, rayDir, out RaycastHit hit, rayDist + 0.05f, visionBlockMask))
                 {
-                    // se o primeiro hit for o próprio jogador (ou filho), ok
                     if (hit.collider.transform == h.transform || hit.collider.transform.IsChildOf(h.transform))
                     {
                         canSeePlayer = true;
@@ -111,15 +111,9 @@ public class EnemyBehavior : MonoBehaviour
                         LastPlayerPosition = seenPlayer.position;
                         break;
                     }
-                    else
-                    {
-                        // bloqueado por algo entre inimigo e jogador
-                        Debug.Log($"[Enemy] visão bloqueada por {hit.collider.name}");
-                    }
                 }
                 else
                 {
-                    // não houve hits na camada de bloqueio => visão limpa
                     canSeePlayer = true;
                     seenPlayer = h.transform;
                     LastPlayerPosition = seenPlayer.position;
@@ -128,7 +122,6 @@ public class EnemyBehavior : MonoBehaviour
             }
         }
 
-        // 3) confirmação gradual (pequeno delay para evitar flicker)
         if (canSeePlayer && seenPlayer != null)
         {
             recognitionTimer += Time.deltaTime;
@@ -137,7 +130,6 @@ public class EnemyBehavior : MonoBehaviour
                 recognitionTimer = 0f;
                 currState = EnemyState.aggro;
                 offAggroTimer = 0f;
-                Debug.Log("[Enemy] Viu o player -> AGGRO");
             }
         }
         else
@@ -146,6 +138,51 @@ public class EnemyBehavior : MonoBehaviour
         }
     }
 
+    // ---------------------------------------------
+    // AUDIÇÃO DO INIMIGO
+    // ---------------------------------------------
+    void Hear()
+    {
+        Collider[] sounds = Physics.OverlapSphere(enemy.position, hearingRange);
+
+        foreach (var s in sounds)
+        {
+            SoundSource source = s.GetComponent<SoundSource>();
+            if (source != null && source.isActive)
+            {
+                float distance = Vector3.Distance(enemy.position, source.transform.position);
+                float perceivedVolume = source.volume / Mathf.Max(1f, distance);
+
+                if (perceivedVolume > hearingSensitivity)
+                {
+                    Debug.DrawLine(enemy.position + Vector3.up, source.transform.position, Color.yellow, 0.25f);
+                    Debug.Log($"[Enemy] Ouviu som de {s.name} com intensidade {perceivedVolume:F2}");
+
+                    LastPlayerPosition = source.transform.position;
+
+                    if (perceivedVolume > directAggroThreshold)
+                    {
+                        currState = EnemyState.aggro;
+                        offAggroTimer = 0f;
+                        Debug.Log("[Enemy] Som alto -> AGGRO!");
+                    }
+                    else if (currState == EnemyState.patrol)
+                    {
+                        currState = EnemyState.searching;
+                        if (!isSearching)
+                            StartCoroutine(SearchNearby(LastPlayerPosition));
+                    }
+
+                    // só reage a um som por frame
+                    break;
+                }
+            }
+        }
+    }
+
+    // ---------------------------------------------
+    // CONTROLE DE ESTADOS
+    // ---------------------------------------------
     void StateHandler()
     {
         float targetSpeed = patrolVelocity;
@@ -154,6 +191,7 @@ public class EnemyBehavior : MonoBehaviour
         {
             case EnemyState.aggro:
                 targetSpeed = aggroVelocity;
+
                 if (canSeePlayer && seenPlayer != null)
                 {
                     LastPlayerPosition = seenPlayer.position;
@@ -161,7 +199,7 @@ public class EnemyBehavior : MonoBehaviour
 
                     Vector3 lookDir = (seenPlayer.position - enemy.position).normalized;
                     if (lookDir != Vector3.zero)
-                        enemy.DORotateQuaternion(Quaternion.LookRotation(lookDir), 0.15f).SetEase(DG.Tweening.Ease.OutSine);
+                        enemy.DORotateQuaternion(Quaternion.LookRotation(lookDir), 0.15f).SetEase(Ease.OutSine);
                 }
                 else
                 {
@@ -194,6 +232,9 @@ public class EnemyBehavior : MonoBehaviour
             Agent.speed = Mathf.Lerp(Agent.speed, targetSpeed, Time.deltaTime * speedSmooth);
     }
 
+    // ---------------------------------------------
+    // LÓGICA DE PROCURA (SEARCH)
+    // ---------------------------------------------
     IEnumerator SearchNearby(Vector3 center)
     {
         isSearching = true;
@@ -241,12 +282,18 @@ public class EnemyBehavior : MonoBehaviour
         return points;
     }
 
+    // ---------------------------------------------
+    // DEBUG VISUAL
+    // ---------------------------------------------
     void OnDrawGizmos()
     {
         if (enemy == null) enemy = transform;
+
+        // Raio de visão
         Gizmos.color = canSeePlayer ? Color.green : Color.yellow;
         Gizmos.DrawWireSphere(enemy.position, recognitionRange);
 
+        // Cone de visão
         Vector3 eyePos = enemy.position + Vector3.up * eyeHeight;
         Vector3 leftBoundary = Quaternion.Euler(0, -visionAngle * 0.5f, 0) * enemy.forward;
         Vector3 rightBoundary = Quaternion.Euler(0, visionAngle * 0.5f, 0) * enemy.forward;
@@ -254,5 +301,9 @@ public class EnemyBehavior : MonoBehaviour
         Gizmos.color = new Color(0f, 1f, 1f, 0.6f);
         Gizmos.DrawRay(eyePos, leftBoundary * recognitionRange);
         Gizmos.DrawRay(eyePos, rightBoundary * recognitionRange);
+
+        // Raio de audição
+        Gizmos.color = new Color(1f, 0.5f, 0f, 0.3f);
+        Gizmos.DrawWireSphere(enemy.position, hearingRange);
     }
 }
