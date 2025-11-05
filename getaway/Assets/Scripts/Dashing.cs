@@ -57,7 +57,11 @@ public class Dashing : MonoBehaviour
     private void Update()
     {
         if (dashInput)
+        {
+            dashInput = false;
             Dash();
+        }
+        
 
         if (dashCdTimer > 0)
             dashCdTimer -= Time.deltaTime;
@@ -71,7 +75,6 @@ public class Dashing : MonoBehaviour
         pm.dashing = true;
         pm.maxYSpeed = maxDashYSpeed;
 
-        cam.DoFov(dashFov);
 
         Transform forwardT;
 
@@ -107,9 +110,6 @@ public class Dashing : MonoBehaviour
         pm.dashing = false;
         pm.maxYSpeed = 0;
 
-        cam.DoFov(60f);
-        cam.DoTilt(0f,0f,0f);
-
         if (disableGravity)
             rb.useGravity = true;
     }
@@ -128,23 +128,6 @@ public class Dashing : MonoBehaviour
 
         if (verticalInput == 0 && horizontalInput == 0)
             direction = forwardT.forward;
-
-        float xTilt = 0f;
-        float yTilt = 0f;
-        float zTilt = 0f;
-
-        
-        if (verticalInput < 0)
-            xTilt = -10f;
-        else if (verticalInput > 0)
-            xTilt = 10f;
-
-        if (horizontalInput < 0)
-            zTilt = 10f;
-        else if (horizontalInput > 0)
-            zTilt = -10f;
-
-        cam.DoTilt(xTilt, yTilt, zTilt);
 
         return direction.normalized;
     }

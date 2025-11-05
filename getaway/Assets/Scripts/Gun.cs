@@ -1,5 +1,6 @@
 using DG.Tweening.Core.Easing;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -36,6 +37,7 @@ public class Gun : MonoBehaviour
     private PlayerControls controls;
     private bool fireInput;
     private float nextTimeToFire = 0f;
+
 
     private void Awake()
     {
@@ -163,5 +165,6 @@ public class Gun : MonoBehaviour
         camRecoil.Fire();
         gunRecoil.Fire();
     }
+
 
 }

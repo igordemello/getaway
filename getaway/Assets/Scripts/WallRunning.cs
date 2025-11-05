@@ -122,11 +122,13 @@ public class WallRunningAdvanced : MonoBehaviour
 
             if (wallRunTimer <= 0 && pm.wallrunning)
             {
+
+                WallJump();
                 exitingWall = true;
                 exitWallTimer = exitWallTime;
             }
 
-            // wall jump
+            // wall jump por input
             if (jumpInput) WallJump();
         }
 
@@ -161,8 +163,8 @@ public class WallRunningAdvanced : MonoBehaviour
 
         // apply camera effects
         cam.DoFov(70f);
-        if (wallLeft) cam.DoTilt(0f,0f,-5f);
-        if (wallRight) cam.DoTilt(0f,0f,5f);
+        if (wallLeft) cam.moveInput.x = 1;
+        if (wallRight) cam.moveInput.x = -1;
     }
 
     private void WallRunningMovement()
@@ -200,7 +202,7 @@ public class WallRunningAdvanced : MonoBehaviour
 
         // reset camera effects
         cam.DoFov(60f);
-        cam.DoTilt(0f,0f,0f);
+        cam.moveInput.x = 0;
     }
 
     private void WallJump()
@@ -213,7 +215,18 @@ public class WallRunningAdvanced : MonoBehaviour
 
         Vector3 wallNormal = wallRight ? rightWallhit.normal : leftWallhit.normal;
 
-        Vector3 forceToApply = transform.up * wallJumpUpForce + wallNormal * wallJumpSideForce;
+        bool isAutoJump = wallRunTimer <= 0;
+
+        float upForce = wallJumpUpForce;
+        float sideForce = wallJumpSideForce;
+
+        if (isAutoJump)
+        {
+            upForce *= 1.5f;
+            sideForce *= 1.5f;
+        }
+
+        Vector3 forceToApply = transform.up * upForce + wallNormal * sideForce;
 
         // reset y velocity and add force
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);

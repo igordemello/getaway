@@ -15,7 +15,7 @@ public class PlayerCam : MonoBehaviour
 
     private PlayerControls controls;
     private Vector2 lookInput;
-    private Vector2 moveInput;
+    public Vector2 moveInput;
 
     private float lastMoveX;
 
@@ -60,7 +60,7 @@ public class PlayerCam : MonoBehaviour
         camHolder.rotation = Quaternion.Euler(xRotation, yRotation, 0);
         orientation.rotation = Quaternion.Euler(0, yRotation, 0);
 
-        
+
         float targetTilt = moveInput.x * -rotateCamByInputX;
         currentTilt = Mathf.Lerp(currentTilt, targetTilt, Time.deltaTime * 5f);
 
