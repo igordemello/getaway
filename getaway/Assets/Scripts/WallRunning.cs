@@ -122,11 +122,13 @@ public class WallRunningAdvanced : MonoBehaviour
 
             if (wallRunTimer <= 0 && pm.wallrunning)
             {
+                // MODIFICAÇÃO: Usar a lógica do WallJump quando o tempo acaba
+                WallJump(); // Isso já aplica o impulso na direção contrária
                 exitingWall = true;
                 exitWallTimer = exitWallTime;
             }
 
-            // wall jump
+            // wall jump por input
             if (jumpInput) WallJump();
         }
 
@@ -213,7 +215,18 @@ public class WallRunningAdvanced : MonoBehaviour
 
         Vector3 wallNormal = wallRight ? rightWallhit.normal : leftWallhit.normal;
 
-        Vector3 forceToApply = transform.up * wallJumpUpForce + wallNormal * wallJumpSideForce;
+        bool isAutoJump = wallRunTimer <= 0;
+
+        float upForce = wallJumpUpForce;
+        float sideForce = wallJumpSideForce;
+
+        if (isAutoJump)
+        {
+            upForce *= 1.5f;
+            sideForce *= 1.5f;
+        }
+
+        Vector3 forceToApply = transform.up * upForce + wallNormal * sideForce;
 
         // reset y velocity and add force
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
