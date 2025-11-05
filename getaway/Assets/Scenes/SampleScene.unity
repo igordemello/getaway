@@ -4234,6 +4234,53 @@ MonoBehaviour:
   camRecoil: {fileID: 330162597}
   gunRecoil: {fileID: 1685258944}
   muzzle: {fileID: 1496651813}
+--- !u!1 &1744955987
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1744955989}
+  - component: {fileID: 1744955990}
+  m_Layer: 11
+  m_Name: SoundSource
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1744955989
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1744955987}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2119326513}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1744955990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1744955987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77ba5c4062b303f4a97c06e413921bac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoundSource
+  volume: 1
+  Cd: 2
+  isActive: 0
 --- !u!1 &1849740627
 GameObject:
   m_ObjectHideFlags: 0
@@ -4489,14 +4536,14 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 2048
+  whatIsSoundSource:
+    serializedVersion: 2
+    m_Bits: 512
   recognitionRange: 25
   visionAngle: 60
-  recognitionCd: 3
-  offAggroCd: 1
-  offSearchingCd: 3
-  searchRadius: 10
-  searchPoints: 6
-  waitAtPoint: 1
+  soundRecognitionRange: 20
+  minSoundResponse: 0.3
+  soundAttentionTime: 3
   aggroVelocity: 7
   patrolVelocity: 5
   searchingVelocity: 3
@@ -4997,6 +5044,7 @@ Transform:
   - {fileID: 1403427285}
   - {fileID: 1070219148}
   - {fileID: 1948691741}
+  - {fileID: 1744955989}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &2119326514
@@ -5066,6 +5114,7 @@ MonoBehaviour:
   orientation: {fileID: 1070219148}
   climbingScript: {fileID: 2119326518}
   cam: {fileID: 330162596}
+  soundSource: {fileID: 0}
   rb: {fileID: 0}
   state: 0
   speedTransitionRateSprintToSlide: 2
@@ -5259,6 +5308,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25d23dbec6aba6f48a0bcd4f346d9d61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoundSource
+  volume: 0
+  Cd: 0
+  isActive: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
