@@ -1114,7 +1114,10 @@ MonoBehaviour:
   recoilPosition: {fileID: 349202685}
   positionalRecoilSpeed: 8
   positionalReturnSpeed: 18
+  rotationalRecoilSpeed: 8
+  rotationalReturnSpeed: 18
   RecoilKickBack: {x: 0.015, y: 0, z: -0.2}
+  RecoilRotation: {x: 5, y: 2, z: 2}
 --- !u!114 &349202688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2009,42 +2012,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 349202685}
     m_Modifications:
-    - target: {fileID: -8391222552659086748, guid: b5586ef1b0939b24084e0e7f2c80b2c7, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: -7640558969779515294, guid: b5586ef1b0939b24084e0e7f2c80b2c7, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: -7146521406498821007, guid: b5586ef1b0939b24084e0e7f2c80b2c7, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: -6733177361254619370, guid: b5586ef1b0939b24084e0e7f2c80b2c7, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: -5568371526223589888, guid: b5586ef1b0939b24084e0e7f2c80b2c7, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: -4683669308469848369, guid: b5586ef1b0939b24084e0e7f2c80b2c7, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: bb443f0b768e309468efa1f81c56c97f, type: 2}
-    - target: {fileID: -1599826595754709761, guid: b5586ef1b0939b24084e0e7f2c80b2c7, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 7202271454713460447, guid: b5586ef1b0939b24084e0e7f2c80b2c7, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: cfb81412eab817648b387025aae9a9a3, type: 2}
-    - target: {fileID: 8416272007918961125, guid: b5586ef1b0939b24084e0e7f2c80b2c7, type: 3}
-      propertyPath: m_Layer
-      value: 7
-      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: bb3e4c05b92708149852855af09f1212, type: 3}
       propertyPath: m_LocalScale.x
       value: 12
@@ -2100,7 +2067,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: bb3e4c05b92708149852855af09f1212, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 0175b32c928ff294a9656dc78058a01d, type: 2}
+      objectReference: {fileID: 2100000, guid: 066dfb5af0fb15f4ea392d28bfc7c6a1, type: 2}
     - target: {fileID: 919132149155446097, guid: bb3e4c05b92708149852855af09f1212, type: 3}
       propertyPath: m_Name
       value: Bow
@@ -2112,6 +2079,42 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: bb3e4c05b92708149852855af09f1212, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8391222552659086748, guid: b5586ef1b0939b24084e0e7f2c80b2c7, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -7640558969779515294, guid: b5586ef1b0939b24084e0e7f2c80b2c7, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -7146521406498821007, guid: b5586ef1b0939b24084e0e7f2c80b2c7, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -6733177361254619370, guid: b5586ef1b0939b24084e0e7f2c80b2c7, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -5568371526223589888, guid: b5586ef1b0939b24084e0e7f2c80b2c7, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -4683669308469848369, guid: b5586ef1b0939b24084e0e7f2c80b2c7, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: bb443f0b768e309468efa1f81c56c97f, type: 2}
+    - target: {fileID: -1599826595754709761, guid: b5586ef1b0939b24084e0e7f2c80b2c7, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7202271454713460447, guid: b5586ef1b0939b24084e0e7f2c80b2c7, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cfb81412eab817648b387025aae9a9a3, type: 2}
+    - target: {fileID: 8416272007918961125, guid: b5586ef1b0939b24084e0e7f2c80b2c7, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4607,8 +4610,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoundSource
   volume: 1
-  Cd: 2
+  soundCd: 1
   isActive: 0
+  activeDuration: 0.2
 --- !u!1 &1849740627
 GameObject:
   m_ObjectHideFlags: 0
@@ -4864,14 +4868,19 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 2048
-  whatIsSoundSource:
+  visionBlockMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 0
   recognitionRange: 25
   visionAngle: 60
-  soundRecognitionRange: 20
-  minSoundResponse: 0.3
-  soundAttentionTime: 3
+  eyeHeight: 1.6
+  playerEyeOffset: 1
+  recognitionCd: 0.15
+  hearingRange: 18
+  hearingSensitivity: 0.3
+  directAggroThreshold: 0.8
+  offAggroCd: 1
+  offSearchingCd: 3
   aggroVelocity: 7
   patrolVelocity: 5
   searchingVelocity: 3
@@ -5636,9 +5645,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25d23dbec6aba6f48a0bcd4f346d9d61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoundSource
-  volume: 0
-  Cd: 0
-  isActive: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

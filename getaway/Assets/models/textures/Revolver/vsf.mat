@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Revolver Grip
+  m_Name: vsf
   m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -29,11 +29,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 9e9e57ee1fb71544e9a4973506fcc804, type: 3}
+        m_Texture: {fileID: 2800000, guid: d5cd30c61042b1a4fb9adf08e448bc24, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 2800000, guid: 82780465fad76a245a9aaac7a3893329, type: 3}
+        m_Texture: {fileID: 2800000, guid: 3621b73504aaf224a85b3e34d0820329, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -49,15 +49,15 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 2800000, guid: 99984959e5cc8694b855e4d1af18ec9a, type: 3}
+        m_Texture: {fileID: 2800000, guid: 5e4b91abaaf1ae44397505d7f2d49919, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 9e9e57ee1fb71544e9a4973506fcc804, type: 3}
+        m_Texture: {fileID: 2800000, guid: d5cd30c61042b1a4fb9adf08e448bc24, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
-        m_Texture: {fileID: 2800000, guid: 541082df8627558408b37dbd303e0b0c, type: 3}
+        m_Texture: {fileID: 2800000, guid: 23a9d22dcdad2a34ea8a9c13f1d1520b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
