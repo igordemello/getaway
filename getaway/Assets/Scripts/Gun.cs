@@ -117,7 +117,6 @@ public class Gun : MonoBehaviour
     {
         if (currentAmmo <= 0)
         {
-            Debug.Log("Sem bala lerdao");
             yield break;
         }
 
@@ -139,7 +138,6 @@ public class Gun : MonoBehaviour
     {
         if (currentAmmo <= 0)
         {
-            Debug.Log("Sem bala lerdao");
             return;
         }
 
