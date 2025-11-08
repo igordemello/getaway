@@ -34,7 +34,7 @@ public class GunSwitching : MonoBehaviour
 
         if (scrollInput > 0f)
         {
-            Debug.Log("Entrou aqui SCROLL PRA CIMA");
+            //Debug.Log("Entrou aqui SCROLL PRA CIMA");
             
             if (selectedWeapon >= transform.childCount - 1)
             {
@@ -47,7 +47,7 @@ public class GunSwitching : MonoBehaviour
         }
         if (scrollInput < 0f)
         {
-            Debug.Log("Entrou aqui SCROLL PRA BAIXO");
+            //Debug.Log("Entrou aqui SCROLL PRA BAIXO");
             if (selectedWeapon <= 0)
             {
                 selectedWeapon = transform.childCount - 1;
