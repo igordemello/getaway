@@ -37,11 +37,17 @@ public class PlayerCam : MonoBehaviour
         controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
         controls.Player.Move.canceled += ctx => moveInput = Vector2.zero;
 
-        controls.Player.LeanLeft.performed += ctx => leanLeftInput = true;
-        controls.Player.LeanLeft.canceled += ctx => leanLeftInput = false;
+        controls.Player.LeanLeft.performed += ctx =>
+        {
+            leanLeftInput = !leanLeftInput;
+            if (leanLeftInput) leanRightInput = false;
+        };
 
-        controls.Player.LeanRight.performed += ctx => leanRightInput = true;
-        controls.Player.LeanRight.canceled += ctx => leanRightInput = false;
+        controls.Player.LeanRight.performed += ctx =>
+        {
+            leanRightInput = !leanRightInput;
+            if (leanRightInput) leanLeftInput = false;
+        };
     }
 
     private void OnEnable() => controls.Enable();
@@ -88,8 +94,9 @@ public class PlayerCam : MonoBehaviour
         }
 
         currentTilt = Mathf.Lerp(currentTilt, targetTilt, Time.deltaTime * 5f);
-
         camHolder.rotation = Quaternion.Euler(xRotation, yRotation, currentTilt);
+
+
         lastMoveX = moveInput.x;
     }
 

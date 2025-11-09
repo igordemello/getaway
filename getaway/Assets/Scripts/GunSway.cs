@@ -25,11 +25,17 @@ public class GunSway : MonoBehaviour {
         controls.Player.Look.performed += ctx => lookInput = ctx.ReadValue<Vector2>(); 
         controls.Player.Look.canceled += ctx => lookInput = Vector2.zero;
 
-        controls.Player.LeanLeft.performed += ctx => leanLeftInput = true;
-        controls.Player.LeanLeft.canceled += ctx => leanLeftInput = false;
+        controls.Player.LeanLeft.performed += ctx =>
+        {
+            leanLeftInput = !leanLeftInput;
+            if (leanLeftInput) leanRightInput = false;
+        };
 
-        controls.Player.LeanRight.performed += ctx => leanRightInput = true;
-        controls.Player.LeanRight.canceled += ctx => leanRightInput = false;
+        controls.Player.LeanRight.performed += ctx =>
+        {
+            leanRightInput = !leanRightInput;
+            if (leanRightInput) leanLeftInput = false;
+        };
     } 
     private void OnEnable() => controls.Enable(); 
     private void OnDisable() => controls.Disable();

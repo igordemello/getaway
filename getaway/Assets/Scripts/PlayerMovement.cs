@@ -105,6 +105,12 @@ public class PlayerMovement : MonoBehaviour
     public bool activeGrapple;
     public bool swinging;
 
+    //leaning
+    private bool leanLeftInput;
+    private bool leanRightInput;
+    private float smooth = 6;
+
+
     private void Awake()
     {
         controls = new PlayerControls();
@@ -120,6 +126,18 @@ public class PlayerMovement : MonoBehaviour
 
         controls.Player.Crouch.performed += ctx => crouchInput = true;
         controls.Player.Crouch.canceled += ctx => crouchInput = false;
+
+        controls.Player.LeanLeft.performed += ctx =>
+        {
+            leanLeftInput = !leanLeftInput;
+            if (leanLeftInput) leanRightInput = false;
+        };
+
+        controls.Player.LeanRight.performed += ctx =>
+        {
+            leanRightInput = !leanRightInput;
+            if (leanRightInput) leanLeftInput = false;
+        };
     }
 
     private void OnEnable() => controls.Enable();
@@ -167,11 +185,34 @@ public class PlayerMovement : MonoBehaviour
             rb.linearDamping = groundDrag;
         else
             rb.linearDamping = 0;
+
+
+        
+
     }
 
     private void FixedUpdate()
     {
         MovePlayer();
+
+        float leanZ = 0f;
+
+        if (leanLeftInput)
+        {
+            leanZ = 40f;
+        }
+        else if (leanRightInput)
+        {
+            leanZ = -40f;
+        }
+
+        Quaternion targetRotation = orientation.rotation * Quaternion.Euler(0f, 0f, leanZ);
+        Quaternion smoothed = Quaternion.Slerp(rb.rotation, targetRotation, smooth * Time.fixedDeltaTime);
+        rb.MoveRotation(smoothed);
+
+        //Quaternion targetRotation = orientation.rotation * Quaternion.Euler(0f, 0f, leanZ);
+
+        //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, smooth * Time.deltaTime);
     }
 
     private void MyInput()
