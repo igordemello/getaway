@@ -1,4 +1,0 @@
-repository "getaway/getaway@4673071489390@cloud"
-  path "/"
-    br "/main"
-    co "/main"
