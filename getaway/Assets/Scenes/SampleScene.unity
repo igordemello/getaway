@@ -4122,7 +4122,9 @@ MonoBehaviour:
   damage: 10
   range: 100
   fireRate: 1
-  maxAmmo: 100
+  maxAmmo: 10000
+  pellets: 30
+  spreadAngle: 15
   recoilRotationSpeed: 60
   recoilReturnSpeed: 10
   recoilAmount: {x: 4, y: 4, z: 4}
@@ -4666,6 +4668,8 @@ MonoBehaviour:
   range: 100
   fireRate: 0.5
   maxAmmo: 100
+  pellets: 8
+  spreadAngle: 8
   recoilRotationSpeed: 60
   recoilReturnSpeed: 10
   recoilAmount: {x: 4, y: 4, z: 4}
@@ -5676,8 +5680,8 @@ MonoBehaviour:
   orientation: {fileID: 1070219148}
   climbingScript: {fileID: 2119326518}
   cam: {fileID: 330162596}
-  soundSource: {fileID: 0}
-  rb: {fileID: 0}
+  soundSource: {fileID: 1744955990}
+  rb: {fileID: 2119326514}
   state: 0
   speedTransitionRateSprintToSlide: 2
   speedTransitionRateWalkToSprint: 6
@@ -5739,8 +5743,8 @@ MonoBehaviour:
   whatIsWall:
     serializedVersion: 2
     m_Bits: 16384
-  climbSpeed: 10
-  maxClimbTime: 5
+  climbSpeed: 3
+  maxClimbTime: 6
   climbJumpUpForce: 14
   climbJumpBackForce: 12
   climbJumps: 1
