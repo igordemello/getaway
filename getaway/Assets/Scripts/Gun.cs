@@ -190,7 +190,7 @@ public class Gun : MonoBehaviour
             direction += fpsCam.transform.right * Random.Range(-spreadAngle, spreadAngle) / 100f;
             direction.Normalize();
 
-            Debug.DrawRay(origin, direction * range, Color.yellow, 1f);
+            Debug.DrawRay(origin, direction * range, Color.yellow, 1f); // tirar essa merdinha dps, mas fds tbm, só da pra ver no editor msm
 
             RaycastHit hit;
             if (Physics.Raycast(origin, direction, out hit, range))

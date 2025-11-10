@@ -4123,6 +4123,8 @@ MonoBehaviour:
   range: 100
   fireRate: 1
   maxAmmo: 100
+  pellets: 0
+  spreadAngle: 0
   recoilRotationSpeed: 60
   recoilReturnSpeed: 10
   recoilAmount: {x: 4, y: 4, z: 4}
@@ -4666,6 +4668,8 @@ MonoBehaviour:
   range: 100
   fireRate: 0.5
   maxAmmo: 100
+  pellets: 0
+  spreadAngle: 0
   recoilRotationSpeed: 60
   recoilReturnSpeed: 10
   recoilAmount: {x: 4, y: 4, z: 4}
@@ -5739,8 +5743,8 @@ MonoBehaviour:
   whatIsWall:
     serializedVersion: 2
     m_Bits: 16384
-  climbSpeed: 10
-  maxClimbTime: 5
+  climbSpeed: 3
+  maxClimbTime: 6
   climbJumpUpForce: 14
   climbJumpBackForce: 12
   climbJumps: 1
@@ -5870,10 +5874,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25d23dbec6aba6f48a0bcd4f346d9d61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoundSource
-  volume: 1
-  soundCd: 1
-  isActive: 0
-  activeDuration: 0.2
 --- !u!114 &2119326524
 MonoBehaviour:
   m_ObjectHideFlags: 0
