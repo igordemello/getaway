@@ -206,13 +206,9 @@ public class PlayerMovement : MonoBehaviour
             leanZ = -40f;
         }
 
-        Quaternion targetRotation = orientation.rotation * Quaternion.Euler(0f, 0f, leanZ);
+        Quaternion targetRotation = orientation.rotation * Quaternion.Euler(1f, 1f, leanZ);
         Quaternion smoothed = Quaternion.Slerp(rb.rotation, targetRotation, smooth * Time.fixedDeltaTime);
         rb.MoveRotation(smoothed);
-
-        //Quaternion targetRotation = orientation.rotation * Quaternion.Euler(0f, 0f, leanZ);
-
-        //transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, smooth * Time.deltaTime);
     }
 
     private void MyInput()

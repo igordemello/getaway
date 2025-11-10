@@ -88,6 +88,6 @@ public class GunSway : MonoBehaviour {
         Vector3 targetPosition = initialLocalPosition + new Vector3(leanXOffset, 0f, 0f);
         transform.localPosition = Vector3.Lerp(transform.localPosition, targetPosition, smooth * Time.deltaTime);
 
-        transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, smooth * Time.deltaTime); 
+        transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, smooth * Time.deltaTime);
     } 
 }
