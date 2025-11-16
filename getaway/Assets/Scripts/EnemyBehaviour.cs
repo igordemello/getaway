@@ -283,4 +283,10 @@ public class EnemyBehavior : MonoBehaviour
         Gizmos.color = new Color(1f, 0.5f, 0f, 0.3f);
         Gizmos.DrawWireSphere(enemy.position, hearingRange);
     }
+
+    void OnDestroy()
+    {
+        transform.DOKill();
+        enemy.DOKill();
+    }
 }

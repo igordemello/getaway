@@ -23,6 +23,9 @@ public class PlayerCam : MonoBehaviour
 
     private float currentTilt;
 
+    private bool leanLeftInput = false;
+    private bool leanRightInput = false;
+
 
     private void Awake()
     {
@@ -33,6 +36,18 @@ public class PlayerCam : MonoBehaviour
 
         controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
         controls.Player.Move.canceled += ctx => moveInput = Vector2.zero;
+
+        controls.Player.LeanLeft.performed += ctx =>
+        {
+            leanLeftInput = !leanLeftInput;
+            if (leanLeftInput) leanRightInput = false;
+        };
+
+        controls.Player.LeanRight.performed += ctx =>
+        {
+            leanRightInput = !leanRightInput;
+            if (leanRightInput) leanLeftInput = false;
+        };
     }
 
     private void OnEnable() => controls.Enable();
@@ -62,9 +77,26 @@ public class PlayerCam : MonoBehaviour
 
 
         float targetTilt = moveInput.x * -rotateCamByInputX;
-        currentTilt = Mathf.Lerp(currentTilt, targetTilt, Time.deltaTime * 5f);
 
+        if (leanLeftInput)
+        {
+            DoFov(55f);
+            targetTilt = -(-rotateCamByInputX * 3);
+        }
+        else if (leanRightInput)
+        {
+            DoFov(55f);
+            targetTilt = (-rotateCamByInputX * 3);
+        }
+        else
+        {
+            DoFov(60f);
+        }
+
+        currentTilt = Mathf.Lerp(currentTilt, targetTilt, Time.deltaTime * 5f);
         camHolder.rotation = Quaternion.Euler(xRotation, yRotation, currentTilt);
+
+
         lastMoveX = moveInput.x;
     }
 
@@ -73,8 +105,4 @@ public class PlayerCam : MonoBehaviour
         GetComponent<Camera>().DOFieldOfView(endValue, 0.25f);
     }
 
-    public void DoTilt(float xTilt, float yTilt, float zTilt)
-    {
-        transform.DOLocalRotate(new Vector3(xTilt, yTilt, zTilt), 0.25f);
-    }
 }

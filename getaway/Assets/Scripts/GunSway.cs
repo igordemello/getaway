@@ -14,15 +14,37 @@ public class GunSway : MonoBehaviour {
     [Header("Weapon Slide Rotation X")]
     public float rotationOffsetSlide = 32f;
 
+    private bool leanLeftInput = false;
+    private bool leanRightInput = false;
+
+    private Vector3 initialLocalPosition;
 
     private void Awake() 
     { 
         controls = new PlayerControls(); 
         controls.Player.Look.performed += ctx => lookInput = ctx.ReadValue<Vector2>(); 
-        controls.Player.Look.canceled += ctx => lookInput = Vector2.zero; 
+        controls.Player.Look.canceled += ctx => lookInput = Vector2.zero;
+
+        controls.Player.LeanLeft.performed += ctx =>
+        {
+            leanLeftInput = !leanLeftInput;
+            if (leanLeftInput) leanRightInput = false;
+        };
+
+        controls.Player.LeanRight.performed += ctx =>
+        {
+            leanRightInput = !leanRightInput;
+            if (leanRightInput) leanLeftInput = false;
+        };
     } 
     private void OnEnable() => controls.Enable(); 
-    private void OnDisable() => controls.Disable(); 
+    private void OnDisable() => controls.Disable();
+
+    private void Start()
+    {
+        initialLocalPosition = transform.localPosition;
+    }
+
     private void Update() 
     { 
         float mouseX = lookInput.x * swayMultiplier;         
@@ -42,7 +64,30 @@ public class GunSway : MonoBehaviour {
         }
 
         Quaternion rotationY = Quaternion.AngleAxis(mouseX, Vector3.up); 
-        Quaternion targetRotation = rotationX * rotationY; 
-        transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, smooth * Time.deltaTime); 
+        Quaternion targetRotation = rotationX * rotationY;
+
+        float leanZ = 0f;
+        float leanY = 0f;
+        float leanXOffset = 0f;
+
+        if (leanLeftInput)
+        {
+            leanZ = 20f;
+            leanY = -10f;
+            leanXOffset = -0.15f;
+        }
+        else if (leanRightInput)
+        {
+            leanZ = -20f;
+            leanY = 10f;
+            leanXOffset = 0.15f;
+        }
+
+        targetRotation *= Quaternion.Euler(0f, leanY, leanZ);
+
+        Vector3 targetPosition = initialLocalPosition + new Vector3(leanXOffset, 0f, 0f);
+        transform.localPosition = Vector3.Lerp(transform.localPosition, targetPosition, smooth * Time.deltaTime);
+
+        transform.localRotation = Quaternion.Slerp(transform.localRotation, targetRotation, smooth * Time.deltaTime);
     } 
 }

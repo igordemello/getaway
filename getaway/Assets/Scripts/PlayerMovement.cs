@@ -105,6 +105,12 @@ public class PlayerMovement : MonoBehaviour
     public bool activeGrapple;
     public bool swinging;
 
+    //leaning
+    private bool leanLeftInput;
+    private bool leanRightInput;
+    private float smooth = 6;
+
+
     private void Awake()
     {
         controls = new PlayerControls();
@@ -120,6 +126,18 @@ public class PlayerMovement : MonoBehaviour
 
         controls.Player.Crouch.performed += ctx => crouchInput = true;
         controls.Player.Crouch.canceled += ctx => crouchInput = false;
+
+        controls.Player.LeanLeft.performed += ctx =>
+        {
+            leanLeftInput = !leanLeftInput;
+            if (leanLeftInput) leanRightInput = false;
+        };
+
+        controls.Player.LeanRight.performed += ctx =>
+        {
+            leanRightInput = !leanRightInput;
+            if (leanRightInput) leanLeftInput = false;
+        };
     }
 
     private void OnEnable() => controls.Enable();
@@ -167,11 +185,30 @@ public class PlayerMovement : MonoBehaviour
             rb.linearDamping = groundDrag;
         else
             rb.linearDamping = 0;
+
+
+        
+
     }
 
     private void FixedUpdate()
     {
         MovePlayer();
+
+        float leanZ = 0f;
+
+        if (leanLeftInput)
+        {
+            leanZ = 40f;
+        }
+        else if (leanRightInput)
+        {
+            leanZ = -40f;
+        }
+
+        Quaternion targetRotation = orientation.rotation * Quaternion.Euler(1f, 1f, leanZ);
+        Quaternion smoothed = Quaternion.Slerp(rb.rotation, targetRotation, smooth * Time.fixedDeltaTime);
+        rb.MoveRotation(smoothed);
     }
 
     private void MyInput()
@@ -193,14 +230,14 @@ public class PlayerMovement : MonoBehaviour
         if (crouchInput)
         {
             transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
-            rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
+            rb.AddForce(Vector3.down * 2f, ForceMode.Impulse);
             cameraPos.localPosition = new Vector3(cameraPos.localPosition.x, crouchCameraY, cameraPos.localPosition.z);
         }
         // stop crouch
         else if (!crouchInput && (state == MovementState.crouching || state == MovementState.sliding))
         {
             transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
-            rb.AddForce(Vector3.up * 5f, ForceMode.Impulse);
+            rb.AddForce(Vector3.up * 2f, ForceMode.Impulse);
             cameraPos.localPosition = new Vector3(cameraPos.localPosition.x, cameraStartY, cameraPos.localPosition.z);
         }
 

@@ -20,6 +20,12 @@ public class Gun : MonoBehaviour
     public int maxAmmo = 10;
     private int currentAmmo;
 
+
+    [Header("Shotgun Settings")]
+    public int pellets;
+    [Range(0f, 30f)]
+    public float spreadAngle;
+
     [Header("Recoil Settings")]
     public float recoilRotationSpeed = 60f;
     public float recoilReturnSpeed = 10f;
@@ -117,14 +123,13 @@ public class Gun : MonoBehaviour
     {
         if (currentAmmo <= 0)
         {
-            Debug.Log("Sem bala lerdao");
             yield break;
         }
 
         nextTimeToFire = Time.time + fireRate;
 
-        Shoot();
-        Shoot();
+        ShootShotgun();
+        ShootShotgun();
 
         yield return new WaitForSeconds(0.1f);
 
@@ -139,7 +144,6 @@ public class Gun : MonoBehaviour
     {
         if (currentAmmo <= 0)
         {
-            Debug.Log("Sem bala lerdao");
             return;
         }
 
@@ -148,8 +152,9 @@ public class Gun : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
         {
-            Debug.Log(hit.transform.name);
-            
+            Debug.DrawLine(fpsCam.transform.position, hit.point, Color.green, 1f);
+            //Debug.Log(hit.transform.name);
+
             Target target = hit.transform.GetComponent<Target>();
 
             if (target != null)
@@ -159,6 +164,44 @@ public class Gun : MonoBehaviour
 
             GameObject impactGO = Instantiate(impact, hit.point, Quaternion.LookRotation(hit.normal));
             Destroy(impactGO,1f);
+        }
+        else
+        {
+            Debug.DrawRay(fpsCam.transform.position, fpsCam.transform.forward * range, Color.red, 1f);
+        }
+
+        muzzle.Play();
+        camRecoil.Fire();
+        gunRecoil.Fire();
+    }
+
+
+    void ShootShotgun()
+    {
+        if (currentAmmo <= 0) return;
+        currentAmmo--;
+
+        Vector3 origin = fpsCam.transform.position;
+        for (int i = 0; i < pellets; i++)
+        {
+
+            Vector3 direction = fpsCam.transform.forward;
+            direction += fpsCam.transform.up * Random.Range(-spreadAngle, spreadAngle) / 100f;
+            direction += fpsCam.transform.right * Random.Range(-spreadAngle, spreadAngle) / 100f;
+            direction.Normalize();
+
+            Debug.DrawRay(origin, direction * range, Color.yellow, 1f); // tirar essa merdinha dps, mas fds tbm, só da pra ver no editor msm
+
+            RaycastHit hit;
+            if (Physics.Raycast(origin, direction, out hit, range))
+            {
+                Target target = hit.transform.GetComponent<Target>();
+                if (target != null)
+                    target.TakeDamage(damage);
+
+                GameObject impactGO = Instantiate(impact, hit.point, Quaternion.LookRotation(hit.normal));
+                Destroy(impactGO, 1f);
+            }
         }
 
         muzzle.Play();
