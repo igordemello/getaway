@@ -22,10 +22,16 @@ public class PlayerMovement : MonoBehaviour
     public float groundDrag;
 
     [Header("Jumping")]
-    public float jumpForce;
+    public float jumpForce = 12f;
     public float jumpCooldown;
     public float airMultiplier;
     bool readyToJump;
+
+    [Header("Double Jump")]
+    public int maxJumps = 2;
+    public float doubleJumpForce = 12f;
+    private int jumpsRemaining;
+    private bool jumpPressed;
 
     [Header("Crouching")]
     public float crouchSpeed;
@@ -57,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
     public PlayerCam cam;
 
     [Header("Sound System")]
-    public SoundSource soundSource; // referência ao sistema de som
+    public SoundSource soundSource;
 
     private PlayerControls controls;
     private Vector2 moveInput;
@@ -105,12 +111,6 @@ public class PlayerMovement : MonoBehaviour
     public bool activeGrapple;
     public bool swinging;
 
-    //leaning
-    private bool leanLeftInput;
-    private bool leanRightInput;
-    private float smooth = 6;
-
-
     private void Awake()
     {
         controls = new PlayerControls();
@@ -118,7 +118,11 @@ public class PlayerMovement : MonoBehaviour
         controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
         controls.Player.Move.canceled += ctx => moveInput = Vector2.zero;
 
-        controls.Player.Jump.performed += ctx => jumpInput = true;
+        controls.Player.Jump.performed += ctx =>
+        {
+            jumpInput = true;
+            jumpPressed = true;
+        };
         controls.Player.Jump.canceled += ctx => jumpInput = false;
 
         controls.Player.Sprint.performed += ctx => sprintInput = true;
@@ -126,18 +130,6 @@ public class PlayerMovement : MonoBehaviour
 
         controls.Player.Crouch.performed += ctx => crouchInput = true;
         controls.Player.Crouch.canceled += ctx => crouchInput = false;
-
-        controls.Player.LeanLeft.performed += ctx =>
-        {
-            leanLeftInput = !leanLeftInput;
-            if (leanLeftInput) leanRightInput = false;
-        };
-
-        controls.Player.LeanRight.performed += ctx =>
-        {
-            leanRightInput = !leanRightInput;
-            if (leanRightInput) leanLeftInput = false;
-        };
     }
 
     private void OnEnable() => controls.Enable();
@@ -149,29 +141,26 @@ public class PlayerMovement : MonoBehaviour
         rb.freezeRotation = true;
 
         readyToJump = true;
+        jumpsRemaining = maxJumps;
 
         startYScale = transform.localScale.y;
         cameraStartY = cameraPos.localPosition.y;
         textSpeed.text = moveSpeed.ToString();
 
-        //garante que há um SoundSource no jogador
         if (soundSource == null)
             soundSource = GetComponent<SoundSource>();
     }
 
     private void Update()
     {
-        // ui text speed
         textSpeed.text = moveSpeed.ToString();
 
-        // ground check
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, (whatIsGround | whatIsWall));
 
         MyInput();
         SpeedControl();
         StateHandler();
 
-        // handle drag
         if (state != MovementState.dashing && state != MovementState.air && grounded)
         {
             rb.linearDamping = groundDrag;
@@ -186,29 +175,13 @@ public class PlayerMovement : MonoBehaviour
         else
             rb.linearDamping = 0;
 
-
-        
-
+        if (jumpPressed)
+            jumpPressed = false;
     }
 
     private void FixedUpdate()
     {
         MovePlayer();
-
-        float leanZ = 0f;
-
-        if (leanLeftInput)
-        {
-            leanZ = 40f;
-        }
-        else if (leanRightInput)
-        {
-            leanZ = -40f;
-        }
-
-        Quaternion targetRotation = orientation.rotation * Quaternion.Euler(1f, 1f, leanZ);
-        Quaternion smoothed = Quaternion.Slerp(rb.rotation, targetRotation, smooth * Time.fixedDeltaTime);
-        rb.MoveRotation(smoothed);
     }
 
     private void MyInput()
@@ -218,26 +191,26 @@ public class PlayerMovement : MonoBehaviour
         horizontalInput = moveInput.x;
         verticalInput = moveInput.y;
 
-        // when to jump
-        if (jumpInput && readyToJump && grounded)
+        if (grounded && rb.linearVelocity.y <= 0f)
         {
-            readyToJump = false;
-            Jump();
-            Invoke(nameof(ResetJump), jumpCooldown);
+            jumpsRemaining = maxJumps;
         }
 
-        // start crouch
+        if (jumpPressed && jumpsRemaining > 0 && readyToJump)
+        {
+            PerformJump();
+        }
+
         if (crouchInput)
         {
             transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
-            rb.AddForce(Vector3.down * 2f, ForceMode.Impulse);
+            rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
             cameraPos.localPosition = new Vector3(cameraPos.localPosition.x, crouchCameraY, cameraPos.localPosition.z);
         }
-        // stop crouch
         else if (!crouchInput && (state == MovementState.crouching || state == MovementState.sliding))
         {
             transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
-            rb.AddForce(Vector3.up * 2f, ForceMode.Impulse);
+            rb.AddForce(Vector3.up * 5f, ForceMode.Impulse);
             cameraPos.localPosition = new Vector3(cameraPos.localPosition.x, cameraStartY, cameraPos.localPosition.z);
         }
 
@@ -245,6 +218,40 @@ public class PlayerMovement : MonoBehaviour
             cam.DoFov(80f);
         else if (!sprintInput && state == MovementState.sprinting)
             cam.DoFov(60f);
+    }
+
+    private void PerformJump()
+    {
+        if (jumpsRemaining == maxJumps)
+        {
+            ExecuteFirstJump();
+        }
+        else
+        {
+            ExecuteExtraJump();
+        }
+
+        jumpsRemaining--;
+
+        readyToJump = false;
+        Invoke(nameof(ResetJump), jumpCooldown);
+    }
+
+    private void ExecuteFirstJump()
+    {
+        exitingSlope = true;
+
+        rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+        rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+
+        if (soundSource != null)
+            soundSource.PlaySound(10f);
+    }
+
+    private void ExecuteExtraJump()
+    {
+        rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+        rb.AddForce(Vector3.up * doubleJumpForce, ForceMode.Impulse);
     }
 
     bool keepMomentum;
@@ -413,14 +420,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void Jump()
     {
-        exitingSlope = true;
-
-        rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
-        rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-
-        //Emite som do pulo
-        if (soundSource != null)
-            soundSource.PlaySound(10f); // volume 10
+        if (jumpsRemaining > 0 && readyToJump)
+        {
+            PerformJump();
+        }
     }
 
     private void ResetJump()
@@ -476,6 +479,31 @@ public class PlayerMovement : MonoBehaviour
     public void ResetRestrictions()
     {
         activeGrapple = false;
+    }
+
+    public void ResetJumps()
+    {
+        jumpsRemaining = maxJumps;
+    }
+
+    public void AddJump()
+    {
+        jumpsRemaining++;
+    }
+
+    public void SetJumps(int amount)
+    {
+        jumpsRemaining = Mathf.Max(0, amount);
+    }
+
+    public int GetRemainingJumps()
+    {
+        return jumpsRemaining;
+    }
+
+    public int GetMaxJumps()
+    {
+        return maxJumps;
     }
 
     private void OnCollisionEnter(Collision collision)

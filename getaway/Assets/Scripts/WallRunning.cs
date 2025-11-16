@@ -8,8 +8,8 @@ public class WallRunningAdvanced : MonoBehaviour
     public LayerMask whatIsWall;
     public LayerMask whatIsGround;
     public float wallRunForce;
-    public float wallJumpUpForce;
-    public float wallJumpSideForce;
+    public float wallJumpUpForce = 100f;
+    public float wallJumpSideForce = 100f;
     public float wallClimbSpeed;
     public float maxWallRunTime;
     private float wallRunTimer;
@@ -37,10 +37,17 @@ public class WallRunningAdvanced : MonoBehaviour
     private bool exitingWall;
     public float exitWallTime;
     private float exitWallTimer;
+    private Vector3 lastWallNormal;
 
     [Header("Gravity")]
     public bool useGravity;
     public float gravityCounterForce;
+
+    [Header("Anti Return Force")]
+    public float antiReturnForce = 10f;
+    public float antiReturnDuration = 0.5f;
+    private float antiReturnTimer;
+    private bool applyingAntiReturn;
 
     [Header("References")]
     public Transform orientation;
@@ -48,7 +55,6 @@ public class WallRunningAdvanced : MonoBehaviour
     private PlayerMovement pm;
     private LedgeGrabbing lg;
     private Rigidbody rb;
-
 
     private void Awake()
     {
@@ -65,7 +71,6 @@ public class WallRunningAdvanced : MonoBehaviour
 
         controls.Player.WallRunDOWN.performed += ctx => downwardsRunInput = true;
         controls.Player.WallRunDOWN.canceled += ctx => downwardsRunInput = false;
-
     }
 
     private void OnEnable() => controls.Enable();
@@ -82,6 +87,7 @@ public class WallRunningAdvanced : MonoBehaviour
     {
         CheckForWall();
         StateMachine();
+        HandleAntiReturnForce();
     }
 
     private void FixedUpdate()
@@ -103,36 +109,29 @@ public class WallRunningAdvanced : MonoBehaviour
 
     private void StateMachine()
     {
-        // Getting Inputs
         horizontalInput = moveInput.x;
         verticalInput = moveInput.y;
 
         upwardsRunning = upwardsRunInput;
         downwardsRunning = downwardsRunInput;
 
-        // State 1 - Wallrunning
-        if ((wallLeft || wallRight) && verticalInput > 0 && AboveGround() && !exitingWall)
+        if ((wallLeft || wallRight) && verticalInput > 0 && AboveGround() && !exitingWall && !applyingAntiReturn)
         {
             if (!pm.wallrunning)
                 StartWallRun();
 
-            // wallrun timer
             if (wallRunTimer > 0)
                 wallRunTimer -= Time.deltaTime;
 
             if (wallRunTimer <= 0 && pm.wallrunning)
             {
-                // MODIFICAÇÃO: Usar a lógica do WallJump quando o tempo acaba
-                WallJump(); // Isso já aplica o impulso na direção contrária
+                WallJump();
                 exitingWall = true;
                 exitWallTimer = exitWallTime;
             }
 
-            // wall jump por input
             if (jumpInput) WallJump();
         }
-
-        // State 2 - Exiting
         else if (exitingWall)
         {
             if (pm.wallrunning)
@@ -144,8 +143,6 @@ public class WallRunningAdvanced : MonoBehaviour
             if (exitWallTimer <= 0)
                 exitingWall = false;
         }
-
-        // State 3 - None
         else
         {
             if (pm.wallrunning)
@@ -156,12 +153,11 @@ public class WallRunningAdvanced : MonoBehaviour
     private void StartWallRun()
     {
         pm.wallrunning = true;
-
         wallRunTimer = maxWallRunTime;
-
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
 
-        // apply camera effects
+        lastWallNormal = wallRight ? rightWallhit.normal : leftWallhit.normal;
+
         cam.DoFov(70f);
         if (wallLeft) cam.moveInput.x = 1;
         if (wallRight) cam.moveInput.x = -1;
@@ -172,26 +168,19 @@ public class WallRunningAdvanced : MonoBehaviour
         rb.useGravity = useGravity;
 
         Vector3 wallNormal = wallRight ? rightWallhit.normal : leftWallhit.normal;
-
         Vector3 wallForward = Vector3.Cross(wallNormal, transform.up);
 
         if ((orientation.forward - wallForward).magnitude > (orientation.forward - -wallForward).magnitude)
             wallForward = -wallForward;
 
-        // forward force
         rb.AddForce(wallForward * wallRunForce, ForceMode.Force);
 
-        // upwards/downwards force
-        if (upwardsRunning)
-            rb.linearVelocity = new Vector3(rb.linearVelocity.x, wallClimbSpeed, rb.linearVelocity.z);
-        if (downwardsRunning)
-            rb.linearVelocity = new Vector3(rb.linearVelocity.x, -wallClimbSpeed, rb.linearVelocity.z);
+        float descentSpeed = wallClimbSpeed * 0.08f;
+        rb.linearVelocity = new Vector3(rb.linearVelocity.x, -descentSpeed, rb.linearVelocity.z);
 
-        // push to wall force
         if (!(wallLeft && horizontalInput > 0) && !(wallRight && horizontalInput < 0))
             rb.AddForce(-wallNormal * 100, ForceMode.Force);
 
-        // weaken gravity
         if (useGravity)
             rb.AddForce(transform.up * gravityCounterForce, ForceMode.Force);
     }
@@ -199,8 +188,6 @@ public class WallRunningAdvanced : MonoBehaviour
     private void StopWallRun()
     {
         pm.wallrunning = false;
-
-        // reset camera effects
         cam.DoFov(60f);
         cam.moveInput.x = 0;
     }
@@ -209,27 +196,40 @@ public class WallRunningAdvanced : MonoBehaviour
     {
         if (lg.holding || lg.exitingLedge) return;
 
-        // enter exiting wall state
         exitingWall = true;
         exitWallTimer = exitWallTime;
 
         Vector3 wallNormal = wallRight ? rightWallhit.normal : leftWallhit.normal;
+        lastWallNormal = wallNormal;
 
-        bool isAutoJump = wallRunTimer <= 0;
+        Vector3 forceToApply = transform.up * wallJumpUpForce + wallNormal * wallJumpSideForce;
 
-        float upForce = wallJumpUpForce;
-        float sideForce = wallJumpSideForce;
-
-        if (isAutoJump)
-        {
-            upForce *= 1.5f;
-            sideForce *= 1.5f;
-        }
-
-        Vector3 forceToApply = transform.up * upForce + wallNormal * sideForce;
-
-        // reset y velocity and add force
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
         rb.AddForce(forceToApply, ForceMode.Impulse);
+
+        StartAntiReturnForce();
+    }
+
+    private void StartAntiReturnForce()
+    {
+        applyingAntiReturn = true;
+        antiReturnTimer = antiReturnDuration;
+    }
+
+    private void HandleAntiReturnForce()
+    {
+        if (applyingAntiReturn)
+        {
+            if (antiReturnTimer > 0)
+            {
+                Vector3 antiReturnDirection = -lastWallNormal;
+                rb.AddForce(antiReturnDirection * antiReturnForce, ForceMode.Force);
+                antiReturnTimer -= Time.deltaTime;
+            }
+            else
+            {
+                applyingAntiReturn = false;
+            }
+        }
     }
 }
