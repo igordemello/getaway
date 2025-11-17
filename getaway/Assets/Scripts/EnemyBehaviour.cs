@@ -55,7 +55,7 @@ public class EnemyBehavior : MonoBehaviour
         currState = EnemyState.patrol;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         Recognition(); 
         Hear();        
@@ -136,27 +136,32 @@ public class EnemyBehavior : MonoBehaviour
     void Hear()
     {
         Collider[] sounds = Physics.OverlapSphere(enemy.position, hearingRange);
-
+        
         foreach (var s in sounds)
         {
             SoundSource source = s.GetComponent<SoundSource>();
             if (source != null && source.isActive)
             {
+                //print("fonte de som");
                 float distance = Vector3.Distance(enemy.position, source.transform.position);
                 float perceivedVolume = source.volume / Mathf.Max(1f, distance);
-
+                print(perceivedVolume);
                 if (perceivedVolume > hearingSensitivity)
                 {
-                    Debug.DrawLine(enemy.position + Vector3.up, source.transform.position, Color.yellow, 0.25f);
-                    Debug.Log($"[Enemy] Ouviu som de {s.name} com intensidade {perceivedVolume:F2}");
+                   // print("som percebido");
+                   // Debug.DrawLine(enemy.position + Vector3.up, source.transform.position, Color.yellow, 0.25f);
+                    //Debug.Log($"[Enemy] Ouviu som de {s.name} com intensidade {perceivedVolume:F2}");
 
                     LastPlayerPosition = source.transform.position;
-
+                   // Agent.ResetPath();
+                    Agent.SetDestination(LastPlayerPosition);
                     if (perceivedVolume > directAggroThreshold)
                     {
                         currState = EnemyState.aggro;
                         offAggroTimer = 0f;
-                        Debug.Log("[Enemy] Som alto -> AGGRO!");
+                       // Debug.Log("[Enemy] Som alto -> AGGRO!");
+                        
+                        
                     }
                     else if (currState == EnemyState.patrol)
                     {

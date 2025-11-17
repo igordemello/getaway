@@ -245,7 +245,7 @@ public class PlayerMovement : MonoBehaviour
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
 
         if (soundSource != null)
-            soundSource.PlaySound(10f);
+            soundSource.PlaySound(10f,1f);
     }
 
     private void ExecuteExtraJump()
