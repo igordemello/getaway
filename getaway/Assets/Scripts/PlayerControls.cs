@@ -226,6 +226,33 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pick"",
+                    ""type"": ""Button"",
+                    ""id"": ""dc6e7638-b2b1-4409-a155-2939a8806335"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RotateObject"",
+                    ""type"": ""Button"",
+                    ""id"": ""98327f61-94f1-4001-9a3a-660f45bad157"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""throwObject"",
+                    ""type"": ""Button"",
+                    ""id"": ""cde6facf-c24c-4067-87eb-518da0720806"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -437,6 +464,39 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""LeanRight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a5a055af-17ca-4846-94ad-8eec337fd0f6"",
+                    ""path"": ""<Keyboard>/g"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d500e0d7-ab2c-4b55-8c26-ca9a90d2516f"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RotateObject"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c78475d4-0313-421d-a04f-718a1f8cbd60"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""throwObject"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -460,6 +520,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_Scroll = m_Player.FindAction("Scroll", throwIfNotFound: true);
         m_Player_LeanLeft = m_Player.FindAction("LeanLeft", throwIfNotFound: true);
         m_Player_LeanRight = m_Player.FindAction("LeanRight", throwIfNotFound: true);
+        m_Player_Pick = m_Player.FindAction("Pick", throwIfNotFound: true);
+        m_Player_RotateObject = m_Player.FindAction("RotateObject", throwIfNotFound: true);
+        m_Player_throwObject = m_Player.FindAction("throwObject", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -555,6 +618,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Scroll;
     private readonly InputAction m_Player_LeanLeft;
     private readonly InputAction m_Player_LeanRight;
+    private readonly InputAction m_Player_Pick;
+    private readonly InputAction m_Player_RotateObject;
+    private readonly InputAction m_Player_throwObject;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -627,6 +693,18 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @LeanRight => m_Wrapper.m_Player_LeanRight;
         /// <summary>
+        /// Provides access to the underlying input action "Player/Pick".
+        /// </summary>
+        public InputAction @Pick => m_Wrapper.m_Player_Pick;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/RotateObject".
+        /// </summary>
+        public InputAction @RotateObject => m_Wrapper.m_Player_RotateObject;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/throwObject".
+        /// </summary>
+        public InputAction @throwObject => m_Wrapper.m_Player_throwObject;
+        /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -697,6 +775,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @LeanRight.started += instance.OnLeanRight;
             @LeanRight.performed += instance.OnLeanRight;
             @LeanRight.canceled += instance.OnLeanRight;
+            @Pick.started += instance.OnPick;
+            @Pick.performed += instance.OnPick;
+            @Pick.canceled += instance.OnPick;
+            @RotateObject.started += instance.OnRotateObject;
+            @RotateObject.performed += instance.OnRotateObject;
+            @RotateObject.canceled += instance.OnRotateObject;
+            @throwObject.started += instance.OnThrowObject;
+            @throwObject.performed += instance.OnThrowObject;
+            @throwObject.canceled += instance.OnThrowObject;
         }
 
         /// <summary>
@@ -753,6 +840,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @LeanRight.started -= instance.OnLeanRight;
             @LeanRight.performed -= instance.OnLeanRight;
             @LeanRight.canceled -= instance.OnLeanRight;
+            @Pick.started -= instance.OnPick;
+            @Pick.performed -= instance.OnPick;
+            @Pick.canceled -= instance.OnPick;
+            @RotateObject.started -= instance.OnRotateObject;
+            @RotateObject.performed -= instance.OnRotateObject;
+            @RotateObject.canceled -= instance.OnRotateObject;
+            @throwObject.started -= instance.OnThrowObject;
+            @throwObject.performed -= instance.OnThrowObject;
+            @throwObject.canceled -= instance.OnThrowObject;
         }
 
         /// <summary>
@@ -898,5 +994,26 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnLeanRight(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Pick" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPick(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "RotateObject" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRotateObject(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "throwObject" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnThrowObject(InputAction.CallbackContext context);
     }
 }
