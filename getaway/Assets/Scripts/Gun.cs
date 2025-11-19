@@ -98,7 +98,7 @@ public class Gun : MonoBehaviour
                 {
                     Shoot();
                     fireInput = false;
-                    soundSource.PlaySound(50f, 0.8f);
+                    soundSource.PlaySound(12f, 0.8f);
                 }
                 break;
 
@@ -107,7 +107,7 @@ public class Gun : MonoBehaviour
                 {
                     nextTimeToFire = Time.time + fireRate;
                     Shoot();
-                    soundSource.PlaySound(50f, 0.8f);
+                    soundSource.PlaySound(10f, 0.8f);
                 }
                 break;
 
@@ -116,7 +116,7 @@ public class Gun : MonoBehaviour
                 {
                     fireInput = false;
                     StartCoroutine(DoubleBarrelShot());
-                    soundSource.PlaySound(50f, 0.8f);
+                    soundSource.PlaySound(20f, 0.8f);
                 }
                 break;
         }

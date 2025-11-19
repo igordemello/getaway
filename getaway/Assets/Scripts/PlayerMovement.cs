@@ -216,7 +216,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (sprintInput) {
             cam.DoFov(80f);
-            soundSource.PlaySound(10f,1f);
+            soundSource.PlaySound(5f,1f);
         }
         else if (!sprintInput && state == MovementState.sprinting)
             cam.DoFov(60f);
@@ -514,7 +514,7 @@ public class PlayerMovement : MonoBehaviour
             GetComponent<Grappling>().StopGrapple();
         }
         if (collision.gameObject.layer == 10 ) {
-            soundSource.PlaySound(20f,1f);
+            soundSource.PlaySound(7f,1f);
         }
     }
 }
