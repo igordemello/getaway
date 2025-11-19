@@ -17,6 +17,7 @@ public class SoundSource : MonoBehaviour
         if (timer >= activeDuration)
         {
             isActive = false;
+            volume = 1f;
             timer = 0f;
         }
     }
