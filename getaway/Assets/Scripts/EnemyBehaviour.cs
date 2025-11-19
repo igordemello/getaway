@@ -144,7 +144,7 @@ public class EnemyBehavior : MonoBehaviour
             {
                 //print("fonte de som");
                 float distance = Vector3.Distance(enemy.position, source.transform.position);
-                float perceivedVolume = source.volume / Mathf.Max(1f, distance);
+                float perceivedVolume = source.volume / (Mathf.Max(1f, distance)* Mathf.Max(1f, distance));
                 print(perceivedVolume);
                 if (perceivedVolume > hearingSensitivity)
                 {
