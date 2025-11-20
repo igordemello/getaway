@@ -39,6 +39,7 @@ public class Gun : MonoBehaviour
     public CamRecoil camRecoil;
     public GunRecoil gunRecoil;
     public ParticleSystem muzzle;
+    public SoundSource soundSource;
 
     private PlayerControls controls;
     private bool fireInput;
@@ -97,6 +98,7 @@ public class Gun : MonoBehaviour
                 {
                     Shoot();
                     fireInput = false;
+                    soundSource.PlaySound(50f, 0.8f);
                 }
                 break;
 
@@ -105,6 +107,7 @@ public class Gun : MonoBehaviour
                 {
                     nextTimeToFire = Time.time + fireRate;
                     Shoot();
+                    soundSource.PlaySound(50f, 0.8f);
                 }
                 break;
 
@@ -113,6 +116,7 @@ public class Gun : MonoBehaviour
                 {
                     fireInput = false;
                     StartCoroutine(DoubleBarrelShot());
+                    soundSource.PlaySound(50f, 0.8f);
                 }
                 break;
         }

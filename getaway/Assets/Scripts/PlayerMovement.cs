@@ -214,8 +214,10 @@ public class PlayerMovement : MonoBehaviour
             cameraPos.localPosition = new Vector3(cameraPos.localPosition.x, cameraStartY, cameraPos.localPosition.z);
         }
 
-        if (sprintInput)
+        if (sprintInput) {
             cam.DoFov(80f);
+            soundSource.PlaySound(10f,1f);
+        }
         else if (!sprintInput && state == MovementState.sprinting)
             cam.DoFov(60f);
     }
@@ -243,9 +245,6 @@ public class PlayerMovement : MonoBehaviour
 
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
-
-        if (soundSource != null)
-            soundSource.PlaySound(10f,1f);
     }
 
     private void ExecuteExtraJump()
@@ -513,6 +512,9 @@ public class PlayerMovement : MonoBehaviour
             enableMovementOnNextTouch = false;
             ResetRestrictions();
             GetComponent<Grappling>().StopGrapple();
+        }
+        if (collision.gameObject.layer == 10 ) {
+            soundSource.PlaySound(20f,1f);
         }
     }
 }

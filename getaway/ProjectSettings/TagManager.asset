@@ -4,7 +4,8 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - ShatterableGlass
+  - CinemachineTarget
+  - CanPickUp
   layers:
   - Default
   - TransparentFX
@@ -24,7 +25,7 @@ TagManager:
   - whatIsGrappleable
   - 
   - 
-  - Arrow
+  - 
   - 
   - 
   - 
