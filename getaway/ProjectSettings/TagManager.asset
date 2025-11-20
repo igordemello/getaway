@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CinemachineTarget
   - CanPickUp
+  - ShatterableGlass
   layers:
   - Default
   - TransparentFX
@@ -24,7 +25,7 @@ TagManager:
   - whatIsWall
   - whatIsGrappleable
   - 
-  - 
+  - Arrow
   - 
   - 
   - 
