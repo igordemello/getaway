@@ -142,32 +142,30 @@ public class Gun : MonoBehaviour
 
     void Shoot()
     {
-        if (currentAmmo <= 0)
-        {
-            return;
-        }
-
+        if (currentAmmo <= 0) return;
         currentAmmo--;
 
         RaycastHit hit;
         if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
         {
-            Debug.DrawLine(fpsCam.transform.position, hit.point, Color.green, 1f);
-            //Debug.Log(hit.transform.name);
-
             Target target = hit.transform.GetComponent<Target>();
-
             if (target != null)
             {
                 target.TakeDamage(damage);
             }
 
+
+            ShatterableGlass glass = hit.transform.GetComponent<ShatterableGlass>();
+
+            if (glass != null)
+            {
+                ShatterableGlassInfo info = new ShatterableGlassInfo(hit.point, fpsCam.transform.forward * 50f);
+
+                glass.Shatter3D(info);
+            }
+
             GameObject impactGO = Instantiate(impact, hit.point, Quaternion.LookRotation(hit.normal));
-            Destroy(impactGO,1f);
-        }
-        else
-        {
-            Debug.DrawRay(fpsCam.transform.position, fpsCam.transform.forward * range, Color.red, 1f);
+            Destroy(impactGO, 1f);
         }
 
         muzzle.Play();
@@ -182,15 +180,15 @@ public class Gun : MonoBehaviour
         currentAmmo--;
 
         Vector3 origin = fpsCam.transform.position;
+
         for (int i = 0; i < pellets; i++)
         {
-
             Vector3 direction = fpsCam.transform.forward;
+
             direction += fpsCam.transform.up * Random.Range(-spreadAngle, spreadAngle) / 100f;
             direction += fpsCam.transform.right * Random.Range(-spreadAngle, spreadAngle) / 100f;
             direction.Normalize();
 
-            Debug.DrawRay(origin, direction * range, Color.yellow, 1f); // tirar essa merdinha dps, mas fds tbm, só da pra ver no editor msm
 
             RaycastHit hit;
             if (Physics.Raycast(origin, direction, out hit, range))
@@ -199,6 +197,14 @@ public class Gun : MonoBehaviour
                 if (target != null)
                     target.TakeDamage(damage);
 
+                ShatterableGlass glass = hit.transform.GetComponent<ShatterableGlass>();
+
+                if (glass != null)
+                {
+                    ShatterableGlassInfo info = new ShatterableGlassInfo(hit.point, direction * 50f);
+
+                    glass.Shatter3D(info);
+                }
                 GameObject impactGO = Instantiate(impact, hit.point, Quaternion.LookRotation(hit.normal));
                 Destroy(impactGO, 1f);
             }
@@ -207,7 +213,4 @@ public class Gun : MonoBehaviour
         muzzle.Play();
         camRecoil.Fire();
         gunRecoil.Fire();
-    }
-
-
-}
+    }   }

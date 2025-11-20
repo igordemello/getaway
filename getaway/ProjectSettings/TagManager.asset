@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - ShatterableGlass
   layers:
   - Default
   - TransparentFX
@@ -23,7 +24,7 @@ TagManager:
   - whatIsGrappleable
   - 
   - 
-  - 
+  - Arrow
   - 
   - 
   - 

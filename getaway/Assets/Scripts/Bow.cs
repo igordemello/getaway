@@ -8,19 +8,24 @@ public class Bow : MonoBehaviour
     [Tooltip("O prefab da flecha que será disparado.")]
     public GameObject arrowPrefab;
 
-    [Tooltip("O ponto de onde a flecha será disparada.")]
+    [Tooltip("O ponto de onde a flecha sai.")]
     public Transform arrowSpawnPoint;
 
-    [Tooltip("Força mínima do disparo (se apenas clicar).")]
+    [Header("Força e Dano")]
+    [Tooltip("Força mínima do disparo.")]
     public float minLaunchForce = 10f;
-
-    [Tooltip("Força máxima do disparo (após o tempo máximo de puxada).")]
+    [Tooltip("Força máxima do disparo.")]
     public float maxLaunchForce = 30f;
 
-    [Tooltip("Tempo (em segundos) para atingir a força máxima.")]
+    [Tooltip("Dano se apenas clicar (tiro fraco).")]
+    public float minDamage = 15f;
+    [Tooltip("Dano se segurar até o final (tiro forte).")]
+    public float maxDamage = 50f;
+
+    [Tooltip("Tempo (em segundos) para carregar o tiro máximo.")]
     public float maxDrawTime = 1.0f;
 
-    [Tooltip("Tempo (em segundos) para poder atirar novamente.")]
+    [Tooltip("Tempo para recarregar.")]
     public float reloadTime = 0.5f;
 
     [Header("Munição")]
@@ -30,7 +35,7 @@ public class Bow : MonoBehaviour
     [Header("Referências")]
     public Animator animator;
     public TextMeshProUGUI debugAmmo;
-    public Collider playerCollider; // <-- ADICIONE ESTA LINHA
+    public Collider playerCollider;
 
     private PlayerControls controls;
     private bool isDrawing = false;
@@ -40,10 +45,7 @@ public class Bow : MonoBehaviour
     private void Awake()
     {
         controls = new PlayerControls();
-
-        // Disparado quando o botão de atirar é PRESSIONADO
         controls.Player.Fire.performed += ctx => StartDrawing();
-        // Disparado quando o botão de atirar é SOLTO
         controls.Player.Fire.canceled += ctx => Fire();
 
         if (animator != null)
@@ -64,7 +66,7 @@ public class Bow : MonoBehaviour
         if (animator != null)
         {
             animator.keepAnimatorStateOnDisable = true;
-            animator.Play("Idle", 0, 0f); // Garante que comece no Idle
+            animator.Play("Idle", 0, 0f);
             animator.Update(0);
         }
     }
@@ -78,11 +80,6 @@ public class Bow : MonoBehaviour
     {
         if (debugAmmo != null)
             debugAmmo.text = $"Flechas:\n{currentAmmo}/{maxAmmo}";
-
-        if (isDrawing)
-        {
-            // Aqui você pode atualizar um slider de UI ou um som de tensão
-        }
     }
 
     private void StartDrawing()
@@ -94,8 +91,6 @@ public class Bow : MonoBehaviour
 
         if (animator != null)
             animator.SetBool("IsDrawing", true);
-
-        //Debug.Log("Começou a puxar...");
     }
 
     private void Fire()
@@ -110,33 +105,34 @@ public class Bow : MonoBehaviour
             animator.SetTrigger("Fire");
         }
 
-        // Calcula o tempo que o botão foi segurado
         float drawDuration = Time.time - drawStartTime;
-        // Limita a força baseada no tempo máximo de puxada
         float drawPercent = Mathf.Clamp01(drawDuration / maxDrawTime);
-        // Interpola a força entre o mínimo e o máximo
+
         float launchForce = Mathf.Lerp(minLaunchForce, maxLaunchForce, drawPercent);
+        float finalDamage = Mathf.Lerp(minDamage, maxDamage, drawPercent);
 
-        //Debug.Log($"Atirou com {launchForce} de força.");
+        GameObject arrowObj = Instantiate(arrowPrefab, arrowSpawnPoint.position, arrowSpawnPoint.rotation);
 
-        // Instancia a flecha
-        GameObject arrow = Instantiate(arrowPrefab, arrowSpawnPoint.position, arrowSpawnPoint.rotation);
-        
-        Collider arrowCollider = arrow.GetComponent<Collider>();
+        Arrow arrowScript = arrowObj.GetComponent<Arrow>();
+        if (arrowScript != null)
+        {
+            arrowScript.damage = finalDamage;
+        }
+
+        Collider arrowCollider = arrowObj.GetComponent<Collider>();
         if (playerCollider != null && arrowCollider != null)
         {
             Physics.IgnoreCollision(arrowCollider, playerCollider);
         }
 
-        // Aplica a força na flecha
-        Rigidbody rb = arrow.GetComponent<Rigidbody>();
+        Rigidbody rb = arrowObj.GetComponent<Rigidbody>();
         if (rb != null)
         {
             rb.AddForce(arrowSpawnPoint.forward * launchForce, ForceMode.Impulse);
         }
         else
         {
-            Debug.LogError("O Prefab da Flecha (Arrow) não tem um Rigidbody!");
+            Debug.LogError("O Prefab da Flecha não tem Rigidbody!");
         }
 
         currentAmmo--;
@@ -150,6 +146,6 @@ public class Bow : MonoBehaviour
         isReloading = false;
 
         if (animator != null)
-            animator.SetTrigger("NockArrow"); // Trigger para animar colocando uma nova flecha
+            animator.SetTrigger("NockArrow");
     }
 }

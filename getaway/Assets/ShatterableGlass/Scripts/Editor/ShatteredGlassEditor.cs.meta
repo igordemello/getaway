@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: fc3ff30124483414db0926dda3e7f294
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 123802
+  packageName: Procedural glass shattering
+  packageVersion: 1.0
+  assetPath: Assets/ShatterableGlass/Scripts/Editor/ShatteredGlassEditor.cs
+  uploadId: 257004

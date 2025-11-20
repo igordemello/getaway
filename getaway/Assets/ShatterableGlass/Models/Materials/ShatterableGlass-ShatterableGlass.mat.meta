@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 8f8e1ea17a0f229449bed3d919c49115
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 123802
+  packageName: Procedural glass shattering
+  packageVersion: 1.0
+  assetPath: Assets/ShatterableGlass/Models/Materials/ShatterableGlass-ShatterableGlass.mat
+  uploadId: 257004
