@@ -1,5 +1,7 @@
 ﻿
 using System;
+using DG.Tweening;
+using UnityEditor.ShaderGraph;
 using UnityEditor.UI;
 using UnityEngine;
 
@@ -8,9 +10,9 @@ public class NewMonoBehaviourScript : MonoBehaviour
     public GameObject player;
     public Transform holdPos;
 
-    public float throwForce = 500f; 
-    public float pickUpRange = 5f;
-    private float rotationSensitivity = 1f; 
+    public float throwForce = 500f;
+    public float pickUpRange = 0.5f;
+    public float rotationSensitivity = 0.5f; 
     private GameObject heldObj; 
     private Rigidbody heldObjRb; 
     private bool canDrop = true;
@@ -19,6 +21,10 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
     private PlayerControls controls;
     private bool pickInput;
+    private bool rotateInput;
+    private bool pushInput;
+    private bool rotatinObject;
+    private Vector2 Mouse_Movement;
 
 
     private void Awake()
@@ -26,7 +32,22 @@ public class NewMonoBehaviourScript : MonoBehaviour
         controls = new PlayerControls();
 
         controls.Player.Pick.performed += ctx => OnPickPressed();
- 
+
+        controls.Player.RotateObject.performed += ctx => rotateInput = true;
+        controls.Player.RotateObject.canceled += ctx => rotateInput = false;
+
+        controls.Player.throwObject.performed += ctx => pushInput = true;
+        controls.Player.throwObject.canceled += ctx => pushInput = false;
+
+        controls.Player.Rotation_Mouse.performed += ctx => rotatinObject = true;
+        controls.Player.Rotation_Mouse.canceled += ctx => rotatinObject = false;
+
+        controls.Player.Rotation_Mouse.performed += ctx => Mouse_Movement = ctx.ReadValue<Vector2>(); ;
+        controls.Player.Rotation_Mouse.canceled += ctx => Mouse_Movement = Vector2.zero;
+        ;
+
+
+
     }
     private void OnEnable()
     {
@@ -79,7 +100,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
         {
             MoveObject(); 
             RotateObject();
-            if ("AAAAAA" == "true") 
+            if (pushInput) 
             {
                 StopClipping();
                 ThrowObject();
@@ -104,37 +125,21 @@ public class NewMonoBehaviourScript : MonoBehaviour
     {
         if (heldObj == null)
         {
-            Debug.LogWarning("[DropObject] chamado mas heldObj == null");
             return;
         }
 
         Collider objCollider = heldObj.GetComponent<Collider>();
         Collider playerCollider = player ? player.GetComponent<Collider>() : null;
 
-        if (objCollider == null)
-        {
-            Debug.LogWarning("[DropObject] objeto n o tem Collider: " + heldObj.name);
-        }
-
-        if (playerCollider == null)
-        {
-            Debug.LogWarning("[DropObject] player n o tem Collider!");
-        }
-
         if (objCollider != null && playerCollider != null)
         {
             Physics.IgnoreCollision(objCollider, playerCollider, false);
-            Debug.Log("[DropObject] Colis o com player reativada.");
         }
 
      
         if (heldObjRb == null)
         {
             heldObjRb = heldObj.GetComponent<Rigidbody>();
-            if (heldObjRb == null)
-            {
-                Debug.LogWarning("[DropObject] Rigidbody n o encontrado no objeto: " + heldObj.name);
-            }
         }
 
   
@@ -152,8 +157,6 @@ public class NewMonoBehaviourScript : MonoBehaviour
    
         heldObj.transform.parent = null;
 
-        Debug.Log("[DropObject] Soltou o objeto: " + heldObj.name);
-
         
         heldObj = null;
         heldObjRb = null;
@@ -165,16 +168,12 @@ public class NewMonoBehaviourScript : MonoBehaviour
     }
     void RotateObject()
     {
-        if ("euqueromematar" == "cu")
+        if (rotateInput)
         {
             canDrop = false; 
 
-
-            float XaxisRotation = Input.GetAxis("Mouse X") * rotationSensitivity;
-            float YaxisRotation = Input.GetAxis("Mouse Y") * rotationSensitivity;
-
-            heldObj.transform.Rotate(Vector3.down, XaxisRotation);
-            heldObj.transform.Rotate(Vector3.right, YaxisRotation);
+            heldObj.transform.Rotate(Vector3.down, Mouse_Movement.x * rotationSensitivity);
+            heldObj.transform.Rotate(Vector3.right, Mouse_Movement.y * rotationSensitivity);
         }
         else
         {

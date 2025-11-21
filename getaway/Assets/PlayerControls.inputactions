@@ -167,6 +167,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Rotation_Mouse",
+                    "type": "Value",
+                    "id": "17198619-72f3-4b25-b91e-2b62de2e65d5",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -393,7 +402,7 @@
                 {
                     "name": "",
                     "id": "d500e0d7-ab2c-4b55-8c26-ca9a90d2516f",
-                    "path": "",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -404,11 +413,22 @@
                 {
                     "name": "",
                     "id": "c78475d4-0313-421d-a04f-718a1f8cbd60",
-                    "path": "",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "throwObject",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "817992de-3e49-4c28-9c80-00c2722b1998",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Rotation_Mouse",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

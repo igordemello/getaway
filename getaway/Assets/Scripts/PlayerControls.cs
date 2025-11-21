@@ -253,6 +253,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Rotation_Mouse"",
+                    ""type"": ""Value"",
+                    ""id"": ""17198619-72f3-4b25-b91e-2b62de2e65d5"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -479,7 +488,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""d500e0d7-ab2c-4b55-8c26-ca9a90d2516f"",
-                    ""path"": """",
+                    ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -490,11 +499,22 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""c78475d4-0313-421d-a04f-718a1f8cbd60"",
-                    ""path"": """",
+                    ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""throwObject"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""817992de-3e49-4c28-9c80-00c2722b1998"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotation_Mouse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -523,6 +543,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_Pick = m_Player.FindAction("Pick", throwIfNotFound: true);
         m_Player_RotateObject = m_Player.FindAction("RotateObject", throwIfNotFound: true);
         m_Player_throwObject = m_Player.FindAction("throwObject", throwIfNotFound: true);
+        m_Player_Rotation_Mouse = m_Player.FindAction("Rotation_Mouse", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -621,6 +642,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Pick;
     private readonly InputAction m_Player_RotateObject;
     private readonly InputAction m_Player_throwObject;
+    private readonly InputAction m_Player_Rotation_Mouse;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -705,6 +727,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @throwObject => m_Wrapper.m_Player_throwObject;
         /// <summary>
+        /// Provides access to the underlying input action "Player/Rotation_Mouse".
+        /// </summary>
+        public InputAction @Rotation_Mouse => m_Wrapper.m_Player_Rotation_Mouse;
+        /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -784,6 +810,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @throwObject.started += instance.OnThrowObject;
             @throwObject.performed += instance.OnThrowObject;
             @throwObject.canceled += instance.OnThrowObject;
+            @Rotation_Mouse.started += instance.OnRotation_Mouse;
+            @Rotation_Mouse.performed += instance.OnRotation_Mouse;
+            @Rotation_Mouse.canceled += instance.OnRotation_Mouse;
         }
 
         /// <summary>
@@ -849,6 +878,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @throwObject.started -= instance.OnThrowObject;
             @throwObject.performed -= instance.OnThrowObject;
             @throwObject.canceled -= instance.OnThrowObject;
+            @Rotation_Mouse.started -= instance.OnRotation_Mouse;
+            @Rotation_Mouse.performed -= instance.OnRotation_Mouse;
+            @Rotation_Mouse.canceled -= instance.OnRotation_Mouse;
         }
 
         /// <summary>
@@ -1015,5 +1047,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnThrowObject(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Rotation_Mouse" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRotation_Mouse(InputAction.CallbackContext context);
     }
 }
