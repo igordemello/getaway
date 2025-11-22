@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using DG.Tweening;
 using UnityEditor.ShaderGraph;
 using UnityEditor.UI;
@@ -12,11 +11,11 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
     public float throwForce = 500f;
     public float pickUpRange = 0.5f;
-    public float rotationSensitivity = 0.5f; 
-    private GameObject heldObj; 
-    private Rigidbody heldObjRb; 
+    public float rotationSensitivity = 0.5f;
+    private GameObject heldObj;
+    private Rigidbody heldObjRb;
     private bool canDrop = true;
-    private int LayerNumber; 
+    private int LayerNumber;
 
 
     private PlayerControls controls;
@@ -25,6 +24,9 @@ public class NewMonoBehaviourScript : MonoBehaviour
     private bool pushInput;
     private bool rotatinObject;
     private Vector2 Mouse_Movement;
+
+    public GunSwitching gunSwitch;
+    private int current_gun = 0;
 
 
     private void Awake()
@@ -70,20 +72,23 @@ public class NewMonoBehaviourScript : MonoBehaviour
     }
     void Update()
     {
-        if (pickInput) 
+        if (pickInput)
         {
             pickInput = false;
             if (heldObj == null)
             {
-            
+
                 RaycastHit hit;
                 if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, pickUpRange))
                 {
-           
+
                     if (hit.transform.gameObject.tag == "CanPickUp")
                     {
-                    
+
                         PickUpObject(hit.transform.gameObject);
+                        current_gun = gunSwitch.selectedWeapon;
+                        gunSwitch.selectedWeapon = -1;
+                        gunSwitch.SelectWeapon();
                     }
                 }
             }
@@ -96,11 +101,11 @@ public class NewMonoBehaviourScript : MonoBehaviour
                 }
             }
         }
-        if (heldObj != null) 
+        if (heldObj != null)
         {
-            MoveObject(); 
+            MoveObject();
             RotateObject();
-            if (pushInput) 
+            if (pushInput)
             {
                 StopClipping();
                 ThrowObject();
@@ -112,12 +117,12 @@ public class NewMonoBehaviourScript : MonoBehaviour
     {
         if (pickUpObj.GetComponent<Rigidbody>())
         {
-            heldObj = pickUpObj; 
-            heldObjRb = pickUpObj.GetComponent<Rigidbody>(); 
+            heldObj = pickUpObj;
+            heldObjRb = pickUpObj.GetComponent<Rigidbody>();
             heldObjRb.isKinematic = true;
-            heldObjRb.transform.parent = holdPos.transform; 
-            heldObj.layer = LayerNumber; 
-          
+            heldObjRb.transform.parent = holdPos.transform;
+            heldObj.layer = LayerNumber;
+
             Physics.IgnoreCollision(heldObj.GetComponent<Collider>(), player.GetComponent<Collider>(), true);
         }
     }
@@ -130,47 +135,49 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
         Collider objCollider = heldObj.GetComponent<Collider>();
         Collider playerCollider = player ? player.GetComponent<Collider>() : null;
+        gunSwitch.selectedWeapon = current_gun;
+        gunSwitch.SelectWeapon();
 
         if (objCollider != null && playerCollider != null)
         {
             Physics.IgnoreCollision(objCollider, playerCollider, false);
         }
 
-     
+
         if (heldObjRb == null)
         {
             heldObjRb = heldObj.GetComponent<Rigidbody>();
         }
 
-  
+
         if (heldObjRb != null)
         {
-           
+
             heldObjRb.linearVelocity = Vector3.zero;
             heldObjRb.angularVelocity = Vector3.zero;
             heldObjRb.isKinematic = false;
         }
 
-     
+
         heldObj.layer = 0;
 
-   
+
         heldObj.transform.parent = null;
 
-        
+
         heldObj = null;
         heldObjRb = null;
     }
     void MoveObject()
     {
-     
+
         heldObj.transform.position = holdPos.transform.position;
     }
     void RotateObject()
     {
         if (rotateInput)
         {
-            canDrop = false; 
+            canDrop = false;
 
             heldObj.transform.Rotate(Vector3.down, Mouse_Movement.x * rotationSensitivity);
             heldObj.transform.Rotate(Vector3.right, Mouse_Movement.y * rotationSensitivity);
@@ -190,19 +197,21 @@ public class NewMonoBehaviourScript : MonoBehaviour
         heldObj.transform.parent = null;
         heldObjRb.AddForce(transform.forward * throwForce);
         heldObj = null;
+        gunSwitch.selectedWeapon = current_gun;
+        gunSwitch.SelectWeapon();
     }
     void StopClipping()
     {
-        var clipRange = Vector3.Distance(heldObj.transform.position, transform.position); 
+        var clipRange = Vector3.Distance(heldObj.transform.position, transform.position);
 
         RaycastHit[] hits;
         hits = Physics.RaycastAll(transform.position, transform.TransformDirection(Vector3.forward), clipRange);
-     
+
         if (hits.Length > 1)
         {
-   
-            heldObj.transform.position = transform.position + new Vector3(0f, -0.5f, 0f); 
-   
+
+            heldObj.transform.position = transform.position + new Vector3(0f, -0.5f, 0f);
+
         }
     }
 }

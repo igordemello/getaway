@@ -72,7 +72,7 @@ public class GunSwitching : MonoBehaviour
         canSwitch = true;
     }
 
-    void SelectWeapon()
+    public void SelectWeapon()
     {
         int i = 0;
         foreach (Transform weapon in transform)
@@ -85,8 +85,13 @@ public class GunSwitching : MonoBehaviour
             {
                 weapon.gameObject.SetActive(false);
             }
+            if (selectedWeapon == -1)
+            {
+                weapon.gameObject.SetActive(false);
+                continue;
+            }
 
-                i++;
+            i++;
         }
     }
 }
