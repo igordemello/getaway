@@ -36,6 +36,9 @@ public class EnemyBehavior : MonoBehaviour
     public float searchingVelocity = 3f;
     public float speedSmooth = 5f;
 
+    [Header("Combat Distance")]
+    public float stopDistance = 8f;
+
     private Vector3 LastPlayerPosition = Vector3.zero;
     private Transform seenPlayer = null;
     private bool canSeePlayer = false;
@@ -45,6 +48,22 @@ public class EnemyBehavior : MonoBehaviour
 
     public enum EnemyState { patrol, searching, aggro }
     public EnemyState currState = EnemyState.patrol;
+
+    [Header("Shooting Settings")]
+    public Transform firePoint;
+    public float shootDamage = 20f;
+    public float shootRange = 40f;
+    public float shootRate = 0.7f;
+    public LayerMask shootMask;
+
+    private float shootTimer = 0f;
+
+    [Header("Weapon Aim Settings")]
+    public Transform weaponPivot;
+    public float aimSpeed = 10f;
+    public float aimError = 2f;
+    public float aimErrorChangeSpeed = 2f;
+    private Vector3 currentErrorOffset;
 
     void Start()
     {
@@ -186,11 +205,27 @@ public class EnemyBehavior : MonoBehaviour
                 if (canSeePlayer && seenPlayer != null)
                 {
                     LastPlayerPosition = seenPlayer.position;
-                    if (Agent.isOnNavMesh) Agent.SetDestination(LastPlayerPosition);
+
+                    float distToPlayer = Vector3.Distance(enemy.position, LastPlayerPosition);
+
+                    if (distToPlayer > stopDistance)
+                    {
+                        if (Agent.isOnNavMesh)
+                            Agent.SetDestination(LastPlayerPosition);
+                    }
+                    else
+                    {
+                        if (Agent.isOnNavMesh)
+                            Agent.ResetPath();
+                    }
 
                     Vector3 lookDir = (seenPlayer.position - enemy.position).normalized;
                     if (lookDir != Vector3.zero)
                         enemy.DORotateQuaternion(Quaternion.LookRotation(lookDir), 0.15f).SetEase(Ease.OutSine);
+
+                    AimWeaponAtPlayer(seenPlayer);
+
+                    ShootAtPlayer();
                 }
                 else
                 {
@@ -287,6 +322,55 @@ public class EnemyBehavior : MonoBehaviour
 
         Gizmos.color = new Color(1f, 0.5f, 0f, 0.3f);
         Gizmos.DrawWireSphere(enemy.position, hearingRange);
+    }
+
+    void ShootAtPlayer()
+    {
+        shootTimer -= Time.deltaTime;
+        if (shootTimer > 0f) return;
+
+        if (firePoint == null) return;
+
+        shootTimer = shootRate;
+
+        if (Physics.Raycast(firePoint.position, firePoint.forward, out RaycastHit hit, shootRange, shootMask))
+        {
+            var target = hit.collider.GetComponent<Target>();
+            if (target != null)
+            {
+                target.TakeDamage(shootDamage);
+            }
+
+            Debug.DrawLine(firePoint.position, hit.point, Color.red, 0.2f);
+        }
+        else
+        {
+            Debug.DrawLine(firePoint.position, firePoint.position + firePoint.forward * shootRange, Color.yellow, 0.2f);
+        }
+    }
+
+    void AimWeaponAtPlayer(Transform target)
+    {
+        if (weaponPivot == null || target == null) return;
+
+        Vector3 randomOffset = new Vector3(
+            Random.Range(-aimError, aimError),
+            Random.Range(-aimError, aimError),
+            Random.Range(-aimError, aimError)
+        );
+
+        currentErrorOffset = Vector3.Lerp(currentErrorOffset, randomOffset, Time.deltaTime * aimErrorChangeSpeed);
+
+        Vector3 dir = (target.position - weaponPivot.position).normalized;
+        dir += currentErrorOffset * 0.01f;
+
+        Quaternion targetRot = Quaternion.LookRotation(dir, Vector3.up);
+
+        weaponPivot.rotation = Quaternion.Lerp(
+            weaponPivot.rotation,
+            targetRot,
+            Time.deltaTime * aimSpeed
+        );
     }
 
     void OnDestroy()
