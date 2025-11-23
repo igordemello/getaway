@@ -22,7 +22,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
     private bool pickInput;
     private bool rotateInput;
     private bool pushInput;
-    private bool rotatinObject;
+    //private bool rotatinObject;
     private Vector2 Mouse_Movement;
 
     public GunSwitching gunSwitch;
@@ -41,8 +41,8 @@ public class NewMonoBehaviourScript : MonoBehaviour
         controls.Player.throwObject.performed += ctx => pushInput = true;
         controls.Player.throwObject.canceled += ctx => pushInput = false;
 
-        controls.Player.Rotation_Mouse.performed += ctx => rotatinObject = true;
-        controls.Player.Rotation_Mouse.canceled += ctx => rotatinObject = false;
+        //controls.Player.Rotation_Mouse.performed += ctx => rotatinObject = true;
+        //controls.Player.Rotation_Mouse.canceled += ctx => rotatinObject = false;
 
         controls.Player.Rotation_Mouse.performed += ctx => Mouse_Movement = ctx.ReadValue<Vector2>(); ;
         controls.Player.Rotation_Mouse.canceled += ctx => Mouse_Movement = Vector2.zero;

@@ -152,6 +152,9 @@ public class Gun : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
         {
+            Debug.DrawLine(fpsCam.transform.position, hit.point, Color.green, 1f);
+            //Debug.Log(hit.transform.name);
+
             Target target = hit.transform.GetComponent<Target>();
             if (target != null)
             {
@@ -170,6 +173,10 @@ public class Gun : MonoBehaviour
 
             GameObject impactGO = Instantiate(impact, hit.point, Quaternion.LookRotation(hit.normal));
             Destroy(impactGO, 1f);
+        }
+        else
+        {
+            Debug.DrawRay(fpsCam.transform.position, fpsCam.transform.forward * range, Color.red, 1f);
         }
 
         muzzle.Play();
@@ -193,10 +200,13 @@ public class Gun : MonoBehaviour
             direction += fpsCam.transform.right * Random.Range(-spreadAngle, spreadAngle) / 100f;
             direction.Normalize();
 
+            Debug.DrawRay(origin, direction * range, Color.yellow, 1f); // tirar essa merdinha dps, mas fds tbm, so da pra ver no editor msm
 
             RaycastHit hit;
             if (Physics.Raycast(origin, direction, out hit, range))
             {
+                //Debug.Log(hit.transform.name);
+
                 Target target = hit.transform.GetComponent<Target>();
                 if (target != null)
                     target.TakeDamage(damage);
