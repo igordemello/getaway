@@ -1,36 +1,34 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem; 
 
 public class Bow : MonoBehaviour
 {
     [Header("Configurações do Arco")]
-    [Tooltip("O prefab da flecha que será disparado.")]
-    public GameObject arrowPrefab;
+    [Tooltip("O prefab da flecha NORMAL.")]
+    public GameObject normalArrowPrefab;
+    [Tooltip("O prefab da flecha EXPLOSIVA.")]
+    public GameObject explosiveArrowPrefab;
 
-    [Tooltip("O ponto de onde a flecha sai.")]
     public Transform arrowSpawnPoint;
 
     [Header("Força e Dano")]
-    [Tooltip("Força mínima do disparo.")]
     public float minLaunchForce = 10f;
-    [Tooltip("Força máxima do disparo.")]
     public float maxLaunchForce = 30f;
 
-    [Tooltip("Dano se apenas clicar (tiro fraco).")]
     public float minDamage = 15f;
-    [Tooltip("Dano se segurar até o final (tiro forte).")]
     public float maxDamage = 50f;
 
-    [Tooltip("Tempo (em segundos) para carregar o tiro máximo.")]
     public float maxDrawTime = 1.0f;
-
-    [Tooltip("Tempo para recarregar.")]
     public float reloadTime = 0.5f;
 
     [Header("Munição")]
     public int maxAmmo = 20;
+    public int maxExplosiveAmmo = 3;
     private int currentAmmo;
+    private int currentExplosiveAmmo;
+    private bool useExplosive = false;
 
     [Header("Referências")]
     public Animator animator;
@@ -74,17 +72,34 @@ public class Bow : MonoBehaviour
     private void Start()
     {
         currentAmmo = maxAmmo;
+        currentExplosiveAmmo = maxExplosiveAmmo;
     }
 
     void Update()
     {
+        // tecla t para trocar de flecha
+        if (Keyboard.current.tKey.wasPressedThisFrame)
+        {
+            useExplosive = !useExplosive;
+        }
+
         if (debugAmmo != null)
-            debugAmmo.text = $"Flechas:\n{currentAmmo}/{maxAmmo}";
+        {
+            string type = useExplosive ? "EXPLOSIVA" : "NORMAL";
+            int ammoVal = useExplosive ? currentExplosiveAmmo : currentAmmo;
+            debugAmmo.text = $"Modo: {type}\nFlechas: {ammoVal}";
+
+            // Muda a cor do texto para indicar perigo uaaau
+            debugAmmo.color = useExplosive ? Color.red : Color.white;
+        }
     }
 
     private void StartDrawing()
     {
-        if (isReloading || currentAmmo <= 0) return;
+        if (isReloading) return;
+
+        if (useExplosive && currentExplosiveAmmo <= 0) return;
+        if (!useExplosive && currentAmmo <= 0) return;
 
         isDrawing = true;
         drawStartTime = Time.time;
@@ -111,7 +126,9 @@ public class Bow : MonoBehaviour
         float launchForce = Mathf.Lerp(minLaunchForce, maxLaunchForce, drawPercent);
         float finalDamage = Mathf.Lerp(minDamage, maxDamage, drawPercent);
 
-        GameObject arrowObj = Instantiate(arrowPrefab, arrowSpawnPoint.position, arrowSpawnPoint.rotation);
+        GameObject prefabToUse = useExplosive ? explosiveArrowPrefab : normalArrowPrefab;
+
+        GameObject arrowObj = Instantiate(prefabToUse, arrowSpawnPoint.position, arrowSpawnPoint.rotation);
 
         Arrow arrowScript = arrowObj.GetComponent<Arrow>();
         if (arrowScript != null)
@@ -129,13 +146,12 @@ public class Bow : MonoBehaviour
         if (rb != null)
         {
             rb.AddForce(arrowSpawnPoint.forward * launchForce, ForceMode.Impulse);
-        }
-        else
-        {
-            Debug.LogError("O Prefab da Flecha não tem Rigidbody!");
+            rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
         }
 
-        currentAmmo--;
+        if (useExplosive) currentExplosiveAmmo--;
+        else currentAmmo--;
+
         StartCoroutine(Reload());
     }
 

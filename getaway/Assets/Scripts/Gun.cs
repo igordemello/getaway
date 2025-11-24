@@ -166,7 +166,7 @@ public class Gun : MonoBehaviour
 
             if (glass != null)
             {
-                ShatterableGlassInfo info = new ShatterableGlassInfo(hit.point, fpsCam.transform.forward * 50f);
+                ShatterableGlassInfo info = new ShatterableGlassInfo(hit.point, fpsCam.transform.forward * 10f);
 
                 glass.Shatter3D(info);
             }
@@ -192,6 +192,8 @@ public class Gun : MonoBehaviour
 
         Vector3 origin = fpsCam.transform.position;
 
+        HashSet<GameObject> glassesHitThisFrame = new HashSet<GameObject>();
+
         for (int i = 0; i < pellets; i++)
         {
             Vector3 direction = fpsCam.transform.forward;
@@ -213,9 +215,11 @@ public class Gun : MonoBehaviour
 
                 ShatterableGlass glass = hit.transform.GetComponent<ShatterableGlass>();
 
-                if (glass != null)
+                if (glass != null && !glassesHitThisFrame.Contains(glass.gameObject))
                 {
-                    ShatterableGlassInfo info = new ShatterableGlassInfo(hit.point, direction * 50f);
+                    glassesHitThisFrame.Add(glass.gameObject);
+
+                    ShatterableGlassInfo info = new ShatterableGlassInfo(hit.point, direction * 10f);
 
                     glass.Shatter3D(info);
                 }
@@ -227,4 +231,5 @@ public class Gun : MonoBehaviour
         muzzle.Play();
         camRecoil.Fire();
         gunRecoil.Fire();
-    }   }
+    }
+}

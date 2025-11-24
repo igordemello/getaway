@@ -1180,7 +1180,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a54c07ebffb5605429a339055b43ce1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  arrowPrefab: {fileID: 1959729250425484, guid: 5187dfa4d8f19524e8bbf7c6894b7de7, type: 3}
+  normalArrowPrefab: {fileID: 1959729250425484, guid: 5187dfa4d8f19524e8bbf7c6894b7de7, type: 3}
+  explosiveArrowPrefab: {fileID: 4168065024140461615, guid: 5419b75b154bcce43bb6a0e40fabfc2d, type: 3}
   arrowSpawnPoint: {fileID: 688998027}
   minLaunchForce: 20
   maxLaunchForce: 80
@@ -1189,6 +1190,7 @@ MonoBehaviour:
   maxDrawTime: 1
   reloadTime: 0.5
   maxAmmo: 50
+  maxExplosiveAmmo: 5
   animator: {fileID: 0}
   debugAmmo: {fileID: 60105647}
   playerCollider: {fileID: 1403427286}
@@ -2234,7 +2236,7 @@ Transform:
   m_GameObject: {fileID: 688998026}
   serializedVersion: 2
   m_LocalRotation: {x: -0.026176924, y: 0, z: 0, w: 0.99965733}
-  m_LocalPosition: {x: 0.097, y: -0.472, z: 1.82}
+  m_LocalPosition: {x: -0.465, y: -0.472, z: 0.348}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7961,15 +7963,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: adb3b474dcbf05c4fa4681087ad77868, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -11.75
+      value: -5.139
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: adb3b474dcbf05c4fa4681087ad77868, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.8468
+      value: 2.069
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: adb3b474dcbf05c4fa4681087ad77868, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -182.02
+      value: -181.16
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: adb3b474dcbf05c4fa4681087ad77868, type: 3}
       propertyPath: m_LocalRotation.w
@@ -8002,6 +8004,22 @@ PrefabInstance:
     - target: {fileID: 8200000, guid: adb3b474dcbf05c4fa4681087ad77868, type: 3}
       propertyPath: m_Volume
       value: 0.296
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: adb3b474dcbf05c4fa4681087ad77868, type: 3}
+      propertyPath: Force
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: adb3b474dcbf05c4fa4681087ad77868, type: 3}
+      propertyPath: Sectors
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: adb3b474dcbf05c4fa4681087ad77868, type: 3}
+      propertyPath: DetailsPerSector
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: adb3b474dcbf05c4fa4681087ad77868, type: 3}
+      propertyPath: SimplifyThreshold
+      value: 0.15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8101,5 +8119,5 @@ SceneRoots:
   - {fileID: 892015874}
   - {fileID: 618091471}
   - {fileID: 1437063792}
-  - {fileID: 2123436796}
   - {fileID: 1773604890}
+  - {fileID: 2123436796}
