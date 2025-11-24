@@ -22,7 +22,7 @@ public class EnemyBehavior : MonoBehaviour
     public float recognitionCd = 0.15f;
 
     [Header("Hearing Settings")]
-    public float hearingRange = 18f; 
+    public float hearingRange; 
     public float hearingSensitivity = 0.3f; 
     public float directAggroThreshold = 0.8f; 
 
@@ -163,6 +163,7 @@ public class EnemyBehavior : MonoBehaviour
             {
                 //print("fonte de som");
                 float distance = Vector3.Distance(enemy.position, source.transform.position);
+                print(distance);
                 float perceivedVolume = source.volume / (Mathf.Max(1f, distance)* Mathf.Max(1f, distance));
                 //print(perceivedVolume);
                 if (perceivedVolume > hearingSensitivity)
@@ -303,25 +304,6 @@ public class EnemyBehavior : MonoBehaviour
                 points.Add(hit.position);
         }
         return points;
-    }
-
-    void OnDrawGizmos()
-    {
-        if (enemy == null) enemy = transform;
-
-        Gizmos.color = canSeePlayer ? Color.green : Color.yellow;
-        Gizmos.DrawWireSphere(enemy.position, recognitionRange);
-
-        Vector3 eyePos = enemy.position + Vector3.up * eyeHeight;
-        Vector3 leftBoundary = Quaternion.Euler(0, -visionAngle * 0.5f, 0) * enemy.forward;
-        Vector3 rightBoundary = Quaternion.Euler(0, visionAngle * 0.5f, 0) * enemy.forward;
-
-        Gizmos.color = new Color(0f, 1f, 1f, 0.6f);
-        Gizmos.DrawRay(eyePos, leftBoundary * recognitionRange);
-        Gizmos.DrawRay(eyePos, rightBoundary * recognitionRange);
-
-        Gizmos.color = new Color(1f, 0.5f, 0f, 0.3f);
-        Gizmos.DrawWireSphere(enemy.position, hearingRange);
     }
 
     void ShootAtPlayer()

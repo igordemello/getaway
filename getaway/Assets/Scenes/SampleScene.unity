@@ -6769,8 +6769,8 @@ MonoBehaviour:
   eyeHeight: 1.6
   playerEyeOffset: 1
   recognitionCd: 0.15
-  hearingRange: 18
-  hearingSensitivity: 0.5
+  hearingRange: 36
+  hearingSensitivity: 1
   directAggroThreshold: 2
   offAggroCd: 1
   offSearchingCd: 3
