@@ -2,7 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.UI;
+using UnityEngine.UI; // Necessário para a Barra
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -39,12 +39,12 @@ public class PlayerMovement : MonoBehaviour
     public float crouchYScale;
     private float startYScale;
 
-    [Header("Stamina System")]
+    [Header("Stamina System")] // --- VOLTOU ---
     public float maxStamina = 100f;
     public float currentStamina;
     public Slider staminaBar;
 
-    [Header("Stamina Costs")]
+    [Header("Stamina Costs")] // --- VOLTOU ---
     public float dashDrain = 60f;
     public float doubleJumpCost = 30f;
     public float staminaRegen = 15f;
@@ -121,11 +121,14 @@ public class PlayerMovement : MonoBehaviour
     public bool activeGrapple;
     public bool swinging;
 
+    // --- ADIÇÕES DO SEU AMIGO (MANTIDAS) ---
+    [HideInInspector] public bool preserveMomentumTimerActive;
+    [HideInInspector] public float momentumTimer;
 
-    //leaning
     private bool leanLeftInput;
     private bool leanRightInput;
     private float smooth = 6;
+    // ----------------------------------------
 
     private void Awake()
     {
@@ -145,6 +148,7 @@ public class PlayerMovement : MonoBehaviour
         controls.Player.Crouch.performed += ctx => crouchInput = true;
         controls.Player.Crouch.canceled += ctx => crouchInput = false;
 
+        // Inputs de Inclinação (Q/E) do seu amigo
         controls.Player.LeanLeft.performed += ctx =>
         {
             leanLeftInput = !leanLeftInput;
@@ -169,6 +173,7 @@ public class PlayerMovement : MonoBehaviour
         readyToJump = true;
         jumpsRemaining = maxJumps;
 
+        // Inicializa estamina
         currentStamina = maxStamina;
         if (staminaBar != null)
         {
@@ -190,10 +195,18 @@ public class PlayerMovement : MonoBehaviour
 
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, (whatIsGround | whatIsWall));
 
+        // Lógica de Momentum do seu amigo
+        if (preserveMomentumTimerActive)
+        {
+            momentumTimer -= Time.deltaTime;
+            if (momentumTimer <= 0)
+                preserveMomentumTimerActive = false;
+        }
+
         MyInput();
         SpeedControl();
         StateHandler();
-        HandleStamina();
+        HandleStamina(); // Nossa função de estamina
 
         if (state != MovementState.dashing && state != MovementState.air && grounded)
         {
@@ -240,16 +253,10 @@ public class PlayerMovement : MonoBehaviour
     {
         MovePlayer();
 
+        // Lógica de inclinação (Leaning) do seu amigo
         float leanZ = 0f;
-
-        if (leanLeftInput)
-        {
-            leanZ = 40f;
-        }
-        else if (leanRightInput)
-        {
-            leanZ = -40f;
-        }
+        if (leanLeftInput) leanZ = 40f;
+        else if (leanRightInput) leanZ = -40f;
 
         Quaternion targetRotation = orientation.rotation * Quaternion.Euler(1f, 1f, leanZ);
         Quaternion smoothed = Quaternion.Slerp(rb.rotation, targetRotation, smooth * Time.fixedDeltaTime);
@@ -286,12 +293,12 @@ public class PlayerMovement : MonoBehaviour
             cameraPos.localPosition = new Vector3(cameraPos.localPosition.x, cameraStartY, cameraPos.localPosition.z);
         }
 
-        if (sprintInput && state == MovementState.sprinting)
+        if (sprintInput)
         {
             cam.DoFov(80f);
             soundSource.PlaySound(10f, 0.1f);
         }
-        else
+        else if (!sprintInput && state == MovementState.sprinting)
             cam.DoFov(60f);
     }
 
@@ -473,7 +480,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void SpeedControl()
     {
-        if (dashing || activeGrapple) return;
+        // Se estiver com o Momentum ativo (amigo), não limita a velocidade
+        if (dashing || activeGrapple || preserveMomentumTimerActive) return;
 
         if (OnSlope() && !exitingSlope)
         {
@@ -492,14 +500,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (maxYSpeed != 0 && rb.linearVelocity.y > maxYSpeed)
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, maxYSpeed, rb.linearVelocity.z);
-    }
-
-    private void Jump()
-    {
-        if (jumpsRemaining > 0 && readyToJump)
-        {
-            PerformJump();
-        }
     }
 
     private void ResetJump()
@@ -523,6 +523,10 @@ public class PlayerMovement : MonoBehaviour
         return Vector3.ProjectOnPlane(direction, slopeHit.normal).normalized;
     }
 
+    // --- FUNÇÕES DE GRAPPLE (RESTAURADAS PARA EVITAR ERROS) ---
+    private bool enableMovementOnNextTouch;
+    private Vector3 velocityToSet;
+
     public Vector3 CalculatedJumpVelocity(Vector3 startpoint, Vector3 endpoint, float trajectoryHeight)
     {
         float gravity = Physics.gravity.y;
@@ -534,9 +538,6 @@ public class PlayerMovement : MonoBehaviour
 
         return velocityXZ + velocityY;
     }
-
-    private bool enableMovementOnNextTouch;
-    private Vector3 velocityToSet;
 
     public void JumpToPosition(Vector3 targetPosition, float trajectoryHeight)
     {
@@ -556,6 +557,7 @@ public class PlayerMovement : MonoBehaviour
     {
         activeGrapple = false;
     }
+    // -----------------------------------------------------------
 
     public void ResetJumps()
     {
@@ -588,7 +590,7 @@ public class PlayerMovement : MonoBehaviour
         {
             enableMovementOnNextTouch = false;
             ResetRestrictions();
-            GetComponent<Climbing>().StopClimbing();
+            GetComponent<Grappling>().StopGrapple();
         }
         if (collision.gameObject.layer == 10)
         {
