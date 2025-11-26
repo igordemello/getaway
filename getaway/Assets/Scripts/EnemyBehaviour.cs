@@ -55,6 +55,9 @@ public class EnemyBehavior : MonoBehaviour
     public float shootRange = 40f;
     public float shootRate = 0.7f;
     public LayerMask shootMask;
+    public GunRecoil gunRecoil;
+    public ParticleSystem muzzle;
+    public GameObject impact;
 
     private float shootTimer = 0f;
 
@@ -314,6 +317,8 @@ public class EnemyBehavior : MonoBehaviour
         if (firePoint == null) return;
 
         shootTimer = shootRate;
+        gunRecoil.Fire();
+        muzzle.Play();
 
         if (Physics.Raycast(firePoint.position, firePoint.forward, out RaycastHit hit, shootRange, shootMask))
         {
@@ -324,6 +329,9 @@ public class EnemyBehavior : MonoBehaviour
             }
 
             Debug.DrawLine(firePoint.position, hit.point, Color.red, 0.2f);
+
+            GameObject impactGO = Instantiate(impact, hit.point, Quaternion.LookRotation(hit.normal));
+            Destroy(impactGO, 1f);
         }
         else
         {
