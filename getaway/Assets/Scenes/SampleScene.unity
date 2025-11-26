@@ -8177,10 +8177,10 @@ MonoBehaviour:
     m_Bits: 32768
   rb: {fileID: 2119326514}
   maxDistance: 80
-  baseForce: 30
-  maxForce: 180
+  baseForce: 50
+  maxForce: 80
   forceGrowthRate: 6
-  verticalOffset: 2
+  verticalOffset: 15
   cooldown: 0.3
 --- !u!114 &2119326522
 MonoBehaviour:
