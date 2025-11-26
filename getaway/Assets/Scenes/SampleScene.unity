@@ -7752,6 +7752,8 @@ MonoBehaviour:
   restricted: 0
   activeGrapple: 0
   swinging: 0
+  preserveMomentumTimerActive: 0
+  momentumTimer: 0
 --- !u!114 &2119326517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7885,15 +7887,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Grappling
   cam: {fileID: 330162592}
   gunTip: {fileID: 1489350205}
+  lr: {fileID: 1662619778}
   whatIsGrappleable:
     serializedVersion: 2
     m_Bits: 32768
-  lr: {fileID: 1662619778}
   rb: {fileID: 2119326514}
-  maxGrappleDistance: 25
-  grappleDelayTime: 0.25
-  overshootYAxis: 2
-  grapplingCd: 1
+  maxDistance: 80
+  baseForce: 50
+  maxForce: 80
+  forceGrowthRate: 6
+  verticalOffset: 10
+  cooldown: 1
 --- !u!114 &2119326522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7901,7 +7905,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2119326512}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 614391bdb937f3047952cfd53d86a1db, type: 3}
   m_Name: 

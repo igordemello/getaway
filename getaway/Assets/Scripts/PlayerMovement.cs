@@ -110,8 +110,10 @@ public class PlayerMovement : MonoBehaviour
     public bool activeGrapple;
     public bool swinging;
 
+   
+    [HideInInspector] public bool preserveMomentumTimerActive;
+    [HideInInspector] public float momentumTimer;
 
-    //leaning
     private bool leanLeftInput;
     private bool leanRightInput;
     private float smooth = 6;
@@ -171,6 +173,14 @@ public class PlayerMovement : MonoBehaviour
         textSpeed.text = moveSpeed.ToString();
 
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, (whatIsGround | whatIsWall));
+
+        
+        if (preserveMomentumTimerActive)
+        {
+            momentumTimer -= Time.deltaTime;
+            if (momentumTimer <= 0)
+                preserveMomentumTimerActive = false;
+        }
 
         MyInput();
         SpeedControl();
@@ -245,9 +255,10 @@ public class PlayerMovement : MonoBehaviour
             cameraPos.localPosition = new Vector3(cameraPos.localPosition.x, cameraStartY, cameraPos.localPosition.z);
         }
 
-        if (sprintInput) {
+        if (sprintInput)
+        {
             cam.DoFov(80f);
-            soundSource.PlaySound(10f,0.1f);
+            soundSource.PlaySound(10f, 0.1f);
         }
         else if (!sprintInput && state == MovementState.sprinting)
             cam.DoFov(60f);
@@ -427,7 +438,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void SpeedControl()
     {
-        if (dashing || activeGrapple) return;
+        if (dashing || activeGrapple || preserveMomentumTimerActive) return;
 
         if (OnSlope() && !exitingSlope)
         {
@@ -446,14 +457,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (maxYSpeed != 0 && rb.linearVelocity.y > maxYSpeed)
             rb.linearVelocity = new Vector3(rb.linearVelocity.x, maxYSpeed, rb.linearVelocity.z);
-    }
-
-    private void Jump()
-    {
-        if (jumpsRemaining > 0 && readyToJump)
-        {
-            PerformJump();
-        }
     }
 
     private void ResetJump()
@@ -477,63 +480,12 @@ public class PlayerMovement : MonoBehaviour
         return Vector3.ProjectOnPlane(direction, slopeHit.normal).normalized;
     }
 
-    public Vector3 CalculatedJumpVelocity(Vector3 startpoint, Vector3 endpoint, float trajectoryHeight)
-    {
-        float gravity = Physics.gravity.y;
-        float displacementY = endpoint.y - startpoint.y;
-        Vector3 displacementXZ = new Vector3(endpoint.x - startpoint.x, 0, endpoint.z - startpoint.z);
-
-        Vector3 velocityY = Vector3.up * Mathf.Sqrt(-2 * gravity * trajectoryHeight);
-        Vector3 velocityXZ = displacementXZ / (Mathf.Sqrt(-2 * trajectoryHeight / gravity) + Mathf.Sqrt(2 * (displacementY - trajectoryHeight) / gravity));
-
-        return velocityXZ + velocityY;
-    }
-
     private bool enableMovementOnNextTouch;
     private Vector3 velocityToSet;
-
-    public void JumpToPosition(Vector3 targetPosition, float trajectoryHeight)
-    {
-        velocityToSet = CalculatedJumpVelocity(transform.position, targetPosition, trajectoryHeight);
-        activeGrapple = true;
-        Invoke(nameof(SetVelocity), 0.1f);
-        Invoke(nameof(ResetRestrictions), Vector3.Distance(rb.position, targetPosition) / 10);
-    }
-
-    private void SetVelocity()
-    {
-        enableMovementOnNextTouch = true;
-        rb.linearVelocity = velocityToSet;
-    }
 
     public void ResetRestrictions()
     {
         activeGrapple = false;
-    }
-
-    public void ResetJumps()
-    {
-        jumpsRemaining = maxJumps;
-    }
-
-    public void AddJump()
-    {
-        jumpsRemaining++;
-    }
-
-    public void SetJumps(int amount)
-    {
-        jumpsRemaining = Mathf.Max(0, amount);
-    }
-
-    public int GetRemainingJumps()
-    {
-        return jumpsRemaining;
-    }
-
-    public int GetMaxJumps()
-    {
-        return maxJumps;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -544,8 +496,9 @@ public class PlayerMovement : MonoBehaviour
             ResetRestrictions();
             GetComponent<Grappling>().StopGrapple();
         }
-        if (collision.gameObject.layer == 10 ) {
-            soundSource.PlaySound(40f,0.1f);
+        if (collision.gameObject.layer == 10)
+        {
+            soundSource.PlaySound(40f, 0.1f);
         }
     }
 }
