@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -37,6 +38,16 @@ public class PlayerMovement : MonoBehaviour
     public float crouchSpeed;
     public float crouchYScale;
     private float startYScale;
+
+    [Header("Stamina System")]
+    public float maxStamina = 100f;
+    public float currentStamina;
+    public Slider staminaBar;
+
+    [Header("Stamina Costs")]
+    public float dashDrain = 60f;
+    public float doubleJumpCost = 30f;
+    public float staminaRegen = 15f;
 
     [Header("Camera")]
     public Transform cameraPos;
@@ -158,6 +169,13 @@ public class PlayerMovement : MonoBehaviour
         readyToJump = true;
         jumpsRemaining = maxJumps;
 
+        currentStamina = maxStamina;
+        if (staminaBar != null)
+        {
+            staminaBar.maxValue = maxStamina;
+            staminaBar.value = currentStamina;
+        }
+
         startYScale = transform.localScale.y;
         cameraStartY = cameraPos.localPosition.y;
         textSpeed.text = moveSpeed.ToString();
@@ -175,6 +193,7 @@ public class PlayerMovement : MonoBehaviour
         MyInput();
         SpeedControl();
         StateHandler();
+        HandleStamina();
 
         if (state != MovementState.dashing && state != MovementState.air && grounded)
         {
@@ -192,6 +211,29 @@ public class PlayerMovement : MonoBehaviour
 
         if (jumpPressed)
             jumpPressed = false;
+    }
+
+    private void HandleStamina()
+    {
+        bool isSpendingStamina = false;
+
+        if (state == MovementState.dashing)
+        {
+            currentStamina -= dashDrain * Time.deltaTime;
+            isSpendingStamina = true;
+        }
+
+        if (!isSpendingStamina && currentStamina < maxStamina)
+        {
+            currentStamina += staminaRegen * Time.deltaTime;
+        }
+
+        currentStamina = Mathf.Clamp(currentStamina, 0, maxStamina);
+
+        if (staminaBar != null)
+        {
+            staminaBar.value = currentStamina;
+        }
     }
 
     private void FixedUpdate()
@@ -212,7 +254,6 @@ public class PlayerMovement : MonoBehaviour
         Quaternion targetRotation = orientation.rotation * Quaternion.Euler(1f, 1f, leanZ);
         Quaternion smoothed = Quaternion.Slerp(rb.rotation, targetRotation, smooth * Time.fixedDeltaTime);
         rb.MoveRotation(smoothed);
-
     }
 
     private void MyInput()
@@ -245,11 +286,12 @@ public class PlayerMovement : MonoBehaviour
             cameraPos.localPosition = new Vector3(cameraPos.localPosition.x, cameraStartY, cameraPos.localPosition.z);
         }
 
-        if (sprintInput) {
+        if (sprintInput && state == MovementState.sprinting)
+        {
             cam.DoFov(80f);
-            soundSource.PlaySound(10f,0.1f);
+            soundSource.PlaySound(10f, 0.1f);
         }
-        else if (!sprintInput && state == MovementState.sprinting)
+        else
             cam.DoFov(60f);
     }
 
@@ -258,22 +300,26 @@ public class PlayerMovement : MonoBehaviour
         if (jumpsRemaining == maxJumps)
         {
             ExecuteFirstJump();
+            jumpsRemaining--;
+            readyToJump = false;
+            Invoke(nameof(ResetJump), jumpCooldown);
         }
         else
         {
-            ExecuteExtraJump();
+            if (currentStamina >= doubleJumpCost)
+            {
+                currentStamina -= doubleJumpCost;
+                ExecuteExtraJump();
+                jumpsRemaining--;
+                readyToJump = false;
+                Invoke(nameof(ResetJump), jumpCooldown);
+            }
         }
-
-        jumpsRemaining--;
-
-        readyToJump = false;
-        Invoke(nameof(ResetJump), jumpCooldown);
     }
 
     private void ExecuteFirstJump()
     {
         exitingSlope = true;
-
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
     }
@@ -542,10 +588,11 @@ public class PlayerMovement : MonoBehaviour
         {
             enableMovementOnNextTouch = false;
             ResetRestrictions();
-            GetComponent<Grappling>().StopGrapple();
+            GetComponent<Climbing>().StopClimbing();
         }
-        if (collision.gameObject.layer == 10 ) {
-            soundSource.PlaySound(40f,0.1f);
+        if (collision.gameObject.layer == 10)
+        {
+            soundSource.PlaySound(40f, 0.1f);
         }
     }
 }

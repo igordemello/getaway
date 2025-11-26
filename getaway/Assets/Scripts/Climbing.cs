@@ -155,7 +155,7 @@ public class Climbing : MonoBehaviour
 
     }
 
-    private void StopClimbing()
+    public void StopClimbing()
     {
         climbing = false;
         pm.climbing = false;

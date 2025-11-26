@@ -61,7 +61,7 @@ public class Dashing : MonoBehaviour
             dashInput = false;
             Dash();
         }
-        
+
 
         if (dashCdTimer > 0)
             dashCdTimer -= Time.deltaTime;
@@ -70,6 +70,11 @@ public class Dashing : MonoBehaviour
     private void Dash()
     {
         if (dashCdTimer > 0) return;
+
+        float dashCost = pm.dashDrain * dashDuration;
+
+        if (pm.currentStamina < dashCost) return;
+
         else dashCdTimer = dashCd;
 
         pm.dashing = true;

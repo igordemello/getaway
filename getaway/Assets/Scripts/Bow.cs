@@ -77,8 +77,8 @@ public class Bow : MonoBehaviour
 
     void Update()
     {
-        // tecla t para trocar de flecha
-        if (Keyboard.current.tKey.wasPressedThisFrame)
+        // mouse direito para trocar de flecha
+        if (Mouse.current.rightButton.wasPressedThisFrame)
         {
             useExplosive = !useExplosive;
         }
