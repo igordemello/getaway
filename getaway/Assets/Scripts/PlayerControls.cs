@@ -262,6 +262,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""WallKick"",
+                    ""type"": ""Button"",
+                    ""id"": ""6615f5ef-8803-40ef-aed4-a19003d8c622"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -517,6 +526,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Rotation_Mouse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c8c6d9b0-a1a2-430b-8301-64314a319981"",
+                    ""path"": ""<Keyboard>/v"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""WallKick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -544,6 +564,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_RotateObject = m_Player.FindAction("RotateObject", throwIfNotFound: true);
         m_Player_throwObject = m_Player.FindAction("throwObject", throwIfNotFound: true);
         m_Player_Rotation_Mouse = m_Player.FindAction("Rotation_Mouse", throwIfNotFound: true);
+        m_Player_WallKick = m_Player.FindAction("WallKick", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -643,6 +664,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_RotateObject;
     private readonly InputAction m_Player_throwObject;
     private readonly InputAction m_Player_Rotation_Mouse;
+    private readonly InputAction m_Player_WallKick;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -731,6 +753,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Rotation_Mouse => m_Wrapper.m_Player_Rotation_Mouse;
         /// <summary>
+        /// Provides access to the underlying input action "Player/WallKick".
+        /// </summary>
+        public InputAction @WallKick => m_Wrapper.m_Player_WallKick;
+        /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -813,6 +839,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Rotation_Mouse.started += instance.OnRotation_Mouse;
             @Rotation_Mouse.performed += instance.OnRotation_Mouse;
             @Rotation_Mouse.canceled += instance.OnRotation_Mouse;
+            @WallKick.started += instance.OnWallKick;
+            @WallKick.performed += instance.OnWallKick;
+            @WallKick.canceled += instance.OnWallKick;
         }
 
         /// <summary>
@@ -881,6 +910,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Rotation_Mouse.started -= instance.OnRotation_Mouse;
             @Rotation_Mouse.performed -= instance.OnRotation_Mouse;
             @Rotation_Mouse.canceled -= instance.OnRotation_Mouse;
+            @WallKick.started -= instance.OnWallKick;
+            @WallKick.performed -= instance.OnWallKick;
+            @WallKick.canceled -= instance.OnWallKick;
         }
 
         /// <summary>
@@ -1054,5 +1086,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnRotation_Mouse(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "WallKick" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnWallKick(InputAction.CallbackContext context);
     }
 }

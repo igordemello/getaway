@@ -8127,6 +8127,7 @@ MonoBehaviour:
   speedTransitionRateSprintToSlide: 2
   speedTransitionRateWalkToSprint: 6
   speedTransitionRateDefault: 5
+  wasWallrunning: 0
   wallrunning: 0
   climbing: 0
   dashing: 0
@@ -8160,6 +8161,8 @@ MonoBehaviour:
   wallJumpSideForce: 12
   wallClimbSpeed: 3
   maxWallRunTime: 3
+  wallKickHorizontalMultiplier: 3
+  wallKickCooldown: 0.5
   wallCheckDistance: 0.7
   minJumpHeight: 2
   exitWallTime: 0.2

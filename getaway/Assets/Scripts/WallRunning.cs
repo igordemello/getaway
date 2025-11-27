@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,6 +13,12 @@ public class WallRunningAdvanced : MonoBehaviour
     public float wallClimbSpeed;
     public float maxWallRunTime;
     private float wallRunTimer;
+
+    [Header("Wall Kick - Simples ×5 Horizontal")]
+    public float wallKickHorizontalMultiplier = 5f; // ← 5× força horizontal
+    public float wallKickCooldown = 2f;
+    private bool wallKickInput;
+    private bool canWallKick = true;
 
     [Header("Input")]
     private PlayerControls controls;
@@ -71,6 +77,10 @@ public class WallRunningAdvanced : MonoBehaviour
 
         controls.Player.WallRunDOWN.performed += ctx => downwardsRunInput = true;
         controls.Player.WallRunDOWN.canceled += ctx => downwardsRunInput = false;
+
+        // ← NOVO INPUT: Wall Kick com a tecla V
+        controls.Player.WallKick.performed += ctx => wallKickInput = true;
+        controls.Player.WallKick.canceled += ctx => wallKickInput = false;
     }
 
     private void OnEnable() => controls.Enable();
@@ -131,6 +141,12 @@ public class WallRunningAdvanced : MonoBehaviour
             }
 
             if (jumpInput) WallJump();
+
+            // ← NOVA VERIFICAÇÃO: Wall Kick
+            if (wallKickInput && canWallKick)
+            {
+                WallKick();
+            }
         }
         else if (exitingWall)
         {
@@ -153,6 +169,7 @@ public class WallRunningAdvanced : MonoBehaviour
     private void StartWallRun()
     {
         pm.wallrunning = true;
+        pm.wasWallrunning = true;
         wallRunTimer = maxWallRunTime;
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
 
@@ -161,6 +178,9 @@ public class WallRunningAdvanced : MonoBehaviour
         cam.DoFov(70f);
         if (wallLeft) cam.moveInput.x = 1;
         if (wallRight) cam.moveInput.x = -1;
+
+        // ← RESETA WALL KICK AO INICIAR WALLRUN
+        canWallKick = true;
     }
 
     private void WallRunningMovement()
@@ -208,6 +228,38 @@ public class WallRunningAdvanced : MonoBehaviour
         rb.AddForce(forceToApply, ForceMode.Impulse);
 
         StartAntiReturnForce();
+    }
+
+    // ← MÉTODO Wall Kick SIMPLES: WallJump com horizontal ×5
+    private void WallKick()
+    {
+        if (lg.holding || lg.exitingLedge) return;
+
+        exitingWall = true;
+        exitWallTimer = exitWallTime;
+
+        Vector3 wallNormal = wallRight ? rightWallhit.normal : leftWallhit.normal;
+        lastWallNormal = wallNormal;
+
+        // ← MESMA FÓRMULA DO WALLJUMP, MAS HORIZONTAL ×5
+        Vector3 forceToApply = transform.up * wallJumpUpForce + wallNormal * (wallJumpSideForce * wallKickHorizontalMultiplier);
+
+        rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+        rb.AddForce(forceToApply, ForceMode.Impulse);
+
+        // Ativa cooldown
+        canWallKick = false;
+        Invoke(nameof(ResetWallKick), wallKickCooldown);
+
+        Debug.Log($"Wall Kick ×{wallKickHorizontalMultiplier} - Mesma vertical, horizontal ×5");
+
+        StartAntiReturnForce();
+    }
+
+    // ← NOVO MÉTODO: Reset do Wall Kick
+    private void ResetWallKick()
+    {
+        canWallKick = true;
     }
 
     private void StartAntiReturnForce()

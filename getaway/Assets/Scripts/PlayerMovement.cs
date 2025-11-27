@@ -1,8 +1,8 @@
-using System.Collections;
+Ôªøusing System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.UI; // Necess·rio para a Barra
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -39,12 +39,12 @@ public class PlayerMovement : MonoBehaviour
     public float crouchYScale;
     private float startYScale;
 
-    [Header("Stamina System")] // --- VOLTOU ---
+    [Header("Stamina System")]
     public float maxStamina = 100f;
     public float currentStamina;
     public Slider staminaBar;
 
-    [Header("Stamina Costs")] // --- VOLTOU ---
+    [Header("Stamina Costs")]
     public float dashDrain = 60f;
     public float doubleJumpCost = 30f;
     public float staminaRegen = 15f;
@@ -112,6 +112,9 @@ public class PlayerMovement : MonoBehaviour
         swinging
     }
 
+    // ‚Üê NOVA VARI√ÅVEL: Controla se o player estava wallrunning
+    [HideInInspector] public bool wasWallrunning;
+
     public bool wallrunning;
     public bool climbing;
     public bool dashing;
@@ -121,14 +124,12 @@ public class PlayerMovement : MonoBehaviour
     public bool activeGrapple;
     public bool swinging;
 
-    // --- ADI«’ES DO SEU AMIGO (MANTIDAS) ---
     [HideInInspector] public bool preserveMomentumTimerActive;
     [HideInInspector] public float momentumTimer;
 
     private bool leanLeftInput;
     private bool leanRightInput;
     private float smooth = 6;
-    // ----------------------------------------
 
     private void Awake()
     {
@@ -148,7 +149,6 @@ public class PlayerMovement : MonoBehaviour
         controls.Player.Crouch.performed += ctx => crouchInput = true;
         controls.Player.Crouch.canceled += ctx => crouchInput = false;
 
-        // Inputs de InclinaÁ„o (Q/E) do seu amigo
         controls.Player.LeanLeft.performed += ctx =>
         {
             leanLeftInput = !leanLeftInput;
@@ -173,7 +173,6 @@ public class PlayerMovement : MonoBehaviour
         readyToJump = true;
         jumpsRemaining = maxJumps;
 
-        // Inicializa estamina
         currentStamina = maxStamina;
         if (staminaBar != null)
         {
@@ -193,9 +192,16 @@ public class PlayerMovement : MonoBehaviour
     {
         textSpeed.text = moveSpeed.ToString();
 
+        // ‚Üê VERIFICA√á√ÉO DE GROUNDED: Reseta wasWallrunning quando toca no ch√£o
+        bool wasGrounded = grounded;
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, (whatIsGround | whatIsWall));
 
-        // LÛgica de Momentum do seu amigo
+        // Se acabou de tocar no ch√£o e estava wallrunning, reseta o estado
+        if (!wasGrounded && grounded && wasWallrunning)
+        {
+            wasWallrunning = false;
+        }
+
         if (preserveMomentumTimerActive)
         {
             momentumTimer -= Time.deltaTime;
@@ -206,7 +212,7 @@ public class PlayerMovement : MonoBehaviour
         MyInput();
         SpeedControl();
         StateHandler();
-        HandleStamina(); // Nossa funÁ„o de estamina
+        HandleStamina();
 
         if (state != MovementState.dashing && state != MovementState.air && grounded)
         {
@@ -253,7 +259,6 @@ public class PlayerMovement : MonoBehaviour
     {
         MovePlayer();
 
-        // LÛgica de inclinaÁ„o (Leaning) do seu amigo
         float leanZ = 0f;
         if (leanLeftInput) leanZ = 40f;
         else if (leanRightInput) leanZ = -40f;
@@ -480,7 +485,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void SpeedControl()
     {
-        // Se estiver com o Momentum ativo (amigo), n„o limita a velocidade
         if (dashing || activeGrapple || preserveMomentumTimerActive) return;
 
         if (OnSlope() && !exitingSlope)
@@ -523,7 +527,6 @@ public class PlayerMovement : MonoBehaviour
         return Vector3.ProjectOnPlane(direction, slopeHit.normal).normalized;
     }
 
-    // --- FUN«’ES DE GRAPPLE (RESTAURADAS PARA EVITAR ERROS) ---
     private bool enableMovementOnNextTouch;
     private Vector3 velocityToSet;
 
@@ -557,7 +560,6 @@ public class PlayerMovement : MonoBehaviour
     {
         activeGrapple = false;
     }
-    // -----------------------------------------------------------
 
     public void ResetJumps()
     {

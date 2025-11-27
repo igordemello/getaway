@@ -74,6 +74,11 @@ public class Climbing : MonoBehaviour
 
     private void StateMachine()
     {
+        if (pm.wasWallrunning && !pm.grounded)
+        {
+            if (climbing) StopClimbing();
+            return;
+        }
         // State 0 - Ledge Grabbing
         if (lg.holding)
         {
