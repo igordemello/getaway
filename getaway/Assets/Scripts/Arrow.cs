@@ -55,6 +55,19 @@ public class Arrow : MonoBehaviour
             transform.SetParent(null);
         }
 
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            var agent = collision.gameObject.GetComponent<UnityEngine.AI.NavMeshAgent>();
+
+            if (agent != null)
+            {
+                Vector3 pushDir = collision.contacts[0].normal * -1f;
+                float force = 1.0f;
+
+                agent.velocity = pushDir * force * 5f;
+            }
+        }
+
 
         ShatterableGlass glass = collision.gameObject.GetComponent<ShatterableGlass>();
         if (glass != null)
