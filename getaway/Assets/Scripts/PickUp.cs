@@ -9,7 +9,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
     public GameObject player;
     public Transform holdPos;
 
-    public float throwForce = 500f;
+    public float throwForce = 700f;
     public float pickUpRange = 0.5f;
     public float rotationSensitivity = 0.5f;
     private GameObject heldObj;
@@ -196,6 +196,9 @@ public class NewMonoBehaviourScript : MonoBehaviour
         heldObjRb.isKinematic = false;
         heldObj.transform.parent = null;
         heldObjRb.AddForce(transform.forward * throwForce);
+        ExplosiveBarrel barrel = heldObj.GetComponent<ExplosiveBarrel>();
+        if (barrel != null)
+            barrel.ThrownedBarrel();
         heldObj = null;
         gunSwitch.selectedWeapon = current_gun;
         gunSwitch.SelectWeapon();
