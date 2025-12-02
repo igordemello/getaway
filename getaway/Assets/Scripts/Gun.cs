@@ -161,6 +161,10 @@ public class Gun : MonoBehaviour
                 target.TakeDamage(damage);
             }
 
+                ExplosiveBarrel barrel = hit.collider.GetComponent<ExplosiveBarrel>();
+                if (barrel != null)
+                    barrel.Explode();
+
 
             ShatterableGlass glass = hit.transform.GetComponent<ShatterableGlass>();
 
@@ -169,6 +173,18 @@ public class Gun : MonoBehaviour
                 ShatterableGlassInfo info = new ShatterableGlassInfo(hit.point, fpsCam.transform.forward * 10f);
 
                 glass.Shatter3D(info);
+            }
+
+            if (hit.transform.CompareTag("Enemy"))
+            {
+                var agent = hit.transform.GetComponent<UnityEngine.AI.NavMeshAgent>();
+                if (agent != null)
+                {
+                    Vector3 pushDir = -hit.normal.normalized;
+                    float force = 1.0f;
+
+                    agent.velocity = pushDir * force * 5f;
+                }
             }
 
             GameObject impactGO = Instantiate(impact, hit.point, Quaternion.LookRotation(hit.normal));
@@ -213,7 +229,23 @@ public class Gun : MonoBehaviour
                 if (target != null)
                     target.TakeDamage(damage);
 
+                ExplosiveBarrel barrel = hit.collider.GetComponent<ExplosiveBarrel>();
+                if (barrel != null)
+                    barrel.Explode();
+
                 ShatterableGlass glass = hit.transform.GetComponent<ShatterableGlass>();
+
+                if (hit.transform.CompareTag("Enemy"))
+                {
+                    var agent = hit.transform.GetComponent<UnityEngine.AI.NavMeshAgent>();
+                    if (agent != null)
+                    {
+                        Vector3 pushDir = -hit.normal.normalized;
+                        float force = 1.0f;
+
+                        agent.velocity = pushDir * force * 5f;
+                    }
+                }
 
                 if (glass != null && !glassesHitThisFrame.Contains(glass.gameObject))
                 {

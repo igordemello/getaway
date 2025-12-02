@@ -4,10 +4,10 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class Arrow : MonoBehaviour
 {
-    [Header("Configurações da Flecha")]
+    [Header("Configuraï¿½ï¿½es da Flecha")]
     public float damage = 40f;
 
-    [Tooltip("Tempo em segundos para a flecha ser destruída se não acertar nada.")]
+    [Tooltip("Tempo em segundos para a flecha ser destruï¿½da se nï¿½o acertar nada.")]
     public float lifeTime = 15.0f;
 
     private Rigidbody rb;
@@ -54,6 +54,23 @@ public class Arrow : MonoBehaviour
         {
             transform.SetParent(null);
         }
+
+        ExplosiveBarrel barrel = collision.gameObject.GetComponent<ExplosiveBarrel>();
+        if (barrel != null)
+            barrel.Explode();
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            var agent = collision.gameObject.GetComponent<UnityEngine.AI.NavMeshAgent>();
+
+            if (agent != null)
+            {
+                Vector3 pushDir = collision.contacts[0].normal * -1f;
+                float force = 1.0f;
+
+                agent.velocity = pushDir * force * 5f;
+            }
+        }
+
 
         ShatterableGlass glass = collision.gameObject.GetComponent<ShatterableGlass>();
         if (glass != null)
