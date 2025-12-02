@@ -320,9 +320,13 @@ public class EnemyBehavior : MonoBehaviour
         gunRecoil.Fire();
         muzzle.Play();
 
-        if (Physics.Raycast(firePoint.position, firePoint.forward, out RaycastHit hit, shootRange, shootMask))
+        RaycastHit hit;
+        if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, shootRange, shootMask))
         {
-            var target = hit.collider.GetComponent<Target>();
+            //Debug.Log(hit.transform.name);
+
+            var target = hit.transform.GetComponent<Target>();
+            Debug.Log(target);
             if (target != null)
             {
                 target.TakeDamage(shootDamage);

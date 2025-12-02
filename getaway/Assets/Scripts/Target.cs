@@ -10,7 +10,7 @@ public class Target : MonoBehaviour
     public void TakeDamage(float amount)
     {
         health -= amount;
-        if (CompareTag("player"))
+        if (CompareTag("Player"))
             health_UI.text = $"Health:\n{health}";
 
         if (health <= 0f)
