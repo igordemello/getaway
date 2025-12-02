@@ -55,6 +55,7 @@ public class Arrow : MonoBehaviour
             transform.SetParent(null);
         }
 
+
         ShatterableGlass glass = collision.gameObject.GetComponent<ShatterableGlass>();
         if (glass != null)
         {

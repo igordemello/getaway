@@ -171,6 +171,18 @@ public class Gun : MonoBehaviour
                 glass.Shatter3D(info);
             }
 
+            if (hit.transform.CompareTag("Enemy"))
+            {
+                var agent = hit.transform.GetComponent<UnityEngine.AI.NavMeshAgent>();
+                if (agent != null)
+                {
+                    Vector3 pushDir = -hit.normal.normalized;
+                    float force = 1.0f;
+
+                    agent.velocity = pushDir * force * 5f;
+                }
+            }
+
             GameObject impactGO = Instantiate(impact, hit.point, Quaternion.LookRotation(hit.normal));
             Destroy(impactGO, 1f);
         }
@@ -214,6 +226,18 @@ public class Gun : MonoBehaviour
                     target.TakeDamage(damage);
 
                 ShatterableGlass glass = hit.transform.GetComponent<ShatterableGlass>();
+
+                if (hit.transform.CompareTag("Enemy"))
+                {
+                    var agent = hit.transform.GetComponent<UnityEngine.AI.NavMeshAgent>();
+                    if (agent != null)
+                    {
+                        Vector3 pushDir = -hit.normal.normalized;
+                        float force = 1.0f;
+
+                        agent.velocity = pushDir * force * 5f;
+                    }
+                }
 
                 if (glass != null && !glassesHitThisFrame.Contains(glass.gameObject))
                 {
