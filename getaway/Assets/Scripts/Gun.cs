@@ -161,6 +161,10 @@ public class Gun : MonoBehaviour
                 target.TakeDamage(damage);
             }
 
+                ExplosiveBarrel barrel = hit.collider.GetComponent<ExplosiveBarrel>();
+                if (barrel != null)
+                    barrel.Explode();
+
 
             ShatterableGlass glass = hit.transform.GetComponent<ShatterableGlass>();
 
@@ -212,6 +216,10 @@ public class Gun : MonoBehaviour
                 Target target = hit.transform.GetComponent<Target>();
                 if (target != null)
                     target.TakeDamage(damage);
+
+                ExplosiveBarrel barrel = hit.collider.GetComponent<ExplosiveBarrel>();
+                if (barrel != null)
+                    barrel.Explode();
 
                 ShatterableGlass glass = hit.transform.GetComponent<ShatterableGlass>();
 

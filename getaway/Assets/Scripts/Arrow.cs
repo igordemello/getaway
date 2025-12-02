@@ -55,6 +55,10 @@ public class Arrow : MonoBehaviour
             transform.SetParent(null);
         }
 
+        ExplosiveBarrel barrel = collision.gameObject.GetComponent<ExplosiveBarrel>();
+        if (barrel != null)
+            barrel.Explode();
+
         ShatterableGlass glass = collision.gameObject.GetComponent<ShatterableGlass>();
         if (glass != null)
         {
