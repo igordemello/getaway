@@ -39,7 +39,7 @@ public class EnemyBehavior2 : MonoBehaviour
 
     [Header("Attack Settings")]
     public float damage = 10f;
-    public float knockbackForce = 30f;
+    public float knockbackForce = 40f;
 
 
     private Vector3 LastPlayerPosition = Vector3.zero;

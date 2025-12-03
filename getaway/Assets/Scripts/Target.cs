@@ -5,9 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class Target : MonoBehaviour
 {
-    //[Header("vida")];
+    [Header("Target info")]
     public float health = 100f;
     public TextMeshProUGUI health_UI;
+    public GameObject other;
 
     public void TakeDamage(float amount)
     {
@@ -33,6 +34,8 @@ public class Target : MonoBehaviour
 
     void Die()
     {
+        if (other!=null) 
+            Destroy(other);
         Destroy(gameObject);
     }
 }

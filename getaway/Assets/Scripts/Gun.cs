@@ -225,6 +225,9 @@ public class Gun : MonoBehaviour
             {
                 //Debug.Log(hit.transform.name);
 
+               if (hit.transform.gameObject.layer == 11) continue;
+
+
                 Target target = hit.transform.GetComponent<Target>();
                 if (target != null)
                     target.TakeDamage(damage);
