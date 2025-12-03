@@ -15,7 +15,7 @@ public class Grappling : MonoBehaviour
     public float baseForce = 30f;
     public float maxForce = 180f;
     public float forceGrowthRate = 6f;
-
+    // comentario
     [Tooltip("Ponto final será hit.point + este valor para garantir que o player passe por cima de bordas")]
     public float verticalOffset = 2f;
 
