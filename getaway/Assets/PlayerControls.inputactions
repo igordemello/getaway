@@ -8,7 +8,7 @@
             "actions": [
                 {
                     "name": "Look",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "d4e1332d-5604-40b1-9935-4bc9a4129e74",
                     "expectedControlType": "",
                     "processors": "",
@@ -181,6 +181,60 @@
                     "name": "WallKick",
                     "type": "Button",
                     "id": "6615f5ef-8803-40ef-aed4-a19003d8c622",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Revolver",
+                    "type": "Button",
+                    "id": "e80d0f67-5224-41b5-ad5c-ba69853de380",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Shotgun",
+                    "type": "Button",
+                    "id": "cf92777f-a28e-4281-bda0-9e444249e257",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Bow",
+                    "type": "Button",
+                    "id": "f4014f62-f92d-4478-bcbd-53be982a609e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Knife",
+                    "type": "Button",
+                    "id": "9b77047a-a197-456c-934a-fdedfc5c7910",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Pistol",
+                    "type": "Button",
+                    "id": "c0b6b807-164b-4cd9-b4c4-3224bc2ea0a9",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Grenade",
+                    "type": "Button",
+                    "id": "a407a761-0f25-49f3-a2d7-d049d90707ce",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -449,6 +503,72 @@
                     "processors": "",
                     "groups": "",
                     "action": "WallKick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a7c72b8b-ed0c-4340-82e4-3417dad6a83c",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Revolver",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "380fa55b-38f0-4133-aa17-9cf9405f32e1",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shotgun",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "49cba4e7-43c9-40c0-84ab-e797953e7b3f",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Bow",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d73a4527-c6be-48b2-81aa-78bbef485ee1",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Knife",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "71ef961c-5441-46d6-bd11-81a710382ed5",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pistol",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fc77c781-ab56-415d-aef1-8b7adbac4bcb",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Grenade",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

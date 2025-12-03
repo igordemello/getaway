@@ -94,7 +94,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             ""actions"": [
                 {
                     ""name"": ""Look"",
-                    ""type"": ""Value"",
+                    ""type"": ""Button"",
                     ""id"": ""d4e1332d-5604-40b1-9935-4bc9a4129e74"",
                     ""expectedControlType"": """",
                     ""processors"": """",
@@ -267,6 +267,60 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""name"": ""WallKick"",
                     ""type"": ""Button"",
                     ""id"": ""6615f5ef-8803-40ef-aed4-a19003d8c622"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Revolver"",
+                    ""type"": ""Button"",
+                    ""id"": ""e80d0f67-5224-41b5-ad5c-ba69853de380"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Shotgun"",
+                    ""type"": ""Button"",
+                    ""id"": ""cf92777f-a28e-4281-bda0-9e444249e257"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Bow"",
+                    ""type"": ""Button"",
+                    ""id"": ""f4014f62-f92d-4478-bcbd-53be982a609e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Knife"",
+                    ""type"": ""Button"",
+                    ""id"": ""9b77047a-a197-456c-934a-fdedfc5c7910"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pistol"",
+                    ""type"": ""Button"",
+                    ""id"": ""c0b6b807-164b-4cd9-b4c4-3224bc2ea0a9"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Grenade"",
+                    ""type"": ""Button"",
+                    ""id"": ""a407a761-0f25-49f3-a2d7-d049d90707ce"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -537,6 +591,72 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""WallKick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a7c72b8b-ed0c-4340-82e4-3417dad6a83c"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Revolver"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""380fa55b-38f0-4133-aa17-9cf9405f32e1"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Shotgun"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""49cba4e7-43c9-40c0-84ab-e797953e7b3f"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Bow"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d73a4527-c6be-48b2-81aa-78bbef485ee1"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Knife"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""71ef961c-5441-46d6-bd11-81a710382ed5"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pistol"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fc77c781-ab56-415d-aef1-8b7adbac4bcb"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Grenade"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -565,6 +685,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_throwObject = m_Player.FindAction("throwObject", throwIfNotFound: true);
         m_Player_Rotation_Mouse = m_Player.FindAction("Rotation_Mouse", throwIfNotFound: true);
         m_Player_WallKick = m_Player.FindAction("WallKick", throwIfNotFound: true);
+        m_Player_Revolver = m_Player.FindAction("Revolver", throwIfNotFound: true);
+        m_Player_Shotgun = m_Player.FindAction("Shotgun", throwIfNotFound: true);
+        m_Player_Bow = m_Player.FindAction("Bow", throwIfNotFound: true);
+        m_Player_Knife = m_Player.FindAction("Knife", throwIfNotFound: true);
+        m_Player_Pistol = m_Player.FindAction("Pistol", throwIfNotFound: true);
+        m_Player_Grenade = m_Player.FindAction("Grenade", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -665,6 +791,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_throwObject;
     private readonly InputAction m_Player_Rotation_Mouse;
     private readonly InputAction m_Player_WallKick;
+    private readonly InputAction m_Player_Revolver;
+    private readonly InputAction m_Player_Shotgun;
+    private readonly InputAction m_Player_Bow;
+    private readonly InputAction m_Player_Knife;
+    private readonly InputAction m_Player_Pistol;
+    private readonly InputAction m_Player_Grenade;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -757,6 +889,30 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @WallKick => m_Wrapper.m_Player_WallKick;
         /// <summary>
+        /// Provides access to the underlying input action "Player/Revolver".
+        /// </summary>
+        public InputAction @Revolver => m_Wrapper.m_Player_Revolver;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Shotgun".
+        /// </summary>
+        public InputAction @Shotgun => m_Wrapper.m_Player_Shotgun;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Bow".
+        /// </summary>
+        public InputAction @Bow => m_Wrapper.m_Player_Bow;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Knife".
+        /// </summary>
+        public InputAction @Knife => m_Wrapper.m_Player_Knife;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Pistol".
+        /// </summary>
+        public InputAction @Pistol => m_Wrapper.m_Player_Pistol;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Grenade".
+        /// </summary>
+        public InputAction @Grenade => m_Wrapper.m_Player_Grenade;
+        /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -842,6 +998,24 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @WallKick.started += instance.OnWallKick;
             @WallKick.performed += instance.OnWallKick;
             @WallKick.canceled += instance.OnWallKick;
+            @Revolver.started += instance.OnRevolver;
+            @Revolver.performed += instance.OnRevolver;
+            @Revolver.canceled += instance.OnRevolver;
+            @Shotgun.started += instance.OnShotgun;
+            @Shotgun.performed += instance.OnShotgun;
+            @Shotgun.canceled += instance.OnShotgun;
+            @Bow.started += instance.OnBow;
+            @Bow.performed += instance.OnBow;
+            @Bow.canceled += instance.OnBow;
+            @Knife.started += instance.OnKnife;
+            @Knife.performed += instance.OnKnife;
+            @Knife.canceled += instance.OnKnife;
+            @Pistol.started += instance.OnPistol;
+            @Pistol.performed += instance.OnPistol;
+            @Pistol.canceled += instance.OnPistol;
+            @Grenade.started += instance.OnGrenade;
+            @Grenade.performed += instance.OnGrenade;
+            @Grenade.canceled += instance.OnGrenade;
         }
 
         /// <summary>
@@ -913,6 +1087,24 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @WallKick.started -= instance.OnWallKick;
             @WallKick.performed -= instance.OnWallKick;
             @WallKick.canceled -= instance.OnWallKick;
+            @Revolver.started -= instance.OnRevolver;
+            @Revolver.performed -= instance.OnRevolver;
+            @Revolver.canceled -= instance.OnRevolver;
+            @Shotgun.started -= instance.OnShotgun;
+            @Shotgun.performed -= instance.OnShotgun;
+            @Shotgun.canceled -= instance.OnShotgun;
+            @Bow.started -= instance.OnBow;
+            @Bow.performed -= instance.OnBow;
+            @Bow.canceled -= instance.OnBow;
+            @Knife.started -= instance.OnKnife;
+            @Knife.performed -= instance.OnKnife;
+            @Knife.canceled -= instance.OnKnife;
+            @Pistol.started -= instance.OnPistol;
+            @Pistol.performed -= instance.OnPistol;
+            @Pistol.canceled -= instance.OnPistol;
+            @Grenade.started -= instance.OnGrenade;
+            @Grenade.performed -= instance.OnGrenade;
+            @Grenade.canceled -= instance.OnGrenade;
         }
 
         /// <summary>
@@ -1093,5 +1285,47 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnWallKick(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Revolver" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnRevolver(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Shotgun" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnShotgun(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Bow" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnBow(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Knife" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnKnife(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Pistol" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPistol(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Grenade" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnGrenade(InputAction.CallbackContext context);
     }
 }

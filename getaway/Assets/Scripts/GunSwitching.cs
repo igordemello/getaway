@@ -6,6 +6,10 @@ public class GunSwitching : MonoBehaviour
 
     private PlayerControls controls;
     private float scrollInput;
+    private bool revolver;
+    private bool shotgun;
+    private bool bow;
+    private bool knife;
 
     private float switchCooldown = 0.4f;
     private bool canSwitch = true;
@@ -16,6 +20,19 @@ public class GunSwitching : MonoBehaviour
 
         controls.Player.Scroll.performed += ctx => scrollInput = ctx.ReadValue<Vector2>().y;
         controls.Player.Scroll.canceled += ctx => scrollInput = 0f;
+
+        controls.Player.Revolver.performed += ctx => revolver = true;
+        controls.Player.Revolver.canceled += ctx => revolver = false;
+
+        controls.Player.Shotgun.performed += ctx => shotgun = true;
+        controls.Player.Shotgun.canceled += ctx => shotgun = false;
+
+        controls.Player.Bow.performed += ctx => bow = true;
+        controls.Player.Bow.canceled += ctx => bow = false;
+
+        controls.Player.Knife.performed += ctx => knife = true;
+        controls.Player.Knife.canceled += ctx => knife = false;
+        //controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
     }
 
     private void OnEnable() => controls.Enable();
@@ -62,6 +79,27 @@ public class GunSwitching : MonoBehaviour
         {
             SelectWeapon();
             StartCoroutine(SwitchCooldown());
+        }
+
+        if (revolver)
+        {
+            selectedWeapon = 0;
+            SelectWeapon();
+        }
+        if (shotgun)
+        {
+            selectedWeapon = 1;
+            SelectWeapon();
+        }
+        if (bow)
+        {
+            selectedWeapon = 2;
+            SelectWeapon();
+        }
+        if (knife)
+        {
+            selectedWeapon = 3;
+            SelectWeapon();
         }
     }
 
