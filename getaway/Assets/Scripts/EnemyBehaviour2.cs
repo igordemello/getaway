@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using DG.Tweening;
 
-public class EnemyBehavior : MonoBehaviour
+public class EnemyBehavior2 : MonoBehaviour
 {
     [Header("Components")]
     public NavMeshAgent Agent;
@@ -22,9 +22,9 @@ public class EnemyBehavior : MonoBehaviour
     public float recognitionCd = 0.15f;
 
     [Header("Hearing Settings")]
-    public float hearingRange; 
-    public float hearingSensitivity = 0.3f; 
-    public float directAggroThreshold = 0.8f; 
+    public float hearingRange;
+    public float hearingSensitivity = 0.3f;
+    public float directAggroThreshold = 0.8f;
 
     [Header("Search / Timers")]
     public float offAggroCd = 1f;
@@ -36,8 +36,10 @@ public class EnemyBehavior : MonoBehaviour
     public float searchingVelocity = 3f;
     public float speedSmooth = 5f;
 
-    [Header("Combat Distance")]
-    public float stopDistance = 8f;
+    [Header("Attack Settings")]
+    public float damage = 10f;
+    public float knockbackForce = 10f;
+
 
     private Vector3 LastPlayerPosition = Vector3.zero;
     private Transform seenPlayer = null;
@@ -48,25 +50,6 @@ public class EnemyBehavior : MonoBehaviour
 
     public enum EnemyState { patrol, searching, aggro }
     public EnemyState currState = EnemyState.patrol;
-
-    [Header("Shooting Settings")]
-    public Transform firePoint;
-    public float shootDamage = 20f;
-    public float shootRange = 40f;
-    public float shootRate = 0.7f;
-    public LayerMask shootMask;
-    public GunRecoil gunRecoil;
-    public ParticleSystem muzzle;
-    public GameObject impact;
-
-    private float shootTimer = 0f;
-
-    [Header("Weapon Aim Settings")]
-    public Transform weaponPivot;
-    public float aimSpeed = 10f;
-    public float aimError = 2f;
-    public float aimErrorChangeSpeed = 2f;
-    private Vector3 currentErrorOffset;
 
     void Start()
     {
@@ -79,8 +62,8 @@ public class EnemyBehavior : MonoBehaviour
 
     void FixedUpdate()
     {
-        Recognition(); 
-        Hear();        
+        Recognition();
+        Hear();
         StateHandler();
     }
 
@@ -158,7 +141,7 @@ public class EnemyBehavior : MonoBehaviour
     void Hear()
     {
         Collider[] sounds = Physics.OverlapSphere(enemy.position, hearingRange);
-        
+
         foreach (var s in sounds)
         {
             SoundSource source = s.GetComponent<SoundSource>();
@@ -166,25 +149,25 @@ public class EnemyBehavior : MonoBehaviour
             {
                 //print("fonte de som");
                 float distance = Vector3.Distance(enemy.position, source.transform.position);
-                //print(distance);
-                float perceivedVolume = source.volume / (Mathf.Max(1f, distance)* Mathf.Max(1f, distance));
+               // print(distance);
+                float perceivedVolume = source.volume / (Mathf.Max(1f, distance) * Mathf.Max(1f, distance));
                 //print(perceivedVolume);
                 if (perceivedVolume > hearingSensitivity)
                 {
-                   // print("som percebido");
-                   // Debug.DrawLine(enemy.position + Vector3.up, source.transform.position, Color.yellow, 0.25f);
+                    // print("som percebido");
+                    // Debug.DrawLine(enemy.position + Vector3.up, source.transform.position, Color.yellow, 0.25f);
                     //Debug.Log($"[Enemy] Ouviu som de {s.name} com intensidade {perceivedVolume:F2}");
 
                     LastPlayerPosition = source.transform.position;
-                   // Agent.ResetPath();
+                    // Agent.ResetPath();
                     Agent.SetDestination(LastPlayerPosition);
                     if (perceivedVolume > directAggroThreshold)
                     {
                         currState = EnemyState.aggro;
                         offAggroTimer = 0f;
-                       // Debug.Log("[Enemy] Som alto -> AGGRO!");
-                        
-                        
+                        // Debug.Log("[Enemy] Som alto -> AGGRO!");
+
+
                     }
                     else if (currState == EnemyState.patrol)
                     {
@@ -212,24 +195,13 @@ public class EnemyBehavior : MonoBehaviour
 
                     float distToPlayer = Vector3.Distance(enemy.position, LastPlayerPosition);
 
-                    if (distToPlayer > stopDistance)
-                    {
                         if (Agent.isOnNavMesh)
                             Agent.SetDestination(LastPlayerPosition);
-                    }
-                    else
-                    {
-                        if (Agent.isOnNavMesh)
-                            Agent.ResetPath();
-                    }
+
 
                     Vector3 lookDir = (seenPlayer.position - enemy.position).normalized;
                     if (lookDir != Vector3.zero)
                         enemy.DORotateQuaternion(Quaternion.LookRotation(lookDir), 0.15f).SetEase(Ease.OutSine);
-
-                    AimWeaponAtPlayer(seenPlayer);
-
-                    ShootAtPlayer();
                 }
                 else
                 {
@@ -308,63 +280,22 @@ public class EnemyBehavior : MonoBehaviour
         }
         return points;
     }
-
-    void ShootAtPlayer()
-    {
-        shootTimer -= Time.deltaTime;
-        if (shootTimer > 0f) return;
-
-        if (firePoint == null) return;
-
-        shootTimer = shootRate;
-        gunRecoil.Fire();
-        muzzle.Play();
-
-        RaycastHit hit;
-        if (Physics.Raycast(firePoint.position, firePoint.forward, out hit, shootRange, shootMask))
-        {
-            //Debug.Log(hit.transform.name);
-
-            var target = hit.transform.GetComponent<Target>();
-            Debug.Log(target);
+    private void OnCollisionEnter(Collision collision)
+    {   
+        if (collision.gameObject.layer==11) {
+            print("colidiu");
+            var target = collision.gameObject.GetComponent<Target>();
             if (target != null)
             {
-                target.TakeDamage(shootDamage);
+                target.TakeDamage(damage);
+                Vector3 knockbackDir = enemy.forward.normalized;
+                if (collision.rigidbody!=null) {
+                    collision.rigidbody.AddForce(knockbackDir * knockbackForce, ForceMode.Impulse);
+                }
+                
+
             }
-
-            Debug.DrawLine(firePoint.position, hit.point, Color.red, 0.2f);
-
-            GameObject impactGO = Instantiate(impact, hit.point, Quaternion.LookRotation(hit.normal));
-            Destroy(impactGO, 1f);
         }
-        else
-        {
-            Debug.DrawLine(firePoint.position, firePoint.position + firePoint.forward * shootRange, Color.yellow, 0.2f);
-        }
-    }
-
-    void AimWeaponAtPlayer(Transform target)
-    {
-        if (weaponPivot == null || target == null) return;
-
-        Vector3 randomOffset = new Vector3(
-            Random.Range(-aimError, aimError),
-            Random.Range(-aimError, aimError),
-            Random.Range(-aimError, aimError)
-        );
-
-        currentErrorOffset = Vector3.Lerp(currentErrorOffset, randomOffset, Time.deltaTime * aimErrorChangeSpeed);
-
-        Vector3 dir = (target.position - weaponPivot.position).normalized;
-        dir += currentErrorOffset * 0.01f;
-
-        Quaternion targetRot = Quaternion.LookRotation(dir, Vector3.up);
-
-        weaponPivot.rotation = Quaternion.Lerp(
-            weaponPivot.rotation,
-            targetRot,
-            Time.deltaTime * aimSpeed
-        );
     }
 
     void OnDestroy()

@@ -596,7 +596,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if (collision.gameObject.layer == 10)
         {
-            soundSource.PlaySound(40f, 0.1f);
+            soundSource.PlaySound(60f, 0.1f);
         }
     }
 }
