@@ -9,6 +9,7 @@ public class EnemyBehavior2 : MonoBehaviour
     [Header("Components")]
     public NavMeshAgent Agent;
     public Transform enemy;
+    public Rigidbody playerRb;
 
     [Header("Layers")]
     public LayerMask whatIsPlayer;
@@ -23,8 +24,8 @@ public class EnemyBehavior2 : MonoBehaviour
 
     [Header("Hearing Settings")]
     public float hearingRange;
-    public float hearingSensitivity = 0.3f;
-    public float directAggroThreshold = 0.8f;
+    public float hearingSensitivity = 1f;
+    public float directAggroThreshold = 2f;
 
     [Header("Search / Timers")]
     public float offAggroCd = 1f;
@@ -38,7 +39,7 @@ public class EnemyBehavior2 : MonoBehaviour
 
     [Header("Attack Settings")]
     public float damage = 10f;
-    public float knockbackForce = 10f;
+    public float knockbackForce = 30f;
 
 
     private Vector3 LastPlayerPosition = Vector3.zero;
@@ -65,6 +66,7 @@ public class EnemyBehavior2 : MonoBehaviour
         Recognition();
         Hear();
         StateHandler();
+        collsion();
     }
 
     void Recognition()
@@ -280,27 +282,19 @@ public class EnemyBehavior2 : MonoBehaviour
         }
         return points;
     }
-    private void OnCollisionEnter(Collision collision)
-    {   
-        if (collision.gameObject.layer==11) {
-            print("colidiu");
-            var target = collision.gameObject.GetComponent<Target>();
-            if (target != null)
-            {
-                target.TakeDamage(damage);
-                Vector3 knockbackDir = enemy.forward.normalized;
-                if (collision.rigidbody!=null) {
-                    collision.rigidbody.AddForce(knockbackDir * knockbackForce, ForceMode.Impulse);
-                }
-                
-
-            }
-        }
-    }
 
     void OnDestroy()
     {
         transform.DOKill();
         enemy.DOKill();
+    }
+    void collsion() {
+
+        RaycastHit hit;
+        if (Physics.Raycast(enemy.position, enemy.forward, out hit, 0.5f, whatIsPlayer))
+        {
+            hit.transform.GetComponent<Target>().TakeDamage(damage);
+            playerRb.AddForce(enemy.forward.normalized * knockbackForce, ForceMode.Impulse);
+        }
     }
 }

@@ -19024,7 +19024,7 @@ Transform:
   m_GameObject: {fileID: 1744955987}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.107, y: 0.208, z: -0.221}
+  m_LocalPosition: {x: 0.107, y: 0.586, z: -0.221}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -19923,6 +19923,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBehavior2
   Agent: {fileID: 1816751394}
   enemy: {fileID: 1816751399}
+  playerRb: {fileID: 2119326514}
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 2048
@@ -19943,6 +19944,8 @@ MonoBehaviour:
   patrolVelocity: 4
   searchingVelocity: 3
   speedSmooth: 5
+  damage: 10
+  knockbackForce: 10
   currState: 0
 --- !u!1 &1827430742
 GameObject:
