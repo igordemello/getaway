@@ -223,6 +223,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Pistola_silenciada",
+                    "type": "Button",
+                    "id": "665003fb-f335-4c41-8bb0-34970f4f529b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Pistol",
                     "type": "Button",
                     "id": "c0b6b807-164b-4cd9-b4c4-3224bc2ea0a9",
@@ -547,6 +556,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Knife",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3ed5bedf-d432-43b1-b36c-07947c9eaf07",
+                    "path": "<Keyboard>/5",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pistola_silenciada",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

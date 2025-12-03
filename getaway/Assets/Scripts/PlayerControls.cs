@@ -309,6 +309,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Pistola_silenciada"",
+                    ""type"": ""Button"",
+                    ""id"": ""665003fb-f335-4c41-8bb0-34970f4f529b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Pistol"",
                     ""type"": ""Button"",
                     ""id"": ""c0b6b807-164b-4cd9-b4c4-3224bc2ea0a9"",
@@ -638,6 +647,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""3ed5bedf-d432-43b1-b36c-07947c9eaf07"",
+                    ""path"": ""<Keyboard>/5"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pistola_silenciada"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""71ef961c-5441-46d6-bd11-81a710382ed5"",
                     ""path"": """",
                     ""interactions"": """",
@@ -689,6 +709,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_Shotgun = m_Player.FindAction("Shotgun", throwIfNotFound: true);
         m_Player_Bow = m_Player.FindAction("Bow", throwIfNotFound: true);
         m_Player_Knife = m_Player.FindAction("Knife", throwIfNotFound: true);
+        m_Player_Pistola_silenciada = m_Player.FindAction("Pistola_silenciada", throwIfNotFound: true);
         m_Player_Pistol = m_Player.FindAction("Pistol", throwIfNotFound: true);
         m_Player_Grenade = m_Player.FindAction("Grenade", throwIfNotFound: true);
     }
@@ -795,6 +816,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Shotgun;
     private readonly InputAction m_Player_Bow;
     private readonly InputAction m_Player_Knife;
+    private readonly InputAction m_Player_Pistola_silenciada;
     private readonly InputAction m_Player_Pistol;
     private readonly InputAction m_Player_Grenade;
     /// <summary>
@@ -905,6 +927,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Knife => m_Wrapper.m_Player_Knife;
         /// <summary>
+        /// Provides access to the underlying input action "Player/Pistola_silenciada".
+        /// </summary>
+        public InputAction @Pistola_silenciada => m_Wrapper.m_Player_Pistola_silenciada;
+        /// <summary>
         /// Provides access to the underlying input action "Player/Pistol".
         /// </summary>
         public InputAction @Pistol => m_Wrapper.m_Player_Pistol;
@@ -1010,6 +1036,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Knife.started += instance.OnKnife;
             @Knife.performed += instance.OnKnife;
             @Knife.canceled += instance.OnKnife;
+            @Pistola_silenciada.started += instance.OnPistola_silenciada;
+            @Pistola_silenciada.performed += instance.OnPistola_silenciada;
+            @Pistola_silenciada.canceled += instance.OnPistola_silenciada;
             @Pistol.started += instance.OnPistol;
             @Pistol.performed += instance.OnPistol;
             @Pistol.canceled += instance.OnPistol;
@@ -1099,6 +1128,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Knife.started -= instance.OnKnife;
             @Knife.performed -= instance.OnKnife;
             @Knife.canceled -= instance.OnKnife;
+            @Pistola_silenciada.started -= instance.OnPistola_silenciada;
+            @Pistola_silenciada.performed -= instance.OnPistola_silenciada;
+            @Pistola_silenciada.canceled -= instance.OnPistola_silenciada;
             @Pistol.started -= instance.OnPistol;
             @Pistol.performed -= instance.OnPistol;
             @Pistol.canceled -= instance.OnPistol;
@@ -1313,6 +1345,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnKnife(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Pistola_silenciada" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPistola_silenciada(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Pistol" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

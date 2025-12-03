@@ -10,6 +10,7 @@ public class GunSwitching : MonoBehaviour
     private bool shotgun;
     private bool bow;
     private bool knife;
+    private bool pistola_silenciada;
 
     private float switchCooldown = 0.4f;
     private bool canSwitch = true;
@@ -32,6 +33,9 @@ public class GunSwitching : MonoBehaviour
 
         controls.Player.Knife.performed += ctx => knife = true;
         controls.Player.Knife.canceled += ctx => knife = false;
+
+        controls.Player.Pistola_silenciada.performed += ctx => pistola_silenciada = true;
+        controls.Player.Pistola_silenciada.canceled += ctx => pistola_silenciada = false;
         //controls.Player.Move.performed += ctx => moveInput = ctx.ReadValue<Vector2>();
     }
 
@@ -99,6 +103,11 @@ public class GunSwitching : MonoBehaviour
         if (knife)
         {
             selectedWeapon = 3;
+            SelectWeapon();
+        }
+        if (pistola_silenciada)
+        {
+            selectedWeapon = 4;
             SelectWeapon();
         }
     }
