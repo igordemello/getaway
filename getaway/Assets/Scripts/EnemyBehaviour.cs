@@ -84,7 +84,7 @@ public class EnemyBehavior : MonoBehaviour
         Recognition(); 
         Hear();        
         StateHandler();
-        print(Vector3.Distance(player.position, enemy.position));
+        //print(Vector3.Distance(player.position, enemy.position));
     }
 
     void Recognition()

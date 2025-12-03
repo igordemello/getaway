@@ -1,20 +1,54 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayAnim : MonoBehaviour
 {
     [SerializeField] private Animator myDoor = null;
 
-    [SerializeField] private string doorOpen = "DoorOpen";
+    [SerializeField] private string doorOpen;
+    [SerializeField] private string doorClose;
+
+    private enum DoorState
+    {
+        Closed,
+        Open
+    }
+
+    private DoorState currentState = DoorState.Closed;
+
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("OnTriggerEnter chamado! Objeto que entrou: " + other.name + " | Tag: " + other.tag);
+        if (!other.CompareTag("Player")) return;
 
-        if (other.CompareTag("Player"))
+        if (currentState == DoorState.Closed)
         {
-            Debug.Log("Porta aberta! Tag do objeto: " + other.tag);
-            myDoor.Play(doorOpen, 0, 0.0f);
+            OpenDoor();
         }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (!other.CompareTag("Player")) return;
+
+        if (currentState == DoorState.Open)
+        {
+            CloseDoor();
+        }
+    }
+
+    private void OpenDoor()
+    {
+        myDoor.Play(doorOpen, 0, 0f);
+        currentState = DoorState.Open;
+
+    }
+
+    private void CloseDoor()
+    {
+        myDoor.Play(doorClose, 0, 0f);
+        currentState = DoorState.Closed;
+
     }
 }
