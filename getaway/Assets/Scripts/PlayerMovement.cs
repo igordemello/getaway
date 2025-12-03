@@ -301,7 +301,7 @@ public class PlayerMovement : MonoBehaviour
         if (sprintInput)
         {
             cam.DoFov(80f);
-            soundSource.PlaySound(10f, 0.1f);
+            soundSource.PlaySound(30f, 0.1f);
         }
         else if (!sprintInput && state == MovementState.sprinting)
             cam.DoFov(60f);

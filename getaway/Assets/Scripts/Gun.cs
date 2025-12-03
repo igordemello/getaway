@@ -98,7 +98,7 @@ public class Gun : MonoBehaviour
                 {
                     Shoot();
                     fireInput = false;
-                    soundSource.PlaySound(150f, 0.8f);
+                    soundSource.PlaySound(324f, 0.1f);
                 }
                 break;
 
@@ -107,7 +107,7 @@ public class Gun : MonoBehaviour
                 {
                     nextTimeToFire = Time.time + fireRate;
                     Shoot();
-                    soundSource.PlaySound(150f, 0.8f);
+                    soundSource.PlaySound(324f, 0.1f);
                 }
                 break;
 
@@ -116,7 +116,7 @@ public class Gun : MonoBehaviour
                 {
                     fireInput = false;
                     StartCoroutine(DoubleBarrelShot());
-                    soundSource.PlaySound(200f, 0.8f);
+                    soundSource.PlaySound(628f, 0.1f);
                 }
                 break;
         }
@@ -218,7 +218,7 @@ public class Gun : MonoBehaviour
             direction += fpsCam.transform.right * Random.Range(-spreadAngle, spreadAngle) / 100f;
             direction.Normalize();
 
-            Debug.DrawRay(origin, direction * range, Color.yellow, 1f); // tirar essa merdinha dps, mas fds tbm, so da pra ver no editor msm
+            //Debug.DrawRay(origin, direction * range, Color.yellow, 1f); // tirar essa merdinha dps, mas fds tbm, so da pra ver no editor msm
 
             RaycastHit hit;
             if (Physics.Raycast(origin, direction, out hit, range))

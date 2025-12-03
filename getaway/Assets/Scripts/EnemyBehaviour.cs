@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using DG.Tweening;
+using UnityEngine.Jobs;
 
 public class EnemyBehavior : MonoBehaviour
 {
     [Header("Components")]
     public NavMeshAgent Agent;
     public Transform enemy;
+    public Transform player;
 
     [Header("Layers")]
     public LayerMask whatIsPlayer;
@@ -82,6 +84,7 @@ public class EnemyBehavior : MonoBehaviour
         Recognition(); 
         Hear();        
         StateHandler();
+        print(Vector3.Distance(player.position, enemy.position));
     }
 
     void Recognition()
