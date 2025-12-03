@@ -20633,6 +20633,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyBehavior
   Agent: {fileID: 1895542474}
   enemy: {fileID: 1895542471}
+  player: {fileID: 2119326513}
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 2048
