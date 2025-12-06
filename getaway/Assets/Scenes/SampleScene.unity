@@ -16933,6 +16933,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1613398337}
+  - component: {fileID: 1613398338}
   m_Layer: 7
   m_Name: pseudo-knife
   m_TagString: Untagged
@@ -16957,6 +16958,24 @@ Transform:
   - {fileID: 415908091}
   m_Father: {fileID: 313424418}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1613398338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1613398336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fa82d2236328ab46b44e9e1f42e747e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MeleePlayer
+  hitEffect: {fileID: 5334228485563152753, guid: 0134bdc80242c974b88f68d7bb298ed9, type: 3}
+  cam: {fileID: 330162595}
+  distance: 3
+  delay: 0.4
+  speed: 1
+  damage: 5
 --- !u!1 &1618183228
 GameObject:
   m_ObjectHideFlags: 0
