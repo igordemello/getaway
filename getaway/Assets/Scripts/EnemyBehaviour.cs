@@ -12,6 +12,16 @@ public class EnemyBehavior : MonoBehaviour
     public Transform enemy;
     public Transform player;
 
+    [Header("Patrol Path")]
+    public Path path;
+    public float waypointArriveDistance = 0.4f;
+    public float MaxTimeAtWaypoint = 1f;
+    private float timerAtWaypoint = 0f;
+    private Vector3 currentPatrolTarget;
+    private bool hasPath => path != null && path.waypoints != null && path.waypoints.Length > 0;
+    private bool patrolInitialized = false;
+    private bool shouldReturnToPatrol = false;
+
     [Header("Layers")]
     public LayerMask whatIsPlayer;
     public LayerMask visionBlockMask;
@@ -75,6 +85,13 @@ public class EnemyBehavior : MonoBehaviour
         if (enemy == null) enemy = transform;
         if (Agent == null) Agent = GetComponent<NavMeshAgent>();
 
+        if (hasPath)
+        {
+            currentPatrolTarget = path.GetCurrentWayPoint();
+            Agent.SetDestination(currentPatrolTarget);
+            patrolInitialized = true;
+        }
+
         Agent.updateRotation = true;
         currState = EnemyState.patrol;
     }
@@ -86,6 +103,31 @@ public class EnemyBehavior : MonoBehaviour
         StateHandler();
         //print(Vector3.Distance(player.position, enemy.position));
     }
+
+    void HandlePatrol()
+    {
+        if (!hasPath) return;
+
+        if (!patrolInitialized)
+        {
+            currentPatrolTarget = path.GetCurrentWayPoint();
+            Agent.SetDestination(currentPatrolTarget);
+            patrolInitialized = true;
+        }
+
+        if (!Agent.pathPending && Agent.remainingDistance <= waypointArriveDistance)
+        {
+            timerAtWaypoint += Time.deltaTime;
+            if (timerAtWaypoint >= MaxTimeAtWaypoint)
+            {
+                timerAtWaypoint = 0f;
+                currentPatrolTarget = path.GetNextWayPoint();
+                Agent.SetDestination(currentPatrolTarget);
+
+            } 
+        }
+    }
+
 
     void Recognition()
     {
@@ -241,6 +283,7 @@ public class EnemyBehavior : MonoBehaviour
                     {
                         offAggroTimer = 0f;
                         currState = EnemyState.searching;
+
                         if (!isSearching && LastPlayerPosition != Vector3.zero)
                             StartCoroutine(SearchNearby(LastPlayerPosition));
                     }
@@ -258,7 +301,15 @@ public class EnemyBehavior : MonoBehaviour
             case EnemyState.patrol:
             default:
                 targetSpeed = patrolVelocity;
+                HandlePatrol();
                 break;
+        }
+
+        if (shouldReturnToPatrol && currState != EnemyState.aggro)
+        {
+            currState = EnemyState.patrol;
+            patrolInitialized = false;
+            shouldReturnToPatrol = false;
         }
 
         if (Agent.isOnNavMesh)
@@ -294,7 +345,10 @@ public class EnemyBehavior : MonoBehaviour
         }
 
         yield return new WaitForSeconds(offSearchingCd);
-        if (currState == EnemyState.searching) currState = EnemyState.patrol;
+        if (currState == EnemyState.searching)
+        {
+            shouldReturnToPatrol = true;
+        }
         isSearching = false;
     }
 
