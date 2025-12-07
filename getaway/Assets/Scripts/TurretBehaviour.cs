@@ -10,7 +10,7 @@ public class TurretBehaviour : MonoBehaviour
     [Header("Components")]
     public Transform enemy;
     public Transform player;
-    public Transform turretHead; 
+    public Transform turretHead;
 
     [Header("Layers")]
     public LayerMask whatIsPlayer;
@@ -19,7 +19,7 @@ public class TurretBehaviour : MonoBehaviour
     [Header("Vision Settings")]
     public float recognitionRange = 15f;
     [Range(10, 180)] public float visionAngle = 90f;
-    public float eyeHeight =1.6f;
+    public float eyeHeight = 1.6f;
     public float playerEyeOffset = 1f;
 
     [Header("Has light variable")]
@@ -58,7 +58,8 @@ public class TurretBehaviour : MonoBehaviour
     {
         currState = EnemyState.searching;
         hasLight = true;
-        actualFirePoint = firePoint1; 
+        actualFirePoint = firePoint1;
+        actualMuzzle = muzzle1;
     }
 
     void FixedUpdate()
@@ -67,7 +68,11 @@ public class TurretBehaviour : MonoBehaviour
         StateHandler();
     }
 
-  
+    void toggleEnergy()
+    {
+        hasLight = !hasLight;
+    }
+
     void ChangeFirePoint()
     {
         actualFirePoint = (actualFirePoint == firePoint1) ? firePoint2 : firePoint1;
@@ -163,7 +168,6 @@ public class TurretBehaviour : MonoBehaviour
 
         shootTimer = shootRate;
 
-        
         ChangeFirePoint();
 
         if (actualFirePoint == null) return;
@@ -171,8 +175,13 @@ public class TurretBehaviour : MonoBehaviour
         gunRecoil.Fire();
         actualMuzzle.Play();
 
+        Vector3 shootDir = (LastPlayerPosition - actualFirePoint.position).normalized;
+        shootDir += currentErrorOffset * 0.2f;
+        shootDir.Normalize();
+   
+
         RaycastHit hit;
-        if (Physics.Raycast(actualFirePoint.position, player.position - actualFirePoint.position, out hit, shootRange, shootMask))
+        if (Physics.Raycast(actualFirePoint.position, shootDir, out hit, shootRange, shootMask))
         {
             var target = hit.transform.GetComponent<Target>();
             if (target != null) target.TakeDamage(shootDamage);
@@ -184,11 +193,10 @@ public class TurretBehaviour : MonoBehaviour
         }
         else
         {
-            Debug.DrawLine(actualFirePoint.position, actualFirePoint.position + actualFirePoint.forward * shootRange, Color.yellow, 0.2f);
+            Debug.DrawLine(actualFirePoint.position, actualFirePoint.position + shootDir * shootRange, Color.yellow, 0.2f);
         }
     }
 
-  
     void AimWeaponAtPlayer(Transform target)
     {
         if (turretHead == null || target == null) return;
@@ -201,10 +209,8 @@ public class TurretBehaviour : MonoBehaviour
 
         currentErrorOffset = Vector3.Lerp(currentErrorOffset, randomOffset, Time.deltaTime * aimErrorChangeSpeed);
 
-        Vector3 dir = (target.position+100*Vector3.up- actualFirePoint.position).normalized;
+        Vector3 dir = (target.position + 100 * Vector3.up - actualFirePoint.position).normalized;
         dir += currentErrorOffset * 0.01f;
-
-        
 
         if (dir.sqrMagnitude < 0.001f) return;
 
