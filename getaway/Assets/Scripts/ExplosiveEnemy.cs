@@ -49,7 +49,7 @@ public class ExplosiveEnemy : MonoBehaviour
         }
     }
 
-    void Explode()
+    public void Explode()
     {
         exploded = true;
 

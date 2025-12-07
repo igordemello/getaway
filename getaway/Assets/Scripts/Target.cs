@@ -9,6 +9,7 @@ public class Target : MonoBehaviour
     public float health = 100f;
     public TextMeshProUGUI health_UI;
     public GameObject other;
+    private ExplosiveEnemy explosive;
 
     public void TakeDamage(float amount)
     {
@@ -22,6 +23,13 @@ public class Target : MonoBehaviour
             {
                 StartCoroutine(DeathDelay());
                 return;
+            }
+            if (GetComponent<ExplosiveEnemy>() != null)
+            {
+                explosive = GetComponent<ExplosiveEnemy>();
+                explosive.Explode();
+                return;
+
             }
             Die();
         }
