@@ -1,51 +1,41 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 
+[RequireComponent(typeof(Animator))]
 public class RobotFreeAnim : MonoBehaviour
 {
     Animator anim;
-
-    Vector3 lastPosition;
-    float moveThreshold = 0.01f; // sensibilidade para detectar movimento
+    NavMeshAgent agent;
+    float moveThreshold = 0.1f;
 
     void Awake()
     {
         anim = GetComponent<Animator>();
-        lastPosition = transform.position;
+
+        agent = GetComponent<NavMeshAgent>();
+        if (agent == null)
+            agent = GetComponentInParent<NavMeshAgent>();
     }
 
     void Update()
     {
-        CheckMovementAnim();
-        //CheckExtraAnims();
-    }
+        float velocidade = 0f;
 
-    void CheckMovementAnim()
-    {
-        // Calcula a velocidade real do robô
-        float velocidade = (transform.position - lastPosition).magnitude / Time.deltaTime;
-
-        // Se estiver se movendo → anda
-        if (velocidade > moveThreshold)
-            anim.SetBool("Walk_Anim", true);
+        if (agent != null)
+        {
+            velocidade = agent.velocity.magnitude;
+        }
         else
-            anim.SetBool("Walk_Anim", false);
+        {
+            velocidade = (transform.position - lastPos).magnitude / Time.deltaTime;
+            lastPos = transform.position;
+        }
 
-        lastPosition = transform.position;
+        anim.SetBool("Walk_Anim", velocidade > moveThreshold);
     }
 
-//    void CheckExtraAnims()
-//    {
-//        // Roll
-//        if (Input.GetKeyDown(KeyCode.Space))
-//        {
-//            anim.SetBool("Roll_Anim", !anim.GetBool("Roll_Anim"));
-//        }
+    Vector3 lastPos;
+}
 
-//        // Open / Close
-//        if (Input.GetKeyDown(KeyCode.LeftControl))
-//        {
-//            anim.SetBool("Open_Anim", !anim.GetBool("Open_Anim"));
-//        }
-//    }
-    }
+
 

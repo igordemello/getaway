@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &3774229686000297413
+--- !u!1001 &5539572931345714415
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -8,10 +8,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1361342923083938, guid: 8e0f285c21cdcf14e8d5c06c57ba936b, type: 3}
-      propertyPath: m_TagString
-      value: Enemy
-      objectReference: {fileID: 0}
     - target: {fileID: 1528915638184230, guid: 8e0f285c21cdcf14e8d5c06c57ba936b, type: 3}
       propertyPath: m_Name
       value: robotSphere Variant
@@ -21,16 +17,28 @@ PrefabInstance:
       value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 4431084402279646, guid: 8e0f285c21cdcf14e8d5c06c57ba936b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 10.875989
+      objectReference: {fileID: 0}
+    - target: {fileID: 4431084402279646, guid: 8e0f285c21cdcf14e8d5c06c57ba936b, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 10.875989
+      objectReference: {fileID: 0}
+    - target: {fileID: 4431084402279646, guid: 8e0f285c21cdcf14e8d5c06c57ba936b, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 10.875989
+      objectReference: {fileID: 0}
+    - target: {fileID: 4431084402279646, guid: 8e0f285c21cdcf14e8d5c06c57ba936b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 58
+      value: 75.76
       objectReference: {fileID: 0}
     - target: {fileID: 4431084402279646, guid: 8e0f285c21cdcf14e8d5c06c57ba936b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.007323485
+      value: 1.49
       objectReference: {fileID: 0}
     - target: {fileID: 4431084402279646, guid: 8e0f285c21cdcf14e8d5c06c57ba936b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -177.4
+      value: -150.88
       objectReference: {fileID: 0}
     - target: {fileID: 4431084402279646, guid: 8e0f285c21cdcf14e8d5c06c57ba936b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -62,11 +70,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4745125048089396, guid: 8e0f285c21cdcf14e8d5c06c57ba936b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.245
-      objectReference: {fileID: 0}
-    - target: {fileID: 4779165475554914, guid: 8e0f285c21cdcf14e8d5c06c57ba936b, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.0018
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -74,35 +78,109 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1528915638184230, guid: 8e0f285c21cdcf14e8d5c06c57ba936b, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1561381461300514070}
-    - targetCorrespondingSourceObject: {fileID: 1361342923083938, guid: 8e0f285c21cdcf14e8d5c06c57ba936b, type: 3}
+      addedObject: {fileID: 6877161723563032583}
+    - targetCorrespondingSourceObject: {fileID: 1528915638184230, guid: 8e0f285c21cdcf14e8d5c06c57ba936b, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7506414945204731511}
-    - targetCorrespondingSourceObject: {fileID: 1361342923083938, guid: 8e0f285c21cdcf14e8d5c06c57ba936b, type: 3}
+      addedObject: {fileID: 7253860700873746973}
+    - targetCorrespondingSourceObject: {fileID: 1528915638184230, guid: 8e0f285c21cdcf14e8d5c06c57ba936b, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1416759364503923247}
-    - targetCorrespondingSourceObject: {fileID: 1361342923083938, guid: 8e0f285c21cdcf14e8d5c06c57ba936b, type: 3}
+      addedObject: {fileID: 3360973033472134529}
+    - targetCorrespondingSourceObject: {fileID: 1528915638184230, guid: 8e0f285c21cdcf14e8d5c06c57ba936b, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3780536327259461373}
-    - targetCorrespondingSourceObject: {fileID: 1361342923083938, guid: 8e0f285c21cdcf14e8d5c06c57ba936b, type: 3}
+      addedObject: {fileID: 2072139326450128954}
+    - targetCorrespondingSourceObject: {fileID: 1528915638184230, guid: 8e0f285c21cdcf14e8d5c06c57ba936b, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4002517270133112588}
-    - targetCorrespondingSourceObject: {fileID: 1688514203954746, guid: 8e0f285c21cdcf14e8d5c06c57ba936b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6653291767221267543}
+      addedObject: {fileID: 1448651746396014609}
   m_SourcePrefab: {fileID: 100100000, guid: 8e0f285c21cdcf14e8d5c06c57ba936b, type: 3}
---- !u!1 &3775168523854230887 stripped
+--- !u!1 &5541092963649217993 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 1361342923083938, guid: 8e0f285c21cdcf14e8d5c06c57ba936b, type: 3}
-  m_PrefabInstance: {fileID: 3774229686000297413}
+  m_CorrespondingSourceObject: {fileID: 1528915638184230, guid: 8e0f285c21cdcf14e8d5c06c57ba936b, type: 3}
+  m_PrefabInstance: {fileID: 5539572931345714415}
   m_PrefabAsset: {fileID: 0}
---- !u!54 &7506414945204731511
+--- !u!114 &6877161723563032583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5541092963649217993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15847663d69054d488a5aa3ec1b00848, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Target
+  health: 10
+  health_UI: {fileID: 0}
+  other: {fileID: 0}
+--- !u!195 &7253860700873746973
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5541092963649217993}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 57
+  m_Acceleration: 10
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &3360973033472134529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5541092963649217993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d84dabc1f67753e499671779e2fb589b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ExplosiveEnemy
+  player: {fileID: 0}
+  explosionEffect: {fileID: 1121192042590650, guid: e1b08032bec16ba4eb1ae23cbd572664, type: 3}
+  range: 16
+  speed: 14
+  explosionRadius: 5
+  damage: 40
+--- !u!64 &2072139326450128954
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5541092963649217993}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300078, guid: f2fc0388a7c562e4fa0d179ac93423ba, type: 3}
+--- !u!54 &1448651746396014609
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3775168523854230887}
+  m_GameObject: {fileID: 5541092963649217993}
   serializedVersion: 5
   m_Mass: 1
   m_LinearDamping: 0
@@ -118,113 +196,8 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!64 &1416759364503923247
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3775168523854230887}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
---- !u!114 &3780536327259461373
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3775168523854230887}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 15847663d69054d488a5aa3ec1b00848, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Target
-  health: 10
-  health_UI: {fileID: 0}
-  other: {fileID: 0}
---- !u!114 &4002517270133112588
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3775168523854230887}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d84dabc1f67753e499671779e2fb589b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ExplosiveEnemy
-  player: {fileID: 0}
-  explosionEffect: {fileID: 1828176872806910, guid: 64891a0eb28db934898420d80ca07cb3, type: 3}
-  range: 16
-  speed: 14
-  explosionRadius: 4
-  damage: 40
---- !u!1 &3775492405191183359 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1688514203954746, guid: 8e0f285c21cdcf14e8d5c06c57ba936b, type: 3}
-  m_PrefabInstance: {fileID: 3774229686000297413}
-  m_PrefabAsset: {fileID: 0}
---- !u!64 &6653291767221267543
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3775492405191183359}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300078, guid: bff429107601444d59c67940e6ad78c4, type: 3}
---- !u!1 &3775616747441835235 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1528915638184230, guid: 8e0f285c21cdcf14e8d5c06c57ba936b, type: 3}
-  m_PrefabInstance: {fileID: 3774229686000297413}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1561381461300514070
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3775616747441835235}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d84dabc1f67753e499671779e2fb589b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ExplosiveEnemy
-  player: {fileID: 0}
-  explosionEffect: {fileID: 1828176872806910, guid: 64891a0eb28db934898420d80ca07cb3, type: 3}
-  range: 16
-  speed: 14
-  explosionRadius: 4
-  damage: 40
