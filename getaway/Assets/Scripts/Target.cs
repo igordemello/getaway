@@ -78,6 +78,10 @@ public class Target : MonoBehaviour
 
             SetOverlayAlpha(targetAlpha);
         }
+        if (CompareTag("Turret")) {
+        
+        
+        }
             
 
         health -= amount;
@@ -99,6 +103,10 @@ public class Target : MonoBehaviour
 
     void Die()
     {
+        if (CompareTag("Turret")) {
+            this.gameObject.GetComponent<TurretBehaviour>().toggleEnergy();
+            return;
+        }
         if (other!=null) 
             Destroy(other);
         Destroy(gameObject);
