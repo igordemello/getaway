@@ -49,6 +49,9 @@ public class EnemyBehavior2 : MonoBehaviour
     public float damage = 10f;
     public float knockbackForce = 40f;
 
+    [Header("references")]
+    public GameObject blood_impact;
+
 
     private Vector3 LastPlayerPosition = Vector3.zero;
     private Transform seenPlayer = null;
@@ -313,6 +316,9 @@ public class EnemyBehavior2 : MonoBehaviour
         {
             hit.transform.GetComponent<Target>().TakeDamage(damage);
             playerRb.AddForce(enemy.forward.normalized * knockbackForce, ForceMode.Impulse);
+
+            GameObject impactGO_blood = Instantiate(blood_impact, hit.point, Quaternion.LookRotation(hit.normal));
+            Destroy(impactGO_blood, 1f);
         }
     }
 }

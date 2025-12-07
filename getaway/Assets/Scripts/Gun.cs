@@ -34,6 +34,7 @@ public class Gun : MonoBehaviour
     [Header("References")]
     public Camera fpsCam;
     public GameObject impact;
+    public GameObject blood_impact;
     public Animator animator;
     public TextMeshProUGUI debugAmmo;
     public CamRecoil camRecoil;
@@ -187,8 +188,16 @@ public class Gun : MonoBehaviour
                 }
             }
 
-            GameObject impactGO = Instantiate(impact, hit.point, Quaternion.LookRotation(hit.normal));
-            Destroy(impactGO, 1f);
+            if (hit.transform.CompareTag("Enemy"))
+            {
+                GameObject impactGO_blood = Instantiate(blood_impact, hit.point, Quaternion.LookRotation(hit.normal));
+                Destroy(impactGO_blood, 1f);
+            }
+            else
+            {
+                GameObject impactGO = Instantiate(impact, hit.point, Quaternion.LookRotation(hit.normal));
+                Destroy(impactGO, 1f);
+            }
         }
         else
         {
@@ -258,8 +267,17 @@ public class Gun : MonoBehaviour
 
                     glass.Shatter3D(info);
                 }
-                GameObject impactGO = Instantiate(impact, hit.point, Quaternion.LookRotation(hit.normal));
-                Destroy(impactGO, 1f);
+
+                if (hit.transform.CompareTag("Enemy"))
+                {
+                    GameObject impactGO_blood = Instantiate(blood_impact, hit.point, Quaternion.LookRotation(hit.normal));
+                    Destroy(impactGO_blood, 1f);
+                }
+                else
+                {
+                    GameObject impactGO = Instantiate(impact, hit.point, Quaternion.LookRotation(hit.normal));
+                    Destroy(impactGO, 1f);
+                }
             }
         }
 

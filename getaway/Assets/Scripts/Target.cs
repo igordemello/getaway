@@ -17,6 +17,7 @@ public class Target : MonoBehaviour
     public Image damageOverlay;
     public float duration;
     public float fadeSpeed;
+    public CamRecoil camShake;
     private float durationTimer;
     private float maxOverlayAlpha = 0.8f;
     private float damageToAlphaFactor = 0.5f;
@@ -71,6 +72,7 @@ public class Target : MonoBehaviour
     {
         if (CompareTag("Player"))
         {
+            camShake.Fire();
             durationTimer = 0;
             float targetAlpha = Mathf.Clamp(damageOverlay.color.a + amount * damageToAlphaFactor, 0, maxOverlayAlpha);
 

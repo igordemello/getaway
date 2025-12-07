@@ -13122,6 +13122,7 @@ MonoBehaviour:
   recoilAmount: {x: 4, y: 4, z: 4}
   fpsCam: {fileID: 330162595}
   impact: {fileID: 1337198075554910, guid: 6375f9f5933e3704284eb4772a692fe2, type: 3}
+  blood_impact: {fileID: 3548588485384254792, guid: 2f9e7dc163581394da1e00b561eed65d, type: 3}
   animator: {fileID: 0}
   debugAmmo: {fileID: 60105647}
   camRecoil: {fileID: 330162597}
@@ -14578,6 +14579,7 @@ MonoBehaviour:
   damageOverlay: {fileID: 0}
   duration: 0
   fadeSpeed: 0
+  camShake: {fileID: 0}
 --- !u!65 &1336031327
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14641,6 +14643,7 @@ MonoBehaviour:
   speedSmooth: 5
   damage: 10
   knockbackForce: 10
+  blood_impact: {fileID: 3548588485384254792, guid: 2f9e7dc163581394da1e00b561eed65d, type: 3}
   currState: 0
 --- !u!1 &1357034204
 GameObject:
@@ -14745,6 +14748,7 @@ MonoBehaviour:
   gunRecoil: {fileID: 2018967837}
   muzzle: {fileID: 1413373998}
   impact: {fileID: 1337198075554910, guid: 6375f9f5933e3704284eb4772a692fe2, type: 3}
+  blood_impact: {fileID: 3548588485384254792, guid: 2f9e7dc163581394da1e00b561eed65d, type: 3}
   weaponPivot: {fileID: 2018967836}
   aimSpeed: 10
   aimError: 2
@@ -14789,6 +14793,7 @@ MonoBehaviour:
   damageOverlay: {fileID: 0}
   duration: 0
   fadeSpeed: 0
+  camShake: {fileID: 0}
 --- !u!65 &1361944333
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17331,6 +17336,7 @@ MonoBehaviour:
   recoilAmount: {x: 4, y: 4, z: 4}
   fpsCam: {fileID: 330162595}
   impact: {fileID: 1337198075554910, guid: 6375f9f5933e3704284eb4772a692fe2, type: 3}
+  blood_impact: {fileID: 3548588485384254792, guid: 2f9e7dc163581394da1e00b561eed65d, type: 3}
   animator: {fileID: 473361388}
   debugAmmo: {fileID: 60105647}
   camRecoil: {fileID: 330162597}
@@ -19042,6 +19048,7 @@ MonoBehaviour:
   recoilAmount: {x: 4, y: 4, z: 4}
   fpsCam: {fileID: 330162595}
   impact: {fileID: 1337198075554910, guid: 6375f9f5933e3704284eb4772a692fe2, type: 3}
+  blood_impact: {fileID: 3548588485384254792, guid: 2f9e7dc163581394da1e00b561eed65d, type: 3}
   animator: {fileID: 0}
   debugAmmo: {fileID: 60105647}
   camRecoil: {fileID: 330162597}
@@ -21185,6 +21192,7 @@ MonoBehaviour:
   damageOverlay: {fileID: 0}
   duration: 0
   fadeSpeed: 0
+  camShake: {fileID: 0}
 --- !u!114 &1895542473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21235,6 +21243,7 @@ MonoBehaviour:
   gunRecoil: {fileID: 1534860053}
   muzzle: {fileID: 655141698}
   impact: {fileID: 1337198075554910, guid: 6375f9f5933e3704284eb4772a692fe2, type: 3}
+  blood_impact: {fileID: 3548588485384254792, guid: 2f9e7dc163581394da1e00b561eed65d, type: 3}
   weaponPivot: {fileID: 1534860052}
   aimSpeed: 10
   aimError: 2
@@ -23781,6 +23790,7 @@ MonoBehaviour:
   damageOverlay: {fileID: 402173468}
   duration: 2
   fadeSpeed: 1.5
+  camShake: {fileID: 330162597}
 --- !u!1 &2119532751
 GameObject:
   m_ObjectHideFlags: 0
