@@ -34,6 +34,8 @@ public class Bow : MonoBehaviour
     public Animator animator;
     public TextMeshProUGUI debugAmmo;
     public Collider playerCollider;
+    public CamRecoil camRecoil;
+    public GunRecoil gunRecoil;
 
     private PlayerControls controls;
     private bool isDrawing = false;
@@ -83,6 +85,13 @@ public class Bow : MonoBehaviour
             useExplosive = !useExplosive;
         }
 
+        if (isDrawing && animator != null)
+        {
+            float drawDuration = Time.time - drawStartTime;
+            float drawPercent = Mathf.Clamp01(drawDuration / maxDrawTime);
+            animator.SetFloat("DrawAmount", drawPercent);
+        }
+
         if (debugAmmo != null)
         {
             string type = useExplosive ? "EXPLOSIVA" : "NORMAL";
@@ -96,6 +105,9 @@ public class Bow : MonoBehaviour
 
     private void StartDrawing()
     {
+        if (!IsInIdleState())
+            return;
+
         if (isReloading) return;
 
         if (useExplosive && currentExplosiveAmmo <= 0) return;
@@ -119,6 +131,10 @@ public class Bow : MonoBehaviour
             animator.SetBool("IsDrawing", false);
             animator.SetTrigger("Fire");
         }
+
+        camRecoil.Fire();
+        gunRecoil.Fire();
+
 
         float drawDuration = Time.time - drawStartTime;
         float drawPercent = Mathf.Clamp01(drawDuration / maxDrawTime);
@@ -153,6 +169,15 @@ public class Bow : MonoBehaviour
         else currentAmmo--;
 
         StartCoroutine(Reload());
+    }
+
+    private bool IsInIdleState()
+    {
+        if (animator == null) return false;
+
+        AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
+
+        return state.IsName("arco_idle");
     }
 
     private IEnumerator Reload()
