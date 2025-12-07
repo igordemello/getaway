@@ -4138,6 +4138,7 @@ MonoBehaviour:
   playerCollider: {fileID: 1403427286}
   camRecoil: {fileID: 330162597}
   gunRecoil: {fileID: 349202687}
+  playerCamera: {fileID: 330162595}
 --- !u!1 &364668914
 GameObject:
   m_ObjectHideFlags: 0

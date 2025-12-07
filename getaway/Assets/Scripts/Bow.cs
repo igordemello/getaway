@@ -36,6 +36,7 @@ public class Bow : MonoBehaviour
     public Collider playerCollider;
     public CamRecoil camRecoil;
     public GunRecoil gunRecoil;
+    public Camera playerCamera;
 
     private PlayerControls controls;
     private bool isDrawing = false;
@@ -161,7 +162,11 @@ public class Bow : MonoBehaviour
         Rigidbody rb = arrowObj.GetComponent<Rigidbody>();
         if (rb != null)
         {
-            rb.AddForce(arrowSpawnPoint.forward * launchForce, ForceMode.Impulse);
+            Vector3 shootDirection = playerCamera.transform.forward;
+
+            arrowObj.transform.rotation = Quaternion.LookRotation(shootDirection);
+
+            rb.linearVelocity = shootDirection * launchForce;
             rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
         }
 
