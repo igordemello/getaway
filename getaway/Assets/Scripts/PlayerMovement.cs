@@ -459,12 +459,12 @@ public class PlayerMovement : MonoBehaviour
 
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
-        if (OnSlope() && !exitingSlope)
-        {
-            rb.AddForce(GetSlopeMoveDirection(moveDirection) * moveSpeed * 20f, ForceMode.Force);
-            if (rb.linearVelocity.y > 0)
-                rb.AddForce(Vector3.down * 80f, ForceMode.Force);
-        }
+        //if (OnSlope() && !exitingSlope)
+        //{
+        //    rb.AddForce(GetSlopeMoveDirection(moveDirection) * moveSpeed * 20f, ForceMode.Force);
+        //    if (rb.linearVelocity.y > 0)
+        //        rb.AddForce(Vector3.down * 80f, ForceMode.Force);
+        //}
 
         if (grounded)
         {
