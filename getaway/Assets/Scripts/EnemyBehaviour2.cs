@@ -11,6 +11,14 @@ public class EnemyBehavior2 : MonoBehaviour
     public Transform enemy;
     public Rigidbody playerRb;
 
+    [Header("Voador?")]
+    public bool isVoador;
+    public Transform helice;
+    public float speedHelice = 720f;
+    public float hoverHeight = 0.5f;
+    public float hoverSpeed = 2f;
+    private float startY;
+
     [Header("Layers")]
     public LayerMask whatIsPlayer;
     public LayerMask visionBlockMask;
@@ -59,10 +67,20 @@ public class EnemyBehavior2 : MonoBehaviour
 
         Agent.updateRotation = true;
         currState = EnemyState.patrol;
+
+        startY = enemy.position.y;
     }
 
     void FixedUpdate()
     {
+        if (isVoador && helice)
+        {
+            Vector3 pos = enemy.position;
+            pos.y = startY + Mathf.Sin(Time.time * hoverSpeed) * hoverHeight;
+            enemy.position = pos;
+            helice.rotation *= Quaternion.AngleAxis(speedHelice * Time.deltaTime, Vector3.forward);
+        }
+
         Recognition();
         Hear();
         StateHandler();
