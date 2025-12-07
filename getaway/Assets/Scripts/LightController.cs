@@ -10,6 +10,8 @@ public class LightController : MonoBehaviour
 
     void Start()
     {
+        if (LightManager.Instance != null)
+            LightManager.Instance.RegisterLamp(this);
         UpdateLamp();
     }
 
