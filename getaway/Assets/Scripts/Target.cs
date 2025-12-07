@@ -11,9 +11,8 @@ public class Target : MonoBehaviour
     public GameObject other;
     private ExplosiveEnemy explosive;
 
-    public void TakeDamage(float amount)
+    private void Update()
     {
-        health -= amount;
         if (CompareTag("Player"))
             health_UI.text = $"Health:\n{health}";
 
@@ -33,10 +32,18 @@ public class Target : MonoBehaviour
             }
             Die();
         }
+
+    }
+
+    public void TakeDamage(float amount)
+    {
+        health -= amount;
+        if (health < 0f) health = 0f;
+
     }
     IEnumerator DeathDelay()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.3f);
         SceneManager.LoadScene("DerrotaMenu");
     }
 

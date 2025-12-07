@@ -22228,7 +22228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15847663d69054d488a5aa3ec1b00848, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Target
-  health: 100000000
+  health: 90
   health_UI: {fileID: 1618183230}
   other: {fileID: 0}
 --- !u!1 &2119532751
