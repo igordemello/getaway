@@ -13628,6 +13628,7 @@ MonoBehaviour:
   muzzle1: {fileID: 1771843720}
   muzzle2: {fileID: 11686488}
   impact: {fileID: 1337198075554910, guid: 6375f9f5933e3704284eb4772a692fe2, type: 3}
+  blood_impact: {fileID: 3548588485384254792, guid: 2f9e7dc163581394da1e00b561eed65d, type: 3}
   aimSpeed: 10
   aimError: 2
   aimErrorChangeSpeed: 2

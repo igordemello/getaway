@@ -43,6 +43,7 @@ public class TurretBehaviour : MonoBehaviour
     public ParticleSystem muzzle1;
     public ParticleSystem muzzle2;
     public GameObject impact;
+    public GameObject blood_impact;
 
     private Transform actualFirePoint;
     private ParticleSystem actualMuzzle;
@@ -188,8 +189,16 @@ public class TurretBehaviour : MonoBehaviour
 
             Debug.DrawLine(actualFirePoint.position, hit.point, Color.red, 0.2f);
 
-            GameObject impactGO = Instantiate(impact, hit.point, Quaternion.LookRotation(hit.normal));
-            Destroy(impactGO, 1f);
+            if (hit.transform.CompareTag("Player"))
+            {
+                GameObject impactGO_blood = Instantiate(blood_impact, hit.point, Quaternion.LookRotation(hit.normal));
+                Destroy(impactGO_blood, 1f);
+            }
+            else
+            {
+                GameObject impactGO = Instantiate(impact, hit.point, Quaternion.LookRotation(hit.normal));
+                Destroy(impactGO, 1f);
+            }
         }
         else
         {
