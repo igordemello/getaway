@@ -4555,7 +4555,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5323,6 +5323,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0baa5ac24a4c20e45a14be0cf2ad819e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 457390668}
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0baa5ac24a4c20e45a14be0cf2ad819e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1751748407}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0baa5ac24a4c20e45a14be0cf2ad819e, type: 3}
       insertIndex: -1
@@ -8069,6 +8072,9 @@ MonoBehaviour:
   health: 20
   health_UI: {fileID: 0}
   other: {fileID: 0}
+  damageOverlay: {fileID: 0}
+  duration: 0
+  fadeSpeed: 0
 --- !u!195 &755508897
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -8091,9 +8097,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
-  damageOverlay: {fileID: 0}
-  duration: 0
-  fadeSpeed: 0
 --- !u!1 &759082344 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -7271449666460269675, guid: df8d6eb63d208ff45a63c652ca0a5db3, type: 3}
@@ -16245,7 +16248,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1549897357
 Transform:
   m_ObjectHideFlags: 0
@@ -16261,7 +16264,6 @@ Transform:
   m_Children:
   - {fileID: 473361386}
   - {fileID: 2125738900}
-  - {fileID: 1751748407}
   m_Father: {fileID: 313424418}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1549897358
@@ -16983,7 +16985,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1613398337
 Transform:
   m_ObjectHideFlags: 0
@@ -18374,14 +18376,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1751748406}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.51500005, y: -4.34, z: 1.2120185}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalRotation: {x: -0, y: -0.99899966, z: -0, w: 0.044718068}
+  m_LocalPosition: {x: 10.242479, y: -31.363638, z: 3.7816436}
+  m_LocalScale: {x: 27.272724, y: 27.27273, z: 27.272724}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1443185474}
   - {fileID: 1315503100}
-  m_Father: {fileID: 1549897357}
+  m_Father: {fileID: 473361386}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &1751748408
 Animator:
