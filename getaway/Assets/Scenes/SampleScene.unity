@@ -12420,6 +12420,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LightManager
   lamps: []
+  turrets: []
 --- !u!4 &955657021
 Transform:
   m_ObjectHideFlags: 0
@@ -15383,7 +15384,7 @@ MonoBehaviour:
   visionAngle: 180
   eyeHeight: 1.6
   playerEyeOffset: 1
-  hasLight: 1
+  hasEnergy: 1
   currState: 0
   firePoint1: {fileID: 474576504}
   firePoint2: {fileID: 1027949498}

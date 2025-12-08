@@ -6,6 +6,8 @@ public class LightManager : MonoBehaviour
     public static LightManager Instance;
 
     public List<LightController> lamps = new List<LightController>();
+    public List<TurretBehaviour> turrets = new List<TurretBehaviour>();
+    public List<Door> doors = new List<Door>();
 
     void Awake()
     {
@@ -25,11 +27,27 @@ public class LightManager : MonoBehaviour
         if (!lamps.Contains(lamp))
             lamps.Add(lamp);
     }
+    public void RegisterTurret(TurretBehaviour turret)
+    {
+        if (!turrets.Contains(turret))
+            turrets.Add(turret);
+    }
+    public void RegisterDoor(Door door) {
+        if (!doors.Contains(door)) 
+            doors.Add(door);
+
+    }
 
     public void ToggleAll()
     {
         foreach (var lamp in lamps)
             if (lamp)
                 lamp.toggleEnergy();
+        foreach (var turret in turrets)
+            if (turret)
+                turret.setEnergy(false);
+        foreach (var door in doors)
+            if (door)
+                door.setEnergy(false);
     }
 }

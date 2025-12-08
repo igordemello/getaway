@@ -61,6 +61,9 @@ public class TurretBehaviour : MonoBehaviour
         hasEnergy = true;
         actualFirePoint = firePoint1;
         actualMuzzle = muzzle1;
+
+        if (LightManager.Instance != null)
+            LightManager.Instance.RegisterTurret(this);
     }
 
     void FixedUpdate()
