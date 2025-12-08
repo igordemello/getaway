@@ -69,7 +69,7 @@ public class TurretBehaviour : MonoBehaviour
         StateHandler();
     }
 
-    void toggleEnergy()
+    public void toggleEnergy()
     {
         hasLight = !hasLight;
     }
@@ -147,7 +147,16 @@ public class TurretBehaviour : MonoBehaviour
 
     void StateHandler()
     {
-        if (!hasLight) return;
+        if (!hasLight) {
+            float angleX = turretHead.transform.eulerAngles.x;
+            if (angleX > 180) angleX -= 360;
+
+            if (angleX < -75f)
+            {
+                turretHead.transform.Rotate(Vector3.right * Time.deltaTime * 10f);
+            }
+            return;
+        }
 
         switch (currState)
         {
