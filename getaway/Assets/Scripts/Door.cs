@@ -24,6 +24,31 @@ public class Door : MonoBehaviour
         else CloseDoor();
     }
 
+    public void setEnergy(bool hasEnrgy)
+    {
+        if (hasEnrgy && currentState == DoorState.Closed)
+        {
+            return;
+        }
+        if (hasEnrgy && currentState == DoorState.Open)
+        {
+            CloseDoor();
+            currentState = DoorState.Closed;
+            return;
+        }
+        if (!hasEnrgy && currentState == DoorState.Closed)
+        {
+            OpenDoor();
+            currentState = DoorState.Open;
+            return;
+        }
+        if (!hasEnrgy && currentState == DoorState.Open)
+        {
+            return;
+        }
+        
+    }
+
     private void OpenDoor()
     {
         if(inv && !string.IsNullOrEmpty(requiredItem))
