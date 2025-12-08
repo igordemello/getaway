@@ -590,14 +590,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 57059430}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.11782396, y: -0.37492082, z: -0.44984668, w: 0.8019912}
+  m_LocalRotation: {x: -0.115653895, y: -0.36939904, z: -0.45118716, w: 0.80411357}
   m_LocalPosition: {x: -0.04291844, y: 0.00014112145, z: -0.00020443741}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 143031644}
   m_Father: {fileID: 88462217}
-  m_LocalEulerAnglesHint: {x: -31.756, y: -35.632, z: -48.131}
+  m_LocalEulerAnglesHint: {x: -31.288, y: -34.963, z: -48.513}
 --- !u!1 &58305116
 GameObject:
   m_ObjectHideFlags: 0
@@ -1220,14 +1220,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 88462216}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.3777068, y: 0.22616096, z: -0.1318811, w: 0.88814205}
+  m_LocalRotation: {x: 0.41886446, y: 0.24404937, z: 0.027625231, w: 0.8742021}
   m_LocalPosition: {x: -0.12077906, y: 0.017906725, z: -0.021167438}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 57059431}
   m_Father: {fileID: 1716612313}
-  m_LocalEulerAnglesHint: {x: 46.934, y: 26.258, z: -5.329}
+  m_LocalEulerAnglesHint: {x: 45.961, y: 40.324, z: 21.32}
 --- !u!1 &91799083
 GameObject:
   m_ObjectHideFlags: 0
@@ -27960,6 +27960,10 @@ PrefabInstance:
       propertyPath: notify
       value: 
       objectReference: {fileID: 209349201}
+    - target: {fileID: 4863619312782657010, guid: 9bfd90950f1e1f245bb5a21f61ecd7fa, type: 3}
+      propertyPath: requiredItem
+      value: passcard1
+      objectReference: {fileID: 0}
     - target: {fileID: 5475177977591114796, guid: 9bfd90950f1e1f245bb5a21f61ecd7fa, type: 3}
       propertyPath: m_LocalPosition.x
       value: -8.141

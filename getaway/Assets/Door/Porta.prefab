@@ -184,3 +184,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Door
   animator: {fileID: 398546652151655486}
+  inv: {fileID: 0}
+  requiredItem: passcard1
+  notify: {fileID: 0}
