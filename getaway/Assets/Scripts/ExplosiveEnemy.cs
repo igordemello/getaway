@@ -57,8 +57,6 @@ public class ExplosiveEnemy : MonoBehaviour
         {
             agent.isStopped = true;
         }
-        if (LightManager.Instance != null)
-            LightManager.Instance.ToggleAll();
 
         if (explosionEffect)
         {
