@@ -9,6 +9,8 @@ public class LightManager : MonoBehaviour
     public List<TurretBehaviour> turrets = new List<TurretBehaviour>();
     public List<Door> doors = new List<Door>();
 
+    private bool hasEnergy = true;
+
     void Awake()
     {
         if (Instance == null)
@@ -40,14 +42,16 @@ public class LightManager : MonoBehaviour
 
     public void ToggleAll()
     {
+        hasEnergy = !hasEnergy;
+
         foreach (var lamp in lamps)
             if (lamp)
                 lamp.toggleEnergy();
         foreach (var turret in turrets)
             if (turret)
-                turret.setEnergy(false);
+                turret.setEnergy(hasEnergy);
         foreach (var door in doors)
             if (door)
-                door.setEnergy(false);
+                door.setEnergy(hasEnergy);
     }
 }

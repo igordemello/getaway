@@ -15,6 +15,7 @@ public class Door : MonoBehaviour
     private enum DoorState {Closed, Open}
     private DoorState currentState = DoorState.Closed;
     private bool isAnimating = false;
+    private bool hasEnergy = true;
 
     public void Start()
     {
@@ -23,39 +24,8 @@ public class Door : MonoBehaviour
     }
     public void Interact()
     {
-        if (isAnimating) return;
+        if (isAnimating || !hasEnergy) return;
 
-        if (currentState == DoorState.Closed) OpenDoor();
-        else CloseDoor();
-    }
-
-    public void setEnergy(bool hasEnrgy)
-    {
-        if (hasEnrgy && currentState == DoorState.Closed)
-        {
-            return;
-        }
-        if (hasEnrgy && currentState == DoorState.Open)
-        {
-            CloseDoor();
-            currentState = DoorState.Closed;
-            return;
-        }
-        if (!hasEnrgy && currentState == DoorState.Closed)
-        {
-            OpenDoor();
-            currentState = DoorState.Open;
-            return;
-        }
-        if (!hasEnrgy && currentState == DoorState.Open)
-        {
-            return;
-        }
-        
-    }
-
-    private void OpenDoor()
-    {
         if(inv && !string.IsNullOrEmpty(requiredItem))
         {
             bool hasItem = false;
@@ -73,6 +43,25 @@ public class Door : MonoBehaviour
                 return;
             }
         }
+
+        if (currentState == DoorState.Closed) OpenDoor();
+        else CloseDoor();
+    }
+
+    public void setEnergy(bool ern)
+    {
+        this.hasEnergy = ern;
+
+        if (!ern && currentState == DoorState.Closed)
+        OpenDoor();
+
+        else if (ern && currentState == DoorState.Open)
+        CloseDoor();
+        
+    }
+
+    private void OpenDoor()
+    {
         isAnimating = true;
         animator.Play("open", 0, 0f);
         currentState = DoorState.Open;

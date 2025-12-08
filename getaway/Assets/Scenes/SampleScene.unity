@@ -12425,6 +12425,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LightManager
   lamps: []
   turrets: []
+  doors: []
 --- !u!4 &955657021
 Transform:
   m_ObjectHideFlags: 0
