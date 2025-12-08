@@ -1,11 +1,16 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using System.Collections;
 
 public class Door : MonoBehaviour
 {
     [Header("References")]
     
     public Animator animator;
+    public PlayerInventory inv;
+    public string requiredItem;
+    public TextMeshProUGUI notify;
 
     private enum DoorState {Closed, Open}
     private DoorState currentState = DoorState.Closed;
@@ -21,6 +26,23 @@ public class Door : MonoBehaviour
 
     private void OpenDoor()
     {
+        if(inv && !string.IsNullOrEmpty(requiredItem))
+        {
+            bool hasItem = false;
+            foreach (string item in inv.items)
+            {
+                if (item == requiredItem)
+                {
+                    hasItem = true;
+                    break;
+                }
+            }
+            if (!hasItem)
+            {
+                ShowNotify("Acesso negado", 2f);
+                return;
+            }
+        }
         isAnimating = true;
         animator.Play("open", 0, 0f);
         currentState = DoorState.Open;
@@ -39,5 +61,22 @@ public class Door : MonoBehaviour
     {
         print("isAnimating eh false");
         isAnimating = false;
+    }
+
+    private Coroutine notifyRoutine;
+
+    private void ShowNotify(string message, float duration)
+    {
+        if (notifyRoutine != null)
+            StopCoroutine(notifyRoutine);
+
+        notifyRoutine = StartCoroutine(NotifyRoutine(message, duration));
+    }
+
+    private IEnumerator NotifyRoutine(string message, float duration)
+    {
+        notify.text = message;
+        yield return new WaitForSeconds(duration);
+        notify.text = "";
     }
 }
