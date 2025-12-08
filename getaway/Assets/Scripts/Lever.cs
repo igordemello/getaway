@@ -4,9 +4,10 @@ public class Lever : MonoBehaviour
 {
     private enum State { up,down};
     private State current_state = State.up;
+    private  Animator anim ;
     void Start()
     {
-        
+        anim = GetComponent<Animator>();
     }
 
     void Update()
@@ -16,7 +17,6 @@ public class Lever : MonoBehaviour
 
     public void Interact()
     {
-        Animator anim = GetComponent<Animator>();
         if (current_state == State.up)
         {
             if (anim)
