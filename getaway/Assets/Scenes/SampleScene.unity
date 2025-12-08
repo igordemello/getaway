@@ -8229,6 +8229,87 @@ Transform:
   - {fileID: 1060833006}
   m_Father: {fileID: 806153918}
   m_LocalEulerAnglesHint: {x: -7.325, y: 12.736, z: -87.774}
+--- !u!1001 &574920401
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2848377899176033013, guid: 9bfd90950f1e1f245bb5a21f61ecd7fa, type: 3}
+      propertyPath: m_Name
+      value: Porta (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4863619312782657010, guid: 9bfd90950f1e1f245bb5a21f61ecd7fa, type: 3}
+      propertyPath: inv
+      value: 
+      objectReference: {fileID: 2119326526}
+    - target: {fileID: 4863619312782657010, guid: 9bfd90950f1e1f245bb5a21f61ecd7fa, type: 3}
+      propertyPath: notify
+      value: 
+      objectReference: {fileID: 209349201}
+    - target: {fileID: 5475177977591114796, guid: 9bfd90950f1e1f245bb5a21f61ecd7fa, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.92
+      objectReference: {fileID: 0}
+    - target: {fileID: 5475177977591114796, guid: 9bfd90950f1e1f245bb5a21f61ecd7fa, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.92
+      objectReference: {fileID: 0}
+    - target: {fileID: 5475177977591114796, guid: 9bfd90950f1e1f245bb5a21f61ecd7fa, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.92
+      objectReference: {fileID: 0}
+    - target: {fileID: 5475177977591114796, guid: 9bfd90950f1e1f245bb5a21f61ecd7fa, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 116.864
+      objectReference: {fileID: 0}
+    - target: {fileID: 5475177977591114796, guid: 9bfd90950f1e1f245bb5a21f61ecd7fa, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.748
+      objectReference: {fileID: 0}
+    - target: {fileID: 5475177977591114796, guid: 9bfd90950f1e1f245bb5a21f61ecd7fa, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -95.961
+      objectReference: {fileID: 0}
+    - target: {fileID: 5475177977591114796, guid: 9bfd90950f1e1f245bb5a21f61ecd7fa, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5475177977591114796, guid: 9bfd90950f1e1f245bb5a21f61ecd7fa, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5475177977591114796, guid: 9bfd90950f1e1f245bb5a21f61ecd7fa, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 5475177977591114796, guid: 9bfd90950f1e1f245bb5a21f61ecd7fa, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5475177977591114796, guid: 9bfd90950f1e1f245bb5a21f61ecd7fa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5475177977591114796, guid: 9bfd90950f1e1f245bb5a21f61ecd7fa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5475177977591114796, guid: 9bfd90950f1e1f245bb5a21f61ecd7fa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5475177977591114796, guid: 9bfd90950f1e1f245bb5a21f61ecd7fa, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9bfd90950f1e1f245bb5a21f61ecd7fa, type: 3}
 --- !u!1 &574953973
 GameObject:
   m_ObjectHideFlags: 0
@@ -17607,6 +17688,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15847663d69054d488a5aa3ec1b00848, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Target
+  maxHealth: 100
   health: 100
   health_UI: {fileID: 0}
   other: {fileID: 0}
@@ -17614,6 +17696,9 @@ MonoBehaviour:
   duration: 0
   fadeSpeed: 0
   camShake: {fileID: 0}
+  regen: 0
+  regen_time: 10
+  regenSpeed: 5
 --- !u!136 &1166849112
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -19950,6 +20035,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15847663d69054d488a5aa3ec1b00848, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Target
+  maxHealth: 100
   health: 50
   health_UI: {fileID: 0}
   other: {fileID: 1467845356}
@@ -19957,6 +20043,9 @@ MonoBehaviour:
   duration: 0
   fadeSpeed: 0
   camShake: {fileID: 0}
+  regen: 0
+  regen_time: 10
+  regenSpeed: 5
 --- !u!65 &1336031327
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20165,6 +20254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15847663d69054d488a5aa3ec1b00848, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  maxHealth: 100
   health: 50
   health_UI: {fileID: 0}
   other: {fileID: 0}
@@ -20172,6 +20262,9 @@ MonoBehaviour:
   duration: 0
   fadeSpeed: 0
   camShake: {fileID: 0}
+  regen: 0
+  regen_time: 10
+  regenSpeed: 5
 --- !u!65 &1361944333
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -28251,8 +28344,7 @@ Transform:
   m_LocalPosition: {x: -19.76, y: 0.631, z: -152.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1534860052}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 89.239, z: 0}
 --- !u!114 &1895542472
@@ -28267,6 +28359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15847663d69054d488a5aa3ec1b00848, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  maxHealth: 100
   health: 50
   health_UI: {fileID: 0}
   other: {fileID: 0}
@@ -28274,6 +28367,9 @@ MonoBehaviour:
   duration: 0
   fadeSpeed: 0
   camShake: {fileID: 0}
+  regen: 0
+  regen_time: 10
+  regenSpeed: 5
 --- !u!114 &1895542473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28289,6 +28385,7 @@ MonoBehaviour:
   Agent: {fileID: 1895542474}
   enemy: {fileID: 1895542471}
   player: {fileID: 2119326513}
+  animator: {fileID: 0}
   path: {fileID: 0}
   waypointArriveDistance: 0.4
   MaxTimeAtWaypoint: 1
@@ -29162,6 +29259,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15847663d69054d488a5aa3ec1b00848, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  maxHealth: 100
   health: 100
   health_UI: {fileID: 0}
   other: {fileID: 0}
@@ -29169,6 +29267,9 @@ MonoBehaviour:
   duration: 0
   fadeSpeed: 0
   camShake: {fileID: 0}
+  regen: 0
+  regen_time: 10
+  regenSpeed: 5
 --- !u!195 &1933181973
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -30540,6 +30641,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -2045257923548263128, guid: df8d6eb63d208ff45a63c652ca0a5db3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1239708275}
+    - targetCorrespondingSourceObject: {fileID: -6763858364670572316, guid: df8d6eb63d208ff45a63c652ca0a5db3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 292145355}
     - targetCorrespondingSourceObject: {fileID: 6014503084441653313, guid: df8d6eb63d208ff45a63c652ca0a5db3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 784236618}
@@ -32428,6 +32532,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15847663d69054d488a5aa3ec1b00848, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Target
+  maxHealth: 100
   health: 9e+13
   health_UI: {fileID: 1618183230}
   other: {fileID: 0}
@@ -32435,6 +32540,9 @@ MonoBehaviour:
   duration: 2
   fadeSpeed: 1.5
   camShake: {fileID: 330162597}
+  regen: 0
+  regen_time: 10
+  regenSpeed: 5
 --- !u!114 &2119326525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -44667,12 +44775,13 @@ SceneRoots:
   - {fileID: 1166849106}
   - {fileID: 955657021}
   - {fileID: 7206230903659309279}
+  - {fileID: 574920401}
   - {fileID: 800015967}
   - {fileID: 1933181969}
-  - {fileID: 1897462586}
   - {fileID: 543450653433539166}
   - {fileID: 803381605}
   - {fileID: 284753473}
   - {fileID: 1510153224}
   - {fileID: 1110697813}
   - {fileID: 11006035}
+  - {fileID: 1895542471}
