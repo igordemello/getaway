@@ -9,6 +9,7 @@ TagManager:
   - ShatterableGlass
   - Enemy
   - Door
+  - lever
   layers:
   - Default
   - TransparentFX
