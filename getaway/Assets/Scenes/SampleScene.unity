@@ -10228,23 +10228,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: b0a742da50ba2cd409028337c5ac4498, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.61994
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b0a742da50ba2cd409028337c5ac4498, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.61994
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b0a742da50ba2cd409028337c5ac4498, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.61994
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b0a742da50ba2cd409028337c5ac4498, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 83.856
+      value: 83.949
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b0a742da50ba2cd409028337c5ac4498, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.473
+      value: 1.156
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b0a742da50ba2cd409028337c5ac4498, type: 3}
       propertyPath: m_LocalPosition.z
@@ -10277,6 +10277,10 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: b0a742da50ba2cd409028337c5ac4498, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b0a742da50ba2cd409028337c5ac4498, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7370156802671013846, guid: b0a742da50ba2cd409028337c5ac4498, type: 3}
       propertyPath: m_LocalPosition.x
@@ -15383,7 +15387,7 @@ MonoBehaviour:
   visionAngle: 180
   eyeHeight: 1.6
   playerEyeOffset: 1
-  hasLight: 1
+  hasEnergy: 1
   currState: 0
   firePoint1: {fileID: 474576504}
   firePoint2: {fileID: 1027949498}
@@ -22913,8 +22917,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1762407201}
-  - component: {fileID: 1762407203}
-  - component: {fileID: 1762407202}
   m_Layer: 7
   m_Name: pseudo-gun-objetive
   m_TagString: Untagged
@@ -22938,56 +22940,6 @@ Transform:
   - {fileID: 1227450363}
   m_Father: {fileID: 313424418}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1762407202
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1762407200}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7239c5a4c83ab27489ee92ad8aae0274, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GunRecoil
-  recoilPosition: {fileID: 1762407201}
-  positionalRecoilSpeed: 8
-  positionalReturnSpeed: 18
-  rotationalRecoilSpeed: 0
-  rotationalReturnSpeed: 0
-  RecoilKickBack: {x: 0.015, y: 0, z: -2}
-  RecoilRotation: {x: 0, y: 0, z: 0}
---- !u!114 &1762407203
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1762407200}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1c7b6da3713c6c428ef03975990bee0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Gun
-  fireMode: 2
-  damage: 10
-  range: 100
-  fireRate: 1
-  maxAmmo: 100
-  pellets: 30
-  spreadAngle: 15
-  recoilRotationSpeed: 60
-  recoilReturnSpeed: 10
-  recoilAmount: {x: 4, y: 4, z: 4}
-  fpsCam: {fileID: 330162595}
-  impact: {fileID: 1337198075554910, guid: 6375f9f5933e3704284eb4772a692fe2, type: 3}
-  blood_impact: {fileID: 3548588485384254792, guid: 2f9e7dc163581394da1e00b561eed65d, type: 3}
-  animator: {fileID: 0}
-  debugAmmo: {fileID: 60105647}
-  camRecoil: {fileID: 330162597}
-  gunRecoil: {fileID: 1762407202}
-  muzzle: {fileID: 0}
-  soundSource: {fileID: 0}
 --- !u!1 &1762582534
 GameObject:
   m_ObjectHideFlags: 0
