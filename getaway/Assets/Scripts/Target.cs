@@ -98,12 +98,13 @@ public class Target : MonoBehaviour
 
     void Die()
     {
+        //print("morte de algo");
         if (CompareTag("Turret")) {
-            this.gameObject.GetComponent<TurretBehaviour>().toggleEnergy();
+            this.gameObject.GetComponent<TurretBehaviour>().setEnergy(false);
             return;
         }
         if (other!=null) 
             Destroy(other);
         Destroy(gameObject);
-    }
+        }
 }
