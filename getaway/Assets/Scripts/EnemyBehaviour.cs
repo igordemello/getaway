@@ -11,6 +11,7 @@ public class EnemyBehavior : MonoBehaviour
     public NavMeshAgent Agent;
     public Transform enemy;
     public Transform player;
+    public Animator animator;
 
     [Header("Patrol Path")]
     public Path path;
