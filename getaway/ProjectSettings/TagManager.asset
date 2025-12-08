@@ -10,6 +10,7 @@ TagManager:
   - Enemy
   - Door
   - lever
+  - Turret
   layers:
   - Default
   - TransparentFX

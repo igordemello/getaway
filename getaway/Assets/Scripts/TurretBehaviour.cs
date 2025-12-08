@@ -69,9 +69,8 @@ public class TurretBehaviour : MonoBehaviour
         StateHandler();
     }
 
-    public void toggleEnergy()
-    {
-        hasLight = !hasLight;
+    public void setEnergy(bool state) {
+        hasLight = state;
     }
 
     void ChangeFirePoint()

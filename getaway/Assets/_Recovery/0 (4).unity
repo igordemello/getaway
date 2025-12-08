@@ -15413,7 +15413,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15847663d69054d488a5aa3ec1b00848, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Target
-  health: 100
+  health: 1
   health_UI: {fileID: 0}
   other: {fileID: 0}
   damageOverlay: {fileID: 0}
