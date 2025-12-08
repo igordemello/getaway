@@ -78,12 +78,7 @@ public class Target : MonoBehaviour
 
             SetOverlayAlpha(targetAlpha);
         }
-        if (CompareTag("Turret")) {
-        
-        
-        }
             
-
         health -= amount;
         if (health < 0f) health = 0f;
 

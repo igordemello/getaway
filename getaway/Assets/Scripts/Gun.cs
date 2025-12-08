@@ -73,7 +73,7 @@ public class Gun : MonoBehaviour
         if (animator != null)
         {
             animator.keepAnimatorStateOnDisable = true;
-            //animator.Play(lastStateHash, 0, 0f); // reinicia a animação atual do começo
+            //animator.Play(lastStateHash, 0, 0f); // reinicia a animaï¿½ï¿½o atual do comeï¿½o
             animator.Play("Idle", 0, 0f);
             animator.Update(0); // aplica imediatamente
         }
@@ -99,7 +99,8 @@ public class Gun : MonoBehaviour
                 {
                     Shoot();
                     fireInput = false;
-                    soundSource.PlaySound(324f, 0.1f);
+                    if (soundSource)
+                        soundSource.PlaySound(324f, 0.1f);
                 }
                 break;
 
@@ -108,7 +109,8 @@ public class Gun : MonoBehaviour
                 {
                     nextTimeToFire = Time.time + fireRate;
                     Shoot();
-                    soundSource.PlaySound(324f, 0.1f);
+                    if (soundSource)
+                        soundSource.PlaySound(324f, 0.1f);
                 }
                 break;
 
@@ -117,7 +119,8 @@ public class Gun : MonoBehaviour
                 {
                     fireInput = false;
                     StartCoroutine(DoubleBarrelShot());
-                    soundSource.PlaySound(628f, 0.1f);
+                    if (soundSource)
+                        soundSource.PlaySound(628f, 0.1f);
                 }
                 break;
         }
