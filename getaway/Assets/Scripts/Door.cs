@@ -15,7 +15,12 @@ public class Door : MonoBehaviour
     private enum DoorState {Closed, Open}
     private DoorState currentState = DoorState.Closed;
     private bool isAnimating = false;
-    
+
+    public void Start()
+    {
+        if (LightManager.Instance != null)
+            LightManager.Instance.RegisterDoor(this);
+    }
     public void Interact()
     {
         if (isAnimating) return;
