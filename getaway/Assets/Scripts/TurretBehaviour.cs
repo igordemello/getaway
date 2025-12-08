@@ -23,7 +23,7 @@ public class TurretBehaviour : MonoBehaviour
     public float playerEyeOffset = 1f;
 
     [Header("Has light variable")]
-    public bool hasLight = true;
+    public bool hasEnergy = true;
 
     private Vector3 LastPlayerPosition = Vector3.zero;
     private Transform seenPlayer = null;
@@ -58,7 +58,7 @@ public class TurretBehaviour : MonoBehaviour
     void Start()
     {
         currState = EnemyState.searching;
-        hasLight = true;
+        hasEnergy = true;
         actualFirePoint = firePoint1;
         actualMuzzle = muzzle1;
     }
@@ -70,7 +70,7 @@ public class TurretBehaviour : MonoBehaviour
     }
 
     public void setEnergy(bool state) {
-        hasLight = state;
+        hasEnergy = state;
     }
 
     void ChangeFirePoint()
@@ -146,7 +146,7 @@ public class TurretBehaviour : MonoBehaviour
 
     void StateHandler()
     {
-        if (!hasLight) {
+        if (!hasEnergy) {
             float angleX = turretHead.transform.eulerAngles.x;
             if (angleX > 180) angleX -= 360;
 
