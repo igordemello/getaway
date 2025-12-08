@@ -1,8 +1,9 @@
 ﻿using System;
 using DG.Tweening;
 using UnityEditor.ShaderGraph;
-using UnityEditor.UI;
 using UnityEngine;
+using UnityEditor.UI;
+using UnityEngine.UI;
 
 public class NewMonoBehaviourScript : MonoBehaviour
 {
@@ -27,13 +28,14 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
     public GunSwitching gunSwitch;
     private int current_gun = 0;
+    public Image aim;
 
 
     private void Awake()
     {
         controls = new PlayerControls();
 
-        controls.Player.Pick.performed += ctx => OnPickPressed();
+        controls.Player.Interagir.performed += ctx => OnPickPressed();
 
         controls.Player.RotateObject.performed += ctx => rotateInput = true;
         controls.Player.RotateObject.canceled += ctx => rotateInput = false;
@@ -72,6 +74,8 @@ public class NewMonoBehaviourScript : MonoBehaviour
     }
     void Update()
     {
+        if (aim != null) aim.enabled = heldObj == null;
+
         if (pickInput)
         {
             pickInput = false;
@@ -86,9 +90,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
                     {
 
                         PickUpObject(hit.transform.gameObject);
-                        current_gun = gunSwitch.selectedWeapon;
-                        gunSwitch.selectedWeapon = -1;
-                        gunSwitch.SelectWeapon();
+                        gunSwitch.ToggleHolster();
                     }
                 }
             }
@@ -135,8 +137,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
         Collider objCollider = heldObj.GetComponent<Collider>();
         Collider playerCollider = player ? player.GetComponent<Collider>() : null;
-        gunSwitch.selectedWeapon = current_gun;
-        gunSwitch.SelectWeapon();
+        gunSwitch.ToggleHolster();
 
         if (objCollider != null && playerCollider != null)
         {
@@ -200,8 +201,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
         if (barrel != null)
             barrel.ThrownedBarrel();
         heldObj = null;
-        gunSwitch.selectedWeapon = current_gun;
-        gunSwitch.SelectWeapon();
+        gunSwitch.ToggleHolster();
     }
     void StopClipping()
     {

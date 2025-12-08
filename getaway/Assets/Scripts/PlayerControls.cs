@@ -334,6 +334,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interagir"",
+                    ""type"": ""Button"",
+                    ""id"": ""dfa82449-6801-45fe-87d1-ec2d0bb97352"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -494,7 +503,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""b7c64ecb-636a-4a14-a53a-84cd2d9681b1"",
-                    ""path"": ""<Keyboard>/f"",
+                    ""path"": ""<Keyboard>/numpad8"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -505,7 +514,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""527f5a86-823d-46ec-bafc-1a16a53951fc"",
-                    ""path"": ""<Keyboard>/f"",
+                    ""path"": ""<Keyboard>/numpad8"",
                     ""interactions"": ""Hold(duration=1,pressPoint=4)"",
                     ""processors"": """",
                     ""groups"": """",
@@ -677,6 +686,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Grenade"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0d796e4d-f68e-4b17-896d-8a42b4cb375f"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interagir"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -712,6 +732,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_Pistola_silenciada = m_Player.FindAction("Pistola_silenciada", throwIfNotFound: true);
         m_Player_Pistol = m_Player.FindAction("Pistol", throwIfNotFound: true);
         m_Player_Grenade = m_Player.FindAction("Grenade", throwIfNotFound: true);
+        m_Player_Interagir = m_Player.FindAction("Interagir", throwIfNotFound: true);
     }
 
     ~@PlayerControls()
@@ -819,6 +840,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Pistola_silenciada;
     private readonly InputAction m_Player_Pistol;
     private readonly InputAction m_Player_Grenade;
+    private readonly InputAction m_Player_Interagir;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -939,6 +961,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Grenade => m_Wrapper.m_Player_Grenade;
         /// <summary>
+        /// Provides access to the underlying input action "Player/Interagir".
+        /// </summary>
+        public InputAction @Interagir => m_Wrapper.m_Player_Interagir;
+        /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -1045,6 +1071,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Grenade.started += instance.OnGrenade;
             @Grenade.performed += instance.OnGrenade;
             @Grenade.canceled += instance.OnGrenade;
+            @Interagir.started += instance.OnInteragir;
+            @Interagir.performed += instance.OnInteragir;
+            @Interagir.canceled += instance.OnInteragir;
         }
 
         /// <summary>
@@ -1137,6 +1166,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Grenade.started -= instance.OnGrenade;
             @Grenade.performed -= instance.OnGrenade;
             @Grenade.canceled -= instance.OnGrenade;
+            @Interagir.started -= instance.OnInteragir;
+            @Interagir.performed -= instance.OnInteragir;
+            @Interagir.canceled -= instance.OnInteragir;
         }
 
         /// <summary>
@@ -1366,5 +1398,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnGrenade(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Interagir" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnInteragir(InputAction.CallbackContext context);
     }
 }

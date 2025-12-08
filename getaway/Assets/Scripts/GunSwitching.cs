@@ -15,6 +15,9 @@ public class GunSwitching : MonoBehaviour
     private float switchCooldown = 0.4f;
     private bool canSwitch = true;
 
+    private bool weaponHolstered = false;
+    private int lastWeaponBeforeHolster = 0;
+
     private void Awake()
     {
         controls = new PlayerControls();
@@ -49,7 +52,7 @@ public class GunSwitching : MonoBehaviour
 
     void Update()
     {
-        if (!canSwitch) return;
+        if (!canSwitch || weaponHolstered) return;
 
         int previousSelectedWeapon = selectedWeapon;
 
@@ -141,4 +144,24 @@ public class GunSwitching : MonoBehaviour
             i++;
         }
     }
+
+    public void ToggleHolster()
+{
+    if (!weaponHolstered)
+    {
+        lastWeaponBeforeHolster = selectedWeapon;
+
+        selectedWeapon = -1;
+        weaponHolstered = true;
+
+        SelectWeapon();
+    }
+    else
+    {
+        selectedWeapon = lastWeaponBeforeHolster;
+        weaponHolstered = false;
+
+        SelectWeapon();
+    }
+}
 }

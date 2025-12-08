@@ -8,6 +8,7 @@ TagManager:
   - CanPickUp
   - ShatterableGlass
   - Enemy
+  - Door
   layers:
   - Default
   - TransparentFX

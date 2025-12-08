@@ -248,6 +248,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Interagir",
+                    "type": "Button",
+                    "id": "dfa82449-6801-45fe-87d1-ec2d0bb97352",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -408,7 +417,7 @@
                 {
                     "name": "",
                     "id": "b7c64ecb-636a-4a14-a53a-84cd2d9681b1",
-                    "path": "<Keyboard>/f",
+                    "path": "<Keyboard>/numpad8",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -419,7 +428,7 @@
                 {
                     "name": "",
                     "id": "527f5a86-823d-46ec-bafc-1a16a53951fc",
-                    "path": "<Keyboard>/f",
+                    "path": "<Keyboard>/numpad8",
                     "interactions": "Hold(duration=1,pressPoint=4)",
                     "processors": "",
                     "groups": "",
@@ -589,6 +598,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Grenade",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0d796e4d-f68e-4b17-896d-8a42b4cb375f",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interagir",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
