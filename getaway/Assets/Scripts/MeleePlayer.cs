@@ -5,12 +5,15 @@ public class MeleePlayer : MonoBehaviour
     [Header("References")]
     public GameObject hitEffect;
     public Camera cam;
+    public Animator animator;
+    public string stringAttack;
 
     [Header("Melee Attack")]
     public float distance;
     public float delay;
     public float speed;
     public float damage;
+    public bool ehSoco;
 
     bool attacking = false;
     bool ready = true;
@@ -40,6 +43,11 @@ public class MeleePlayer : MonoBehaviour
     public void Attack()
     {
         if (!ready || attacking) return;
+
+        if(animator != null)
+        {
+            animator.Play(stringAttack);
+        }
 
         ready = false;
         attacking = true;
@@ -81,6 +89,8 @@ public class MeleePlayer : MonoBehaviour
 
                 return;
             }
+
+            if (ehSoco) return;
 
             GameObject GO = Instantiate(hitEffect, hit.point, Quaternion.identity);
             Destroy(GO, 10);

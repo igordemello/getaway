@@ -270,10 +270,16 @@ public class EnemyBehavior : MonoBehaviour
                             Agent.ResetPath();
                     }
 
-                    Vector3 lookDir = (seenPlayer.position - enemy.position).normalized;
-                    if (lookDir != Vector3.zero)
-                        enemy.DORotateQuaternion(Quaternion.LookRotation(lookDir), 0.15f).SetEase(Ease.OutSine);
+                    Vector3 lookDir = seenPlayer.position - enemy.position;
+                    lookDir.y = 0f;
 
+                    if (lookDir.sqrMagnitude > 0.001f)
+                    {
+                        enemy.DORotateQuaternion(
+                            Quaternion.LookRotation(lookDir),
+                            0.15f
+                        ).SetEase(Ease.OutSine);
+                    }
                     AimWeaponAtPlayer(seenPlayer);
 
                     ShootAtPlayer();
