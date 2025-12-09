@@ -159,6 +159,9 @@ public class Target : MonoBehaviour
             return;
         }
 
+        if (CompareTag("Boss"))
+            SceneManager.LoadScene("GG");
+
         if (other != null)
             Destroy(other);
 

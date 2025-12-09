@@ -12,6 +12,7 @@ TagManager:
   - lever
   - Turret
   - interact
+  - Boss
   layers:
   - Default
   - TransparentFX
