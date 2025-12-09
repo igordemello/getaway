@@ -90,7 +90,7 @@ public class Gun : MonoBehaviour
 
     void Update()
     {
-        debugAmmo.text = $"Ammo:\n{currentAmmo}/{maxAmmo}";
+        debugAmmo.text = $"{currentAmmo}/{maxAmmo}";
 
         switch (fireMode)
         {

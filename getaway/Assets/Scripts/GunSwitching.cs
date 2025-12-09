@@ -1,4 +1,6 @@
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GunSwitching : MonoBehaviour
 {
@@ -17,6 +19,9 @@ public class GunSwitching : MonoBehaviour
 
     private bool weaponHolstered = false;
     private int lastWeaponBeforeHolster = 0;
+    public Sprite[] icons;
+    public Image displayIcon;
+    public TextMeshProUGUI displayAmmo;
 
     private void Awake()
     {
@@ -52,6 +57,20 @@ public class GunSwitching : MonoBehaviour
 
     void Update()
     {
+        if (selectedWeapon == -1)
+        {
+            displayIcon.sprite = icons[0];
+            displayAmmo.gameObject.SetActive(false);
+        }
+        else
+        {
+            displayIcon.sprite = icons[selectedWeapon];
+            if(selectedWeapon == 0 || selectedWeapon == 1|| selectedWeapon == 2)
+                displayAmmo.gameObject.SetActive(false);
+            else
+                displayAmmo.gameObject.SetActive(true);
+        }
+
         if (!canSwitch || weaponHolstered) return;
 
         int previousSelectedWeapon = selectedWeapon;

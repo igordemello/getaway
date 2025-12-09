@@ -9,7 +9,6 @@ public class Target : MonoBehaviour
     [Header("Target info")]
     public float maxHealth = 100f;
     public float health = 100f;
-    public TextMeshProUGUI health_UI;
     public GameObject other;
     private ExplosiveEnemy explosive;
 
@@ -22,6 +21,7 @@ public class Target : MonoBehaviour
     private float maxOverlayAlpha = 0.8f;
     private float damageToAlphaFactor = 0.5f;
     private float currentAlpha;
+    public Slider vidaBar;
 
     [Header("Regen System")]
     public bool regen = false;
@@ -45,8 +45,12 @@ public class Target : MonoBehaviour
     private void Update()
     {
         
-        if (CompareTag("Player") && health_UI)
-            health_UI.text = $"Health:\n{Mathf.CeilToInt(health)}";
+        if (CompareTag("Player"))
+            if (vidaBar != null)
+            {
+                vidaBar.maxValue = maxHealth;
+                vidaBar.value = health;
+            }
 
         
         if (health <= 0f)

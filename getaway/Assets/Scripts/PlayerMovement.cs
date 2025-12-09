@@ -65,8 +65,8 @@ public class PlayerMovement : MonoBehaviour
     private RaycastHit slopeHit;
     private bool exitingSlope;
 
-    [Header("UI")]
-    public TextMeshProUGUI textSpeed;
+    // [Header("UI")]
+    // public TextMeshProUGUI textSpeed;
 
     [Header("References")]
     public Transform orientation;
@@ -182,7 +182,7 @@ public class PlayerMovement : MonoBehaviour
 
         startYScale = transform.localScale.y;
         cameraStartY = cameraPos.localPosition.y;
-        textSpeed.text = moveSpeed.ToString();
+        // textSpeed.text = moveSpeed.ToString();
 
         if (soundSource == null)
             soundSource = GetComponent<SoundSource>();
@@ -190,7 +190,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        textSpeed.text = moveSpeed.ToString();
+        // textSpeed.text = moveSpeed.ToString();
 
         // ← VERIFICAÇÃO DE GROUNDED: Reseta wasWallrunning quando toca no chão
         bool wasGrounded = grounded;

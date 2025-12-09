@@ -29,7 +29,7 @@ public class PlayerInteraction : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, maxDistanceToInteract))
         {
-            if (canInteract && (hit.transform.CompareTag("Door") || hit.transform.CompareTag("CanPickUp") || hit.transform.CompareTag("lever")))
+            if (canInteract && (hit.transform.CompareTag("Door") || hit.transform.CompareTag("CanPickUp") || hit.transform.CompareTag("lever") || hit.transform.CompareTag("interact")))
             {
                 SetAimColor(Color.red);
                 if (interactInput)
@@ -42,6 +42,8 @@ public class PlayerInteraction : MonoBehaviour
                     {
                         StartCoroutine(InteractCooldown());
                     }
+                    coletavel item = hit.transform.GetComponent<coletavel>();
+                    if (item !=null) item.Interact();
                 }
             }
             else

@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class Bow : MonoBehaviour
 {
-    [Header("Configurações do Arco")]
+    [Header("Configuraï¿½ï¿½es do Arco")]
     [Tooltip("O prefab da flecha NORMAL.")]
     public GameObject normalArrowPrefab;
     [Tooltip("O prefab da flecha EXPLOSIVA.")]
@@ -13,7 +13,7 @@ public class Bow : MonoBehaviour
 
     public Transform arrowSpawnPoint;
 
-    [Header("Força e Dano")]
+    [Header("Forï¿½a e Dano")]
     public float minLaunchForce = 10f;
     public float maxLaunchForce = 30f;
 
@@ -23,14 +23,14 @@ public class Bow : MonoBehaviour
     public float maxDrawTime = 1.0f;
     public float reloadTime = 0.5f;
 
-    [Header("Munição")]
+    [Header("Muniï¿½ï¿½o")]
     public int maxAmmo = 20;
     public int maxExplosiveAmmo = 3;
     private int currentAmmo;
     private int currentExplosiveAmmo;
     private bool useExplosive = false;
 
-    [Header("Referências")]
+    [Header("Referï¿½ncias")]
     public Animator animator;
     public TextMeshProUGUI debugAmmo;
     public Collider playerCollider;
@@ -77,13 +77,19 @@ public class Bow : MonoBehaviour
         currentAmmo = maxAmmo;
         currentExplosiveAmmo = maxExplosiveAmmo;
     }
-
+    private bool rightButtonLock = false;
     void Update()
     {
         // mouse direito para trocar de flecha
-        if (Mouse.current.rightButton.wasPressedThisFrame)
+        if (Mouse.current.rightButton.isPressed && !rightButtonLock)
         {
+            rightButtonLock = true;
             useExplosive = !useExplosive;
+        }
+
+        if (!Mouse.current.rightButton.isPressed)
+        {
+            rightButtonLock = false;
         }
 
         if (isDrawing && animator != null)
@@ -95,12 +101,9 @@ public class Bow : MonoBehaviour
 
         if (debugAmmo != null)
         {
-            string type = useExplosive ? "EXPLOSIVA" : "NORMAL";
             int ammoVal = useExplosive ? currentExplosiveAmmo : currentAmmo;
-            debugAmmo.text = $"Modo: {type}\nFlechas: {ammoVal}";
+            debugAmmo.text = $"{ammoVal}/{(useExplosive ? maxExplosiveAmmo : maxAmmo)}";
 
-            // Muda a cor do texto para indicar perigo uaaau
-            debugAmmo.color = useExplosive ? Color.red : Color.white;
         }
     }
 
