@@ -11,6 +11,7 @@ TagManager:
   - Door
   - lever
   - Turret
+  - Boss
   layers:
   - Default
   - TransparentFX
