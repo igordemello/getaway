@@ -1,121 +1,52 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-    [Header("Referências")]
-    public GameObject PausePanel;        
-    public KeyCode[] pauseKeys = { KeyCode.Escape, KeyCode.Escape }; 
+    public static bool GameIsPaused = false;
 
-    private bool isPaused = false;
-
-    void Start()
-    {
-
-        Time.timeScale = 1f;
-        isPaused = false;
-
-        if (PausePanel == null)
-        {
-            Debug.LogError("[PauseMenu] PausePanel NÃO atribuído no Inspector!");
-        }
-        else
-        {
-            PausePanel.SetActive(false); 
-            Debug.Log("[PauseMenu] PausePanel desativado no Start.");
-        }
-
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-    }
+    public GameObject pauseMenuUI;
 
     void Update()
     {
- 
-        foreach (KeyCode k in pauseKeys)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (Input.GetKeyDown(k))
+            if (GameIsPaused)
             {
-                Debug.Log($"[PauseMenu] Tecla {k} pressionada. isPaused = {isPaused}");
-                TogglePause();
-                return;
+                Resume();
+            }
+            else
+            {
+                Pause();
             }
         }
     }
 
-    void TogglePause()
+    public void Resume()
     {
-        if (isPaused) Continue();
-        else Pause();
+        pauseMenuUI.SetActive(false);
+        Time.timeScale = 1f;
+        GameIsPaused = false;
     }
-
-    public void Pause()
+    void Pause()
     {
-        if (PausePanel == null)
-        {
-            Debug.LogError("[PauseMenu] Pause() chamado, mas PausePanel é null!");
-            return;
-        }
-
-
-        PausePanel.SetActive(true);
-
- 
-        var cg = PausePanel.GetComponent<UnityEngine.CanvasGroup>();
-        if (cg != null)
-        {
-            cg.alpha = 1f;
-            cg.interactable = true;
-            cg.blocksRaycasts = true;
-        }
-
-
-        var canvas = PausePanel.GetComponentInParent<Canvas>();
-        if (canvas != null && !canvas.gameObject.activeInHierarchy)
-        {
-            canvas.gameObject.SetActive(true);
-            Debug.Log("[PauseMenu] Canvas do Pause foi ativado automaticamente.");
-        }
-
+        pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
-        isPaused = true;
-
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
-
-        Debug.Log("[PauseMenu] Jogo PAUSADO. PausePanel ativado.");
+        GameIsPaused = true;
     }
 
-    public void Continue()
-    {
-        if (PausePanel != null) PausePanel.SetActive(false);
+    public void LoadMenu()
 
-        Time.timeScale = 1f;
-        isPaused = false;
-
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-
-        Debug.Log("[PauseMenu] Jogo CONTINUANDO. PausePanel desativado.");
-    }
-
-    public void GoToMainMenu()
     {
         Time.timeScale = 1f;
-        Debug.Log("[PauseMenu] Indo para MainMenu...");
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("tittle");
     }
 
     public void QuitGame()
     {
-        Debug.Log("[PauseMenu] Sair do jogo solicitado.");
+        Debug.Log("Quitting game...");
         Application.Quit();
-    }
-
-
-    public void ForceOpen()
-    {
-        Debug.Log("[PauseMenu] ForceOpen() chamado.");
-        Pause();
     }
 }
