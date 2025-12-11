@@ -39,7 +39,7 @@ public class TurretBehaviour : MonoBehaviour
     public float shootRange = 40f;
     public float shootRate = 0.7f;
     public LayerMask shootMask;
-    public GunRecoil gunRecoil;
+
     public ParticleSystem muzzle1;
     public ParticleSystem muzzle2;
     public GameObject impact;
@@ -184,7 +184,6 @@ public class TurretBehaviour : MonoBehaviour
 
         if (actualFirePoint == null) return;
 
-        gunRecoil.Fire();
         actualMuzzle.Play();
 
         Vector3 shootDir = (LastPlayerPosition - actualFirePoint.position).normalized;
