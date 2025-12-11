@@ -1,8 +1,6 @@
 ﻿using System;
 using DG.Tweening;
-using UnityEditor.ShaderGraph;
 using UnityEngine;
-using UnityEditor.UI;
 using UnityEngine.UI;
 
 public class NewMonoBehaviourScript : MonoBehaviour
