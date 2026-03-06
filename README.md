@@ -1,4 +1,2 @@
 # getaway
-Getaway é um jogo sobre liberdade e improviso. Cada missão começa com um objetivo simples, como eliminar o líder da corporação, mas a forma de cumprir esse objetivo está completamente em suas mãos. Você pode explodir a entrada principal e enfrentar tudo de frente, ou encontrar um caminho escondido e agir sem ser visto. Enquanto explora, pode encontrar novos personagens ou se deparar com eventos que lhe trazem recompensas, ou novos desafios.
-
-Ao concluir o trabalho, é preciso fugir e retornar ao hub, um refúgio entre missões onde você compra armas, itens e desbloqueia poderes, além de encontrar pessoas que talvez tenham sobrevivido às suas escolhas. Às vezes, elas voltam com novas histórias, missões e segredos. Getaway é sobre correr riscos, adaptar-se e escapar, sempre com a sensação de que cada decisão pode mudar tudo.
+Getaway é um Movement Shooter Sandbox, feito para uma disciplina do segundo período de Ciência da Computação na PUC RIO, utilizando UNITY.
